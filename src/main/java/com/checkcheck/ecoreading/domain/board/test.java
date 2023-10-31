@@ -1,7 +1,5 @@
 package com.checkcheck.ecoreading.domain.board;
 
 public class test {
-    public static void main(String[] args) {
-        System.out.println("유신");
-    }
+    // 아아- 임유빈 깃 연결 테스트
 }
