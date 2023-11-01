@@ -22,4 +22,8 @@ public class UserViewController {
     public String showTestPage() {
         return "test";
     }
+    @GetMapping("/")
+    public String mainhtml(){
+        return "/content/user/main";
+    }
 }

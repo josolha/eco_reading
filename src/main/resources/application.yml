@@ -11,12 +11,7 @@ spring:
     console:
       enabled: true
 
-  thymeleaf:
-    prefix: classpath:templates/
-    check-template-location: true
-    suffix: .html
-    mode: HTML
-    cache: false # default true, ?? ??? false? ?? ?? ??
+
 
     jpa:
       hibernate:

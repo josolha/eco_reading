@@ -1,51 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
-<!-- Header -->
-<!--<header th:fragment="headerFragment">-->
-<!--    <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
-<!--        <a class="navbar-brand" href="#">Logo</a>-->
-<!--        <a class="navbar-brand" href="#">Logo</a>-->
-<!--        <a class="navbar-brand" href="#">Logo</a>-->
-<!--        <a class="navbar-brand" href="#">Logo</a>-->
-<!--    </nav>-->
-<!--</header>-->
-<header th:replace="~{../../header/header::header}"></header>
+
+<header th:replace="~{/header/header :: headerFragment}"></header>
 
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-            <div class="position-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Link 1</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link 2</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- Main -->
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Dashboard</h1>
+                <h1>TEST MAIN</h1>
             </div>
-            <h1>TEST MAIN</h1>
         </main>
+
     </div>
 </div>
 
-<footer>
-    <p>Copyright © 2023 My Page</p>
-</footer>
+
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 
 </body>
 </html>
