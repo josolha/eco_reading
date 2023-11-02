@@ -16,25 +16,25 @@
         <!-- Main -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">유저관리</h1>
+                <h1 class="h2">나눔글 관리</h1>
             </div>
             <!-- 사용자 정보 테이블 -->
             <table class="table">
                 <thead>
                 <tr>
-                    <th>사용자 ID</th>
-                    <th>사용자 이름</th>
-                    <th>포인트</th>
-                    <th>사용자 상태</th>
+                    <th>등록 유저 아이디</th>
+                    <th>책 바코드</th>
+                    <th>등록일자</th>
+                    <th>현재 상황</th>
                 </tr>
                 </thead>
                 <tbody>
                 <!-- userList 반복 -->
-                <tr th:each="userDto : ${userList}">
-                    <td th:text="${userDto.userId}">사용자 ID</td>
-                    <td th:text="${userDto.userName}">사용자 이름</td>
-                    <td th:text="${userDto.point}">포인트</td>
-                    <td th:text="${userDto.userStatus}">사용자 상태</td>
+                <tr th:each="boardDto : ${boardList}">
+                    <td th:text="${boardDto.userId}">등록 유저 아이디</td>
+                    <td th:text="${boardDto.bookIsbn}">책 바코드</td>
+                    <td th:text="${boardDto.regDate}">등록일자</td>
+                    <td th:text="${boardDto.boardStatus}">현재 상황</td>
                 </tr>
                 </tbody>
             </table>
