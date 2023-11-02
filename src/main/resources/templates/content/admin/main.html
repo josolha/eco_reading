@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>My Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href=".static/css/App.css">
 </head>
 <body>
+<header th:replace="~{/header/header :: headerFragment}"></header>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <header th:replace="~{/sidebar/adminsidebar :: sidebarFragment}"></header>
 
+        <!-- Main -->
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">유저관리</h1>
+            </div>
+            <!-- 사용자 정보 테이블 -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>사용자 ID</th>
+                    <th>사용자 이름</th>
+                    <th>포인트</th>
+                    <th>사용자 상태</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- userList 반복 -->
+                <tr th:each="userDto : ${userList}">
+                    <td th:text="${userDto.userId}">사용자 ID</td>
+                    <td th:text="${userDto.userName}">사용자 이름</td>
+                    <td th:text="${userDto.point}">포인트</td>
+                    <td th:text="${userDto.userStatus}">사용자 상태</td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+
+    </div>
+</div>
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 </body>
 </html>
