@@ -1,32 +1,114 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>My Page</title>
+    <title>main</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href=".static/css/App.css">
 </head>
+
 <body>
+    <header th:replace="~{/header/header :: headerFragment}"></header>
 
-
-<header th:replace="~{/header/header :: headerFragment}"></header>
-
-<div class="container-fluid">
-    <div class="row">
+    <div class="container-fluid">
+        <div class="row">
         <!-- Sidebar -->
-    <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
+        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- Main -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
-                <h1>TEST MAIN</h1>
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+
+            <!-- 검색창 추가 -->
+            <br>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <select class="custom-select rounded-pill" id="search-type">
+                        <option value="title">통합검색</option>
+                        <option value="title">제목</option>
+                        <option value="author">작가</option>
+                        <option value="publisher">출판사</option>
+                    </select>
+                </div>
+                <input type="search" class="form-control rounded-pill" id="search-input" placeholder=" " aria-label="Search" aria-describedby="search-addon" />
+                <button type="button" class="btn btn-outline-primary rounded-pill" style="color: black; border-color: #E2ECE2; background-color: #E2ECE2;" onclick="performSearch()">검색</button>
             </div>
+            <br>
+
+            <!-- 이미지 출력 폼 -->
+            <!-- 참고 -->
+<!--            <form>-->
+<!--                <div class="row">-->
+<!--                    <th:forEach var="nctmember" items="${nctmemberList}">-->
+<!--                        <div class="col-md-3">-->
+<!--                            <div class="card mb-4">-->
+<!--                                <h5 class="card-title mt-2 text-center"><strong>${nctmember.name}</strong></h5>-->
+<!--                                <img src="${ctxPath}/resources/file_repo/${nctmember.image}" class="card-img-top" alt="${nctmember.name}">-->
+<!--                                <div class="card-body text-center">-->
+<!--                                    <a href="${ctxPath}/user/detail?memberId=${nctmember.memberId}" class="btn btn-dark btn-sm mt-2">상세보기</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </th:forEach>-->
+<!--                </div>-->
+<!--            </form>-->
+
+            <form>
+                <!-- 첫 번째 줄 -->
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <a th:href="@{/board/detail/}">
+                            <img src="image_url" alt="이미지 1">
+                        </a>
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <img src="image_url" alt="이미지 2">
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <img src="image_url" alt="이미지 3">
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                </div>
+
+                <!-- 두 번째 줄 -->
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <img src="image_url" alt="이미지 4">
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <img src="image_url" alt="이미지 5">
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <img src="image_url" alt="이미지 6">
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                </div>
+
+                <!-- 세 번째 줄 -->
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <img src="image_url" alt="이미지 7">
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <img src="image_url" alt="이미지 8">
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <img src="image_url" alt="이미지 9">
+                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
+                    </div>
+                </div>
+            </form>
+
+
         </main>
 
+        </div>
     </div>
-</div>
-
 
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 
