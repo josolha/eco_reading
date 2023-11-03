@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 40%;
+        }
+
+        .custom-text-box {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header th:replace="~{/header/header :: headerFragment}"></header>
+
+    <div class="container-fluid">
+        <div class="row">
+        <!-- Sidebar -->
+        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
+
+        <!-- Main -->
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <br>
+            <h2 class="text-center">책 제목</h2>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="이미지_경로" alt="책 이미지">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
+                        <p>저자: ${}</p>
+                        <p>출판사: ${}</p>
+                        <p>발행일자: ${}</p>
+                        <p>기부어: ${}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button class="custom-button btn btn-primary btn-lg btn-block">나눔 받기</button>
+            </div>
+
+            <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
+                <div class="custom-box">
+                    <p>기부어의 한마디</p>
+                    <div class="custom-text-box">
+                        <p>${} 기부어의 한 마디 어쩌구 저쩌구</p>
+                    </div>
+                </div>
+                <br>
+                <div class="custom-box">
+                    <p>책 소개</p>
+                    <div class="custom-text-box">
+                        <p>${} 책 소개 어쩌구 저쩌구</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        </div>
+    </div>
+
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+
+</body>
+</html>

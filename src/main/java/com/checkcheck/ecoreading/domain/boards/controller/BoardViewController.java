@@ -13,4 +13,9 @@ public class BoardViewController {
     public String addBoard() {
         return "/content/user/boardAddForm";
     }
+
+    @GetMapping("/board/detail")
+    public String mainhtml(){
+        return "/content/board/detail";
+    }
 }
