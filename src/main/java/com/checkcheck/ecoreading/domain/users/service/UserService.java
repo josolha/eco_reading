@@ -82,13 +82,13 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "알고리즘 생성 에러");
         }
     }
-    public EmailVerificationResultDTO verifiedCode(String email, String authCode) {
-        this.checkDuplicatedEmail(email);
-        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + email);
-        boolean authResult = redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
-
-        return EmailVerificationResultDTO.of(authResult);
-    }
+//    public EmailVerificationResultDTO verifiedCode(String email, String authCode) {
+//        this.checkDuplicatedEmail(email);
+//        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + email);
+//        boolean authResult = redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
+//
+//        return EmailVerificationResultDTO.of(authResult);
+//    }
 }
 
 
