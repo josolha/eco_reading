@@ -5,9 +5,14 @@
     <title>Add Board</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href=".static/css/App.css">
+    <style>
+        .h-500 {
+            height: 500px; /* 원하는 높이 값을 설정합니다. */
+        }
+    </style>
 </head>
 <body>
-
+<!-- header -->
 <header th:replace="~{/header/header :: headerFragment}"></header>
 <!--todo : th:object랑 th:field 활용해야함. -->
 <div class="container-fluid">
@@ -19,7 +24,7 @@
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
         <div class = "container">
             <h2 class="mb-3 mt-3 text-center">나눔하겠습니다!</h2>
-            <form action="/board/bookSearch" target="_blank" method="get">
+            <form action="/board/bookSearch" method="get">
             <div class="col-md-5 d-flex justify-content-between align-items-center ">
                 바코드 입력
                 <input type="text" name="text" class="form-control d-inline-block mx-1" placeholder="ISBN을 입력하세요" th:value="${param.isbn}">
@@ -28,39 +33,33 @@
             </form>
 
 <!--             이미지 파일을 업로드하기 위해 enctype을 multipart/form-data로 설정-->
-<!--            <form th:action="@{/board/add}" th:object="${book}" method="post" enctype="multipart/form-data">-->
-
+            <form th:action="@{/board/new}" method="post" enctype="multipart/form-data">
                 <div>
                     <label for="title">도서 제목</label>
-                    <input id="title" th:value="*{param.title}" class="form-control" readonly type="text">
+                    <input id="title" th:value="${param.title}" class="form-control" readonly type="text">
                 </div>
-
                 <div>
                     <label for="pubdate">발행일자</label>
-                    <input id="pubdate" th:value="*{param.pubdate}" class="form-control"  readonly type="text">
+                    <input id="pubdate" th:value="${param.pubdate}" class="form-control"  readonly type="text">
                 </div>
-
                 <div>
                     <label for="publisher">출판사</label>
-                    <input id="publisher" th:value="*{param.publisher}" class="form-control" readonly type="text">
+                    <input id="publisher" th:value="${param.publisher}" class="form-control" readonly type="text">
                 </div>
-
                 <div>
                     <label for="author">저자</label>
-                    <input id="author" th:value="*{param.author}" class="form-control" readonly type="text">
+                    <input id="author" th:value="${param.author}" class="form-control" readonly type="text">
                 </div>
-
-                <div>
+                <div class="form-group">
                     <label for="description">책 소개</label>
-                    <input id="description" th:value="*{param.description}" class="form-control" readonly type="text">
+                    <textarea id="description" class="form-control" th:text="${param.description}" rows="5" readonly style="overflow-y: scroll;"></textarea>
                 </div>
-                </form>
 
-<!--                <div class="form-group">-->
-<!--                    <label for="imageUpload">이미지 파일 선택</label>-->
-<!--                    &lt;!&ndash; input 타입을 file로 설정하고, 파일을 여러 개 선택할 수 있도록 multiple 속성 추가 &ndash;&gt;-->
-<!--                    <input type="file" class="form-control-file" id="imageUpload" name="image" accept="image/*" multiple>-->
-<!--                </div>-->
+                <div class="form-group">
+                    <label for="imageUpload">이미지 파일 선택</label>
+                    <!-- input 타입을 file로 설정하고, 파일을 여러 개 선택할 수 있도록 multiple 속성 추가 -->
+                    <input type="file" class="form-control-file" id="imageUpload" name="image" accept="image/*" multiple>
+                </div>
 
                 <div>
                     <label for="message">기부어의 한마디</label>
@@ -85,12 +84,7 @@
 
 
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
-<script>
-//javascript
-function openWindowPop(url, name){
-var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-window.open(url, name, options);
-}
-</script>
+
+
 </body>
 </html>
