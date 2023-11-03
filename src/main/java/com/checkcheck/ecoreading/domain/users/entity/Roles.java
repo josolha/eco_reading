@@ -32,7 +32,4 @@ public class Roles {
 
     @OneToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UsersRoles> usersRoles = new ArrayList<>();
-
-
-
 }

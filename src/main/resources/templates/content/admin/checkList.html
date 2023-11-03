@@ -16,34 +16,20 @@
         <!-- Main -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">유저관리</h1>
+                <h1 class="h2">도서 체크 리스트</h1>
             </div>
             <!-- 사용자 정보 테이블 -->
             <table class="table">
                 <thead>
                 <tr>
-                    <th>사용자 ID</th>
-                    <th>사용자 이름</th>
-                    <th>책갈피</th>
-                    <th>사용자 상태</th>
+                    <th>구분</th>
+                    <th>우와~새책</th>
+                    <th>헌책 감사</th>
+                    <th>쓸만하네</th>
+                    <th>똥휴지</th>
+                    <th>상태 체크</th>
                 </tr>
                 </thead>
-                <tbody>
-                <!-- userList 반복 -->
-<!--                <tr th:each="userDto : ${userList}">-->
-<!--                    <td th:text="${userDto.userId}">사용자 ID</td>-->
-<!--                    <td th:text="${userDto.userName}">사용자 이름</td>-->
-<!--                    <td th:text="${userDto.point}">책갈피</td>-->
-<!--                    <td th:text="${userDto.userStatus}">사용자 상태</td>-->
-<!--                </tr>-->
-                <tr>
-                    <td th:text="dbskim">사용자 ID</td>
-                    <td th:text="김락윤">사용자 이름</td>
-                    <td th:text="10책갈피">책갈피</td>
-                    <td th:text="활성화">사용자 상태</td>
-                    <td><a href="/user/detail/">자세히 보기</a></td>
-                </tr>
-                </tbody>
             </table>
         </main>
 

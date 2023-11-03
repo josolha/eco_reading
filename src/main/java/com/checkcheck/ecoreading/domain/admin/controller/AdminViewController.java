@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminViewController {
     @GetMapping("/admin")
-    public String admin(){
-        return "/content/admin/main";
-    }
+    public String admin(){ return "/content/admin/main"; }
+
     @GetMapping("/admin/board")
-    public String board(){
-        return "/content/admin/board";
-    }
+    public String board(){ return "/content/admin/board"; }
+
+    @GetMapping("/admin/{board-id}/boardDetail/checkList")
+    public String checkList(){ return "/content/admin/checkList"; }
 }

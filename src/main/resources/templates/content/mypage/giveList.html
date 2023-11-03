@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href=".static/css/App.css">
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 40%;
+        }
+
+        .custom-text-box {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="~{/header/header :: headerFragment}"></header>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
+
+        <!-- Main -->
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <br>
+            <h2 class="text-center">기부한 책 현황</h2>
+            <hr>
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                    <img src="이미지_경로" alt="책 이미지">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">책 제목</h5>
+                        <p>출판사: ${}</p>
+                        <p>글 올린 날짜: ${}</p>
+                        <p>현재 상태: ${}</p>
+                        <button class="custom-button btn btn-primary btn-lg btn-block">수정 하기</button>
+                        <button class="custom-button btn btn-primary btn-lg btn-block">삭제 하기</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+</body>
+</html>

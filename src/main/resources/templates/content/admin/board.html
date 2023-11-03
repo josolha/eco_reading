@@ -11,7 +11,7 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <header th:replace="~{/sidebar/adminsidebar :: sidebarFragment}"></header>
+        <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
 
         <!-- Main -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
@@ -30,11 +30,18 @@
                 </thead>
                 <tbody>
                 <!-- userList 반복 -->
-                <tr th:each="boardDto : ${boardList}">
-                    <td th:text="${boardDto.userId}">등록 유저 아이디</td>
-                    <td th:text="${boardDto.bookIsbn}">책 바코드</td>
-                    <td th:text="${boardDto.regDate}">등록일자</td>
-                    <td th:text="${boardDto.boardStatus}">현재 상황</td>
+<!--                <tr th:each="boardDto : ${boardList}">-->
+<!--                    <td th:text="${boardDto.userId}">등록 유저 아이디</td>-->
+<!--                    <td th:text="${boardDto.bookIsbn}">책 바코드</td>-->
+<!--                    <td th:text="${boardDto.regDate}">등록일자</td>-->
+<!--                    <td th:text="${boardDto.boardStatus}">현재 상황</td>-->
+<!--                </tr>-->
+                <tr>
+                    <td th:text="dbskim ">등록 유저 아이디</td>
+                    <td th:text="1234.345">책 바코드</td>
+                    <td th:text="2023.10.16">등록일자</td>
+                    <td th:text="배달중">현재 상황</td>
+                    <td><a href="/board/detail/">자세히 보기</a></td>
                 </tr>
                 </tbody>
             </table>
