@@ -28,4 +28,14 @@ public class UserViewController {
     public String mainhtml(){
         return "/content/user/main";
     }
+
+    @GetMapping("/mypage/myInfor")
+    public String myInfor(){
+        return "content/mypage/myInfor";
+    }
+
+    @GetMapping("/mypage/giveList")
+    public String giveList(){
+        return "content/mypage/giveList";
+    }
 }
