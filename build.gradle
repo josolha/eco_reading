@@ -41,6 +41,12 @@ dependencies {
 	//타입리프 레이아웃
 	//implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
+	//smtp 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 
 }
 

@@ -1,6 +1,9 @@
 server:
   port:
-    8099
+    8091
+  error:
+    include-message: always
+
 spring:
   datasource:
     url: jdbc:h2:mem:eco-reading
@@ -12,6 +15,26 @@ spring:
       enabled: true
 
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: josolha@gmail.com
+    password: zrqhfrqlpnhyljmi
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 1800000  *# 30 * 60 * 1000 == 30**분*
+
+  redis:
+    host: localhost
+    port: 6379
 
     jpa:
       hibernate:
@@ -19,8 +42,6 @@ spring:
       properties:
         hibernate:
           #       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-          format_sql: true
-          use_sql_comments: true
-          show_sql: true
-
-
+         format_sql: true
+         use_sql_comments: true
+         show_sql: true
