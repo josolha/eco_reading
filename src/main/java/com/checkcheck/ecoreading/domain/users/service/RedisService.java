@@ -15,9 +15,9 @@ public class RedisService {
         redisTemplate.opsForValue().set(key, value, expiration);
     }
 
-    public String getValues(String s) {
-    }
-
-    public boolean checkExistsValue(String redisAuthCode) {
-    }
+//    public String getValues(String s) {
+//    }
+//
+//    public boolean checkExistsValue(String redisAuthCode) {
+//    }
 }

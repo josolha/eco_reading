@@ -1,6 +1,6 @@
 server:
   port:
-    8091
+    8099
   error:
     include-message: always
 
@@ -13,7 +13,6 @@ spring:
   h2:
     console:
       enabled: true
-
 
   mail:
     host: smtp.gmail.com
@@ -30,7 +29,7 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
-    auth-code-expiration-millis: 1800000  *# 30 * 60 * 1000 == 30**분*
+    auth-code-expiration-millis: 1800000
 
   redis:
     host: localhost
@@ -45,3 +44,18 @@ spring:
          format_sql: true
          use_sql_comments: true
          show_sql: true
+cloud:
+  aws:
+    s3:
+      bucket: eco-reading-image-bucket
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+    credentials:
+      accessKey: AKIA2D2KRCMY4DWJKIU7
+      secretKey: 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
+
+naver-property:
+  clientId: 7mvqmOEqDyA7VG3qoDEa
+  clientSecret: LHramuXw91
