@@ -7,7 +7,7 @@
 
 <body>
 
-<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar" th:fragment="sidebarFragment" style="background-color: #E2ECE2; position: fixed; height: 100%; width: 150px;">
+<nav id="sidebar" class="col-md-3 col-lg-2 bg-light d-md-block sidebar" th:fragment="sidebarFragment" style="position: fixed; height: 100%; width: 150px;">
     <div class="position-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -15,6 +15,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" style="color: black; font-weight: bold;">마이페이지</a>
+                <a class="nav-link" href="/mypage/myInfor" style="color: black; font-weight: bold;">내정보</a>
+                <a class="nav-link" href="/mypage/giveList" style="color: black; font-weight: bold;">Give</a>
+                <a class="nav-link" href="/mypage/takeList" style="color: black; font-weight: bold;">Take</a>
             </li>
         </ul>
     </div>
