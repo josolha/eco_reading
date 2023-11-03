@@ -4,7 +4,6 @@ package com.checkcheck.ecoreading.domain.users.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @RequiredArgsConstructor
 @Controller
@@ -25,5 +24,15 @@ public class UserViewController {
     @GetMapping("/")
     public String mainhtml(){
         return "/content/user/main";
+    }
+
+    @GetMapping("/mypage/myInfor")
+    public String myInfor(){
+        return "content/mypage/myInfor";
+    }
+
+    @GetMapping("/mypage/giveList")
+    public String giveList(){
+        return "content/mypage/giveList";
     }
 }
