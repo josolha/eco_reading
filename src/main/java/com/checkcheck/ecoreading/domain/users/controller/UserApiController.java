@@ -1,9 +1,9 @@
 package com.checkcheck.ecoreading.domain.users.controller;
 
 
+import com.checkcheck.ecoreading.domain.users.dto.EmailVerificationRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserEmailVerificationRequestDTO;
-import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequest;
-import com.checkcheck.ecoreading.domain.users.service.MailService;
+import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,16 +20,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+
 @RequiredArgsConstructor
 @Controller
 @Slf4j
 public class UserApiController {
 
     private final UserService userService;
-    private final MailService mailService;
+
 
     @PostMapping("/user")
-    public String signup(UserRegisterRequest request){
+    public String signup(UserRegisterRequestDTO request){
         userService.save(request);
         return "redirect:/login";
     }
@@ -40,6 +41,7 @@ public class UserApiController {
     }
     @PostMapping("/emails/verification-requests")
     public ResponseEntity sendMessage(@RequestBody @Validated UserEmailVerificationRequestDTO request, BindingResult bindingResult) {
+        //todo : 아래 에러 처리 필요
         if (bindingResult.hasErrors()) {
            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
@@ -47,11 +49,11 @@ public class UserApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @GetMapping("/emails/verifications")
-//    public ResponseEntity verificationEmail(@RequestParam("email") @Valid @CustomEmail String email,
-//                                            @RequestParam("code") String authCode) {
-//        EmailVerificationResult response = memberService.verifiedCode(email, authCode);
-//
-//        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
-//    }
+    @PostMapping("/emails/verifications")
+    public ResponseEntity verificationEmail(@RequestBody EmailVerificationRequestDTO emailVerificationRequestDTO) {
+//        System.out.println("email = " + emailVerificationRequestDTO.getEmail());
+//        System.out.println("code = " + emailVerificationRequestDTO.getCode());
+        userService.verifiedCode(emailVerificationRequestDTO.getEmail(), emailVerificationRequestDTO.getCode());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

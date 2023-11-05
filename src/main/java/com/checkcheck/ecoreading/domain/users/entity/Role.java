@@ -1,4 +1,4 @@
-package com.checkcheck.ecoreading.domain.users;
+package com.checkcheck.ecoreading.domain.users.entity;
 
 public enum Role {
 
