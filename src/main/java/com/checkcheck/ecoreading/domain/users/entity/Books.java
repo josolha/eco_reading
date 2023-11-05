@@ -1,0 +1,47 @@
+package com.checkcheck.ecoreading.domain.users.entity;
+
+import com.checkcheck.ecoreading.domain.BaseEntity;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name = "books")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Getter
+public class Books extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Boards boards;
+
+    @Column(name = "isbn")
+    private String isbn;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "author")
+    private String author;
+
+    @Column(name = "publisher")
+    private String publisher;
+
+    @Column(name = "pubdate")
+    private Date pubdate;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "grade")
+    private String grade;
+
+}
