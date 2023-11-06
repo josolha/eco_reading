@@ -2,6 +2,8 @@ package com.checkcheck.ecoreading.domain.boards.service;
 
 import com.checkcheck.ecoreading.domain.boards.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.NaverResultDTO;
+import com.checkcheck.ecoreading.domain.books.entity.Books;
+import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +25,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class BookService {
+
+    private final BookRepository bookRepository;
 
     @Value("${naver-property.clientId}")
     private String naverClientId;
@@ -73,5 +77,9 @@ public class BookService {
 //        BookDTO bookDTO = new BookDTO();
 //        bookDTO.getIsbn();
         return books;
+    }
+
+    public List<Books> findAll() {
+        return bookRepository.findAll();
     }
 }

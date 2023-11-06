@@ -2,6 +2,7 @@ package com.checkcheck.ecoreading.domain.books.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,4 +44,9 @@ public class Books extends BaseEntity {
     @Column(name = "grade")
     private String grade;
 
+    @OneToOne(mappedBy = "bookId")
+    private Transactions transactions;
+
 }
+
+

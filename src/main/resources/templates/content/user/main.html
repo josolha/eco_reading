@@ -37,6 +37,22 @@
             <br>
 
             <!-- 이미지 출력 폼 -->
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-4" th:each="book : ${Books}">
+                        <a th:href="@{/board/detail/}">
+                            <img src="image_url" alt="이미지 1">
+                        </a>
+                        <figcaption>
+                            <a th:href="@{/board/detail/}">
+                                <span th:text="${book.title}"></span>
+                            </a>
+                            <div style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px; pointer-events: none; display: inline-block;"><span th:text="${book.transactions.status}"></span></div>
+                        </figcaption>
+                    </div>
+                </div>
+            </form>
+
             <!-- 참고 -->
 <!--            <form>-->
 <!--                <div class="row">-->
@@ -54,57 +70,17 @@
 <!--                </div>-->
 <!--            </form>-->
 
-            <form>
-                <!-- 첫 번째 줄 -->
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <a th:href="@{/board/detail/}">
-                            <img src="image_url" alt="이미지 1">
-                        </a>
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <img src="image_url" alt="이미지 2">
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <img src="image_url" alt="이미지 3">
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                </div>
-
-                <!-- 두 번째 줄 -->
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <img src="image_url" alt="이미지 4">
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <img src="image_url" alt="이미지 5">
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <img src="image_url" alt="이미지 6">
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                </div>
-
-                <!-- 세 번째 줄 -->
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <img src="image_url" alt="이미지 7">
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <img src="image_url" alt="이미지 8">
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <img src="image_url" alt="이미지 9">
-                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>
-                    </div>
-                </div>
-            </form>
+            <!-- 만들어뒀던 뷰 -->
+<!--            <form>-->
+<!--                <div class="form-row">-->
+<!--                    <div class="form-group col-md-4">-->
+<!--                        <a th:href="@{/board/detail/}">-->
+<!--                            <img src="image_url" alt="이미지 1">-->
+<!--                        </a>-->
+<!--                        <figcaption>플라워 문 <button class="btn btn-primary" style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px;">나눔중</button></figcaption>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
 
 
         </main>
