@@ -1,10 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 40%;
+        }
+
+        .custom-text-box {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
 </head>
+
 <body>
+<header th:replace="~{/header/header :: headerFragment}"></header>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
+
+        <!-- Main -->
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <br>
+            <h2 class="text-center">마이 페이지</h2>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
+                        <p>ID: ${}</p>
+                        <p>PW: ${}</p>
+                        <p>닉네임: ${}</p>
+                        <p>주소: ${}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-right"> <!-- 이 부분 수정 -->
+                        <button class="custom-button">회원 정보 변경</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
+                <div class="custom-box">
+                    <p>책 갈피 이용 내역</p>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>책 제목</th>
+                                <th>사용한 책갈피 개수</th>
+                                <th>사용 날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- 여기에 서버에서 가져온 데이터를 반복해서 표시하는 Thymeleaf 코드 추가 -->
+                            <tr th:each="record : ${bookmarks}">
+                                <td th:text="${record.bookTitle}"></td>
+                                <td th:text="${record.bookmarkCount}"></td>
+                                <td th:text="${record.usageDate}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </main>
+
+    </div>
+</div>
+
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 
 </body>
 </html>

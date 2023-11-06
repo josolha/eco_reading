@@ -38,4 +38,9 @@ public class UserViewController {
     public String giveList(){
         return "content/mypage/giveList";
     }
+
+    @GetMapping("/mypage/takeList")
+    public String takeList(){
+        return "content/mypage/takeList";
+    }
 }

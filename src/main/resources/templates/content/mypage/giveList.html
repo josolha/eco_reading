@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -19,8 +18,16 @@
         }
 
         .custom-text-box {
-            border: 1px solid black;
-            padding: 10px;
+            border: 1px solid #E2ECE2;
+            padding: 20px;
+            margin: 20px;
+            background-color: #F7F7F7;
+        }
+
+        .status-box {
+            background-color: #E2ECE2;
+            padding: 5px;
+            margin: 5px;
         }
     </style>
 </head>
@@ -31,25 +38,75 @@
         <!-- Sidebar -->
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
-        <!-- Main -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
             <br>
-            <h2 class="text-center">기부한 책 현황</h2>
+            <h2 class="text-center">나눔한 책 현황</h2>
             <hr>
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                    <img src="이미지_경로" alt="책 이미지">
+            <div class="row">
+                <div class="col-12">
+                    <div class="custom-text-box">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5 class="card-title">책 제목</h5>
+                                            <p>출판사: ${}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>글 올린 날짜: ${}</p>
+                                            <p>책 등급: ${}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="status-box">
+                                                <p>수정 하기</p>
+                                            </div>
+                                            <div class="status-box">
+                                                <p>삭제 하기</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">책 제목</h5>
-                        <p>출판사: ${}</p>
-                        <p>글 올린 날짜: ${}</p>
-                        <p>현재 상태: ${}</p>
-                        <button class="custom-button btn btn-primary btn-lg btn-block">수정 하기</button>
-                        <button class="custom-button btn btn-primary btn-lg btn-block">삭제 하기</button>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="custom-text-box">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5 class="card-title">책 제목</h5>
+                                            <p>출판사: ${}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>글 올린 날짜: ${}</p>
+                                            <p>책 등급: ${}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="status-box">
+                                                <p>나눔 완료</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,3 +116,5 @@
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 </body>
 </html>
+
+
