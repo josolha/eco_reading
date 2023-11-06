@@ -2,10 +2,7 @@ package com.checkcheck.ecoreading.domain.books.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -39,6 +36,7 @@ public class Books extends BaseEntity {
     @Column(name = "pubdate")
     private Date pubdate;
 
+    @Lob
     @Column(name = "description")
     private String description;
 
