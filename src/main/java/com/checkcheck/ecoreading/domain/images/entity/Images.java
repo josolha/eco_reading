@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class Images extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long image_id;
 
     @ManyToOne
     @JoinColumn(name = "book_id")

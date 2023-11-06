@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class alert extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long alert_id;
 
     @ManyToOne
     @JoinColumn(name = "salesId")
