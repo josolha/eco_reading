@@ -1,6 +1,7 @@
-package com.checkcheck.ecoreading.domain.users.entity;
+package com.checkcheck.ecoreading.domain.books.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
