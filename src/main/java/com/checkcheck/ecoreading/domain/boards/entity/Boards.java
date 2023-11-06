@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Boards extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long board_id;
 
     @Column(name = "giver_user_id")
     private Long giver_user_id;

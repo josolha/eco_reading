@@ -15,7 +15,7 @@ import java.util.Date;
 public class Books extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long book_id;
 
     @ManyToOne
     @JoinColumn(name = "board_id")
