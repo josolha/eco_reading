@@ -1,10 +1,13 @@
 package com.checkcheck.ecoreading.domain.users.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -33,16 +37,19 @@ public class Users extends BaseEntity implements UserDetails {
     private String password;
     private String email;
 
-    private LocalDateTime birthDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
 
     private String phone;
 
-    private String postCode;
-    private String address;
+    private String postcode;
+    private String roadAddress;
     private String detailAddress;
 
     private int totalPoint;
 
+
+    @Enumerated(EnumType.STRING)
     private Role role;
     private Boolean enabled = true;
 

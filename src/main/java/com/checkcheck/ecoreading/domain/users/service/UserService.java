@@ -40,8 +40,15 @@ public class UserService {
     public Long save(UserRegisterRequestDTO dto) {
         Users user = Users.builder()
                 .email(dto.getEmail())
+                .birthDate(dto.getBirthdate())
+                .nickName(dto.getNickname())
+                .phone(dto.getPhone())
+                .userName(dto.getUsername())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
+                .detailAddress(dto.getDetailAddress())
+                .roadAddress(dto.getRoadAddress())
+                .postcode(dto.getPostcode())
                 .enabled(true)
                 .emailVerified(false)
                 .build();

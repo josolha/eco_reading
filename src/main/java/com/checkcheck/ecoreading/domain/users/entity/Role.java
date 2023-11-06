@@ -2,11 +2,7 @@ package com.checkcheck.ecoreading.domain.users.entity;
 
 public enum Role {
 
-    USER,
-    ADMIN;
+    ROLE_USER,
+    ROLE_ADMIN;
 
-    @Override
-    public String toString() {
-        return "ROLE_" + name();
-    }
 }

@@ -31,6 +31,7 @@ public class UserApiController {
 
     @PostMapping("/user")
     public String signup(UserRegisterRequestDTO request){
+        System.out.println("request = " + request);
         userService.save(request);
         return "redirect:/login";
     }
