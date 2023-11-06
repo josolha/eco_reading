@@ -78,6 +78,7 @@ document.getElementById('checkCodeButton').addEventListener('click', function ()
         });
 });
 
+
 function sample4_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function (data) {
