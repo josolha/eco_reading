@@ -5,6 +5,7 @@
   <title>회원 가입</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="gradient-custom" style="background-color: #E2ECE2;">
 <section class="d-flex vh-100">
@@ -30,18 +31,18 @@
                 </div>
               </div>
             </div>
-
-
             <div class="form-group row" id="verificationCodeInputGroup" style="display: none;">
-              <label for="email-code" class="col-sm-3 col-form-label text-nowrap">인증코드:</label>
+              <label for="emailcode" class="col-sm-3 col-form-label text-nowrap">인증코드:</label>
               <div class="col-sm-6">
-                <input type="text" class="form-control" id="email-code" name="email-code">
+                <input type="text" class="form-control" id="emailcode" name="emailcode">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" id="checkCodeButton">입력하기</button>
+                </div>
               </div>
               <div class="col-sm-3">
                 <input type="text" class="form-control" id="timer" name="timer" style="color: #e74141;" readonly>
               </div>
             </div>
-
 
             <!-- 기존의 비밀번호 입력 부분 -->
             <div class="form-group row">
@@ -88,13 +89,11 @@
                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="전화번호는 '-'를 제외하고 11자">
               </div>
             </div>
-
-
             <div class="form-group row">
-              <label for="sample4_postcode" class="col-sm-3 col-form-label text-nowrap">주소 :</label>
+              <label for="postcode" class="col-sm-3 col-form-label text-nowrap">주소 :</label>
               <div class="col-sm-9">
                 <div class="input-group">
-                  <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호">
+                  <input type="text" class="form-control" id="postcode" name="postcode" placeholder="우편번호">
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick="sample4_execDaumPostcode()">우편번호 검색</button>
                   </div>
@@ -103,9 +102,7 @@
                 <input type="text" class="form-control mt-2" id="detailAddress" name="detailAddress" placeholder="상세주소">
               </div>
             </div>
-
             <button type="submit" class="btn btn-secondary">가입완료</button>
-
           </form>
         </div>
       </div>
@@ -115,74 +112,8 @@
 </body>
 </html>
 
-<!--<script>-->
-<!--  var idCheckURL = "<c:url value='/user/idCheck.do'/>";-->
-<!--</script>-->
 <!--<script src="/resources/static/js/registerCheck.js"></script>-->
+<!--<script th:src="@{/js/registerCheck.js}"></script>-->
+<script th:src="@{/js/member.js}"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<script>
-    document.getElementById('sendCodeButton').addEventListener('click', function() {
-      var sendCodeButton = this; // sendCodeButton이라는 변수로 this 참조 저장
-      sendCodeButton.disabled = true; // 버튼을 먼저 비활성화
-      var email = document.getElementById('email').value; // 이메일 값 가져오기
-      // axios를 사용하여 서버에 POST 요청 보내기
-      axios.post('/emails/verification-requests', {
-        email: email
-      })
-      .then(function (response) {
-        // 성공적으로 이메일 인증 요청이 처리된 경우
-        alert("인증 코드가 이메일로 발송되었습니다.");
-
-        document.getElementById('verificationCodeInputGroup').style.display = 'flex';
-        // 3분 타이머 설정
-          var timeLeft = 180;
-          var timerInput = document.getElementById('timer');
-          var timerId = setInterval(function() {
-          timeLeft--;
-          var minutes = Math.floor(timeLeft / 60);
-          var seconds = timeLeft % 60;
-          timerInput.value = minutes + " : " + seconds+"(time)";
-
-          if (timeLeft === 0) {
-          clearInterval(timerId);
-          // 시간이 다 되면 버튼을 다시 활성화
-          sendCodeButton.disabled = false;
-          // 인증코드 입력 필드 숨기기
-          document.getElementById('verificationCodeInputGroup').style.display = 'none';
-          }
-          }, 1000);
-      })
-      .catch(function (error) {
-        console.log(error.response.data)
-        console.log(error.message)
-        // HTTP 상태 코드가 있는지 확인합니다.
-        if (error.response && error.response.status) {
-
-          // 서버가 응답으로 보낸 오류 메시지를 사용합니다.
-          var errorMessage = "오류가 발생했습니다: " + error.response.data.message;
-          alert(error.response.data.message);
-        } else {
-          // 서버에서 응답이 오지 않았거나 상태 코드가 없는 경우 일반 오류 메시지를 사용합니다.
-          alert("이메일 인증 요청 중 오류가 발생했습니다.");
-        }
-        sendCodeButton.disabled = false; // 버튼을 다시 활성화합니다.
-      });
-  });
-
-
-  function sample4_execDaumPostcode() {
-    new daum.Postcode({
-      oncomplete: function(data) {
-        // 우편번호와 주소 정보를 해당 필드에 넣는다.
-        document.getElementById('sample4_postcode').value = data.zonecode; // 우편번호 (5자리)
-        var roadAddr = data.roadAddress; // 도로명 주소 변수
-        document.getElementById('roadAddress').value = roadAddr; // 도로명 주소 입력란에 값 설정
-
-        // 상세주소 입력란을 비우고, 도로명 주소 입력란으로 포커스 이동
-        document.getElementById('detailAddress').value = '';
-        document.getElementById('detailAddress').focus();
-      }
-    }).open();
-  }
-</script>

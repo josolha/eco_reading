@@ -1,8 +1,7 @@
 package com.checkcheck.ecoreading.domain.users.service;
 
-import com.checkcheck.ecoreading.domain.users.Role;
-import com.checkcheck.ecoreading.domain.users.dto.EmailVerificationResultDTO;
-import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequest;
+import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequestDTO;
+import com.checkcheck.ecoreading.domain.users.entity.Role;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
 import java.security.NoSuchAlgorithmException;
@@ -26,7 +25,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private static final String AUTH_CODE_PREFIX = "AuthCode ";
+    private static final String AUTH_CODE_PREFIX = "AuthCode :";
 
     private final MailService mailService;
 
@@ -38,11 +37,18 @@ public class UserService {
     private long authCodeExpirationMillis;
 
 
-    public Long save(UserRegisterRequest dto) {
+    public Long save(UserRegisterRequestDTO dto) {
         Users user = Users.builder()
                 .email(dto.getEmail())
+                .birthDate(dto.getBirthdate())
+                .nickName(dto.getNickname())
+                .phone(dto.getPhone())
+                .userName(dto.getUsername())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
+                .detailAddress(dto.getDetailAddress())
+                .roadAddress(dto.getRoadAddress())
+                .postcode(dto.getPostcode())
                 .enabled(true)
                 .emailVerified(false)
                 .build();
@@ -78,17 +84,19 @@ public class UserService {
             }
             return builder.toString();
         } catch (NoSuchAlgorithmException e) {
-            log.debug("MemberService.createCode() exception occur");
+            //log.debug("MemberService.createCode() exception occur");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "알고리즘 생성 에러");
         }
     }
-//    public EmailVerificationResultDTO verifiedCode(String email, String authCode) {
-//        this.checkDuplicatedEmail(email);
-//        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + email);
-//        boolean authResult = redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
-//
-//        return EmailVerificationResultDTO.of(authResult);
-//    }
+    public void verifiedCode(String email, String code) {
+        this.checkDuplicatedEmail(email);
+        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + email);
+
+        if (redisAuthCode == null || !redisAuthCode.equals(code)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "인증 코드가 틀렸습니다 다시 확인부탁드립니다.");
+        }
+    }
+
 }
 
 
