@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+// API 활용해 책 정보 검색 기능 구현
 @Service
 @Slf4j
 @RequiredArgsConstructor

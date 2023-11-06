@@ -1,4 +1,4 @@
 package com.checkcheck.ecoreading.domain.images.dto;
 
-public class ImageDTO {
+public class InsertImageRequest {
 }
