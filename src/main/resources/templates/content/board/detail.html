@@ -22,6 +22,11 @@
             border: 1px solid black;
             padding: 10px;
         }
+
+        .image-size img {
+            width: 450px;
+            height: 350px;
+        }
     </style>
 </head>
 
@@ -41,7 +46,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <div th:each="image : ${book.images}" class="image-size" >
+                    <div th:each="image : ${book.images}" class="image-size">
                         <img th:src="${image.image_url}" th:alt="${book.title}">
                     </div>
                 </div>
@@ -49,13 +54,13 @@
                     <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
                         <p th:text="'저자: ' + ${book.author}"></p>
                         <p th:text="'출판사: ' + ${book.publisher}"></p>
-                        <p th:text="'발행일자: ' + ${#dates.format(book.pubdate, 'yyyy-MM-dd')}"></p>
+                        <p th:text="'발행일자: ' + ${book.pubdate}"></p>
                         <p th:text="'기부어: ' + ${book.boards.giver_user_id}"></p>
                     </div>
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mt-4">
                 <button class="custom-button btn btn-primary btn-lg btn-block">나눔 받기</button>
             </div>
 

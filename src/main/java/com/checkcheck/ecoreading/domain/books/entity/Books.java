@@ -37,7 +37,7 @@ public class Books extends BaseEntity {
     private String publisher;
 
     @Column(name = "pubdate")
-    private Date pubdate;
+    private String pubdate;
 
     @Lob
     @Column(name = "description")
