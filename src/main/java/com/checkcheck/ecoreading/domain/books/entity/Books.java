@@ -2,11 +2,13 @@ package com.checkcheck.ecoreading.domain.books.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.images.entity.Images;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -46,6 +48,9 @@ public class Books extends BaseEntity {
 
     @OneToOne(mappedBy = "bookId")
     private Transactions transactions;
+
+    @OneToMany(mappedBy = "bookId")
+    private List<Images> images;
 
 }
 

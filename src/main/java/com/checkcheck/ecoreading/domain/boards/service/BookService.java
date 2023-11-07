@@ -82,4 +82,29 @@ public class BookService {
     public List<Books> findAll() {
         return bookRepository.findAll();
     }
+
+    // Book 엔티티를 BookDTO로 변환 메서드
+    public BookDTO convertToDTO(Books books) {
+        BookDTO bookDTO = new BookDTO();
+
+        bookDTO.setBook_id(books.getBook_id());
+        bookDTO.setBoards(books.getBoards());
+        bookDTO.setIsbn(books.getIsbn());
+        bookDTO.setTitle(books.getTitle());
+        bookDTO.setAuthor(books.getAuthor());
+        bookDTO.setPublisher(books.getPublisher());
+        bookDTO.setPubdate(books.getPubdate());
+        bookDTO.setDescription(books.getDescription());
+        bookDTO.setGrade(books.getGrade());
+        bookDTO.setTransactions(books.getTransactions());
+        bookDTO.setImages(books.getImages());
+
+        return bookDTO;
+    }
+
+    // 나눔 글 상세
+    public Books findBoardByBookId(Long book_id) {
+        return bookRepository.findById(book_id).orElse(null);
+    }
+
 }

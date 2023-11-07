@@ -21,7 +21,7 @@ public class Images extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "book_id")
-    private Books books;
+    private Books bookId;
 
     @Column(name = "image_url")
     private String image_url;
