@@ -1,6 +1,12 @@
 package com.checkcheck.ecoreading.domain.boards.dto;
 
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.images.entity.Images;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import lombok.*;
+
+import java.util.Date;
+import java.util.List;
 
 @ToString
 @AllArgsConstructor
@@ -17,4 +23,10 @@ public class BookDTO {
     private String pubdate;
     private String isbn;
     private String description;
+
+    private String grade;
+    private Long book_id;
+    private Boards boards;
+    private Transactions transactions;
+    private List<Images> images;
 }
