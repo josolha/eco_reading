@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "images")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Getter @Setter
 public class Images extends BaseEntity {

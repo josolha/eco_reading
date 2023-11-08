@@ -1,18 +1,27 @@
 package com.checkcheck.ecoreading.domain.boards.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
+import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
+import com.checkcheck.ecoreading.domain.books.entity.Books;
+import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
+import com.checkcheck.ecoreading.domain.images.entity.Images;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +38,7 @@ public class S3Service {
     private String bucket;
 
     // 업로드할 이미지 파일의 목록을 받아서 이미지 업로드, 업로드된 이미지 URL 목록 반환하기.
-    public List<String> uploadImg(List<MultipartFile> multipartFileList) {
+    protected List<String> uploadIntoS3(List<MultipartFile> multipartFileList) {
         List<String> imgUrlList = new ArrayList<>();
 
         //forEach 구문을 통해 multipartFile로 넘어온 파일들을 하나씩 fileNameList에 추가
@@ -88,8 +97,9 @@ public class S3Service {
 
 
     // 이미지 파일 삭제하기
+    @Transactional
     public void deleteFile(String fileName) {
-        amazonS3.deleteObject(new DeleteObjectRequest(bucket, fileName));
+        amazonS3.deleteObject(new DeleteObjectRequest(bucket+"/book", fileName));
         System.out.println(bucket);
     }
 

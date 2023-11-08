@@ -9,13 +9,7 @@ import lombok.ToString;
 @ToString
 @Setter
 @AllArgsConstructor
-public class InsertBoardBookDTO {
-    private String isbn;
-    private String title;
-    private String pubdate;
-    private String publisher;
-    private String author;
-    private String description;
+public class InsertBoardDTO {
     private String message;
 
 }

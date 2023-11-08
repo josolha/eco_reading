@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,6 +46,12 @@ public class Users extends BaseEntity implements UserDetails {
     private String roadAddress;
     private String detailAddress;
     private int totalPoint;
+
+    @Builder.Default
+    @OneToMany(
+            mappedBy = "users",
+            cascade = CascadeType.ALL)
+    private List<Boards> boardsList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -94,5 +100,13 @@ public class Users extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+
+    // 연관관계 메서드
+    // 책 한 권을 올리면 Boards에 Book 추가되면서 Books엔티티에도 추가
+    public void addBoard(Boards boards) {
+        boards.setUsers(this);
+        this.getBoardsList().add(boards);
     }
 }
