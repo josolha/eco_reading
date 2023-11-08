@@ -2,28 +2,26 @@ package com.checkcheck.ecoreading.domain.images.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "images")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
-@Getter
+@Getter @Setter
 public class Images extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long image_id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) //books:images = 1:n
     @JoinColumn(name = "book_id")
     private Books bookId;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private String image_url;
+
 
 }

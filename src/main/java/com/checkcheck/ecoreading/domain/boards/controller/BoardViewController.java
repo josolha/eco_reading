@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/board")
 public class BoardViewController {
+
     private final BookService bookService;
 
     @GetMapping("/new")
