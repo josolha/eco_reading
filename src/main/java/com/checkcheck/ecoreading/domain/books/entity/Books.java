@@ -23,7 +23,7 @@ import java.util.List;
 public class Books extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long book_id;
 
     @ManyToOne(fetch = FetchType.LAZY) // boards:books = 1:n
     @JoinColumn(name = "board_id")

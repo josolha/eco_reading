@@ -34,6 +34,7 @@ public class Boards extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY) //users: boards = 1:n
     @JoinColumn(name = "user_id")
+
     // 기부어 아이디
     private Users users;
 

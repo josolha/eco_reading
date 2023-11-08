@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Transactions extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long salesId;
+    private Long transactionId;
 
     @Column(nullable = false)
     private Long giverId; //나눔글 올릴 시 giverID 넣기 필수
@@ -38,5 +38,12 @@ public class Transactions extends BaseEntity {
 
     @Enumerated
     private UserStatus userStatus; //유저 상태 (유저가 기부어인지, 테이커인지)
+
+
+    private LocalDateTime transactionDate;
+
+
+
+    //private String userStatus;
 
 }

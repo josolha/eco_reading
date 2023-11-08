@@ -10,7 +10,7 @@ document.getElementById('sendCodeButton').addEventListener('click', function () 
     sendCodeButton.disabled = true; // 버튼을 먼저 비활성화
     var email = document.getElementById('email').value; // 이메일 값 가져오기
     // axios를 사용하여 서버에 POST 요청 보내기
-    axios.post('/emails/verification-requests', {
+    axios.post('/user/emails/verification-requests', {
         email: email
     })
         .then(function (response) {
@@ -55,7 +55,7 @@ document.getElementById('sendCodeButton').addEventListener('click', function () 
 document.getElementById('checkCodeButton').addEventListener('click', function () {
     var email = document.getElementById('email').value;
     var code = document.getElementById('emailcode').value;
-    axios.post('/emails/verifications', {
+    axios.post('/user/emails/verifications', {
         email: email,
         code: code
     })
@@ -270,9 +270,6 @@ $(document).ready(function () {
         }
     });
 });
-
-
-
 
 
 
