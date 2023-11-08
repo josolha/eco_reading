@@ -43,7 +43,7 @@ public class Transactions extends BaseEntity {
     @JoinColumn(name = "books_id")
     private Books books;
 
-    @Enumerated //ENUM으로 설정함. 이외의 다른 설정을 불가하도록 만들기 위해.
+    @Enumerated(EnumType.STRING) //ENUM으로 설정함. 이외의 다른 설정을 불가하도록 만들기 위해.
     private TransactionStatus status; //거래 상태 (신규등록, 수거중, 검수중, 검수완료(나눔중), 나눔완료)
     private LocalDateTime successDate; //거래 완료(성사) 날짜
 

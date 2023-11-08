@@ -2,7 +2,7 @@ package com.checkcheck.ecoreading.domain.boards.service;
 
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
-import com.checkcheck.ecoreading.domain.books.Repository.BookRepository;
+import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
 import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.NaverResultDTO;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
@@ -103,13 +103,13 @@ public class BookService {
     public BookMainDTO convertToDTO(Books books) {
         BookMainDTO bookDTO = new BookMainDTO();
 
-        bookDTO.setBook_id(books.getBooksId());
+        bookDTO.setBooksId(books.getBooksId());
         bookDTO.setBoards(books.getBoards());
         bookDTO.setIsbn(books.getIsbn());
         bookDTO.setTitle(books.getTitle());
         bookDTO.setAuthor(books.getAuthor());
         bookDTO.setPublisher(books.getPublisher());
-        bookDTO.setPubdate(books.getPubDate());
+        bookDTO.setPubDate(books.getPubDate());
         bookDTO.setDescription(books.getDescription());
         bookDTO.setGrade(books.getGrade());
         bookDTO.setTransactions(books.getTransactions());
@@ -119,8 +119,8 @@ public class BookService {
     }
 
     // 나눔 글 상세
-    public Books findBoardByBookId(Long book_id) {
-        return bookRepository.findById(book_id).orElse(null);
+    public Books findBoardByBookId(Long booksId) {
+        return bookRepository.findById(booksId).orElse(null);
     }
 
 

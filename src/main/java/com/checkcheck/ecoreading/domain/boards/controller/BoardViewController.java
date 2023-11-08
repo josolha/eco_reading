@@ -27,9 +27,9 @@ public class BoardViewController {
     }
 
     // 나눔 글 상세
-    @GetMapping("/detail/{book_id}")
-    public String boardDetail(@PathVariable Long book_id, Model model) {
-        Books books = bookService.findBoardByBookId(book_id);
+    @GetMapping("/detail/{booksId}")
+    public String boardDetail(@PathVariable Long booksId, Model model) {
+        Books books = bookService.findBoardByBookId(booksId);
 
         if (books == null) {
             return "redirect:/error";
