@@ -3,7 +3,6 @@ package com.checkcheck.ecoreading.domain.transactions.entity;
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
-import com.checkcheck.ecoreading.domain.users.entity.Users;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;

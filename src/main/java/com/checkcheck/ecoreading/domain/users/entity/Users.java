@@ -5,18 +5,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.books.entity.Books;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,6 +45,11 @@ public class Users extends BaseEntity implements UserDetails {
 
     private int totalPoint;
 
+    @Builder.Default
+    @OneToMany(
+            mappedBy = "users",
+            cascade = CascadeType.ALL)
+    private List<Boards> boardsList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -95,5 +101,13 @@ public class Users extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+
+    // 연관관계 메서드
+    // 책 한 권을 올리면 Boards에 Book 추가되면서 Books엔티티에도 추가
+    public void addBoard(Boards boards) {
+        boards.setUsers(this);
+        this.getBoardsList().add(boards);
     }
 }

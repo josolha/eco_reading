@@ -32,10 +32,10 @@ public class Boards extends BaseEntity {
             orphanRemoval = true)
     private List<Books> booksList = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY) //users: boards = 1:n
     @JoinColumn(name = "user_id")
     // 기부어 아이디
-    private Users userId;
+    private Users users;
 
     // DELIVERY 엔티티와 연결.
     @OneToOne
@@ -58,7 +58,6 @@ public class Boards extends BaseEntity {
         this.delivery = delivery;
         delivery.setBoards(this);
     }
-
 
 
 

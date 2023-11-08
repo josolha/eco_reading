@@ -14,6 +14,7 @@ import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
 import com.checkcheck.ecoreading.domain.images.entity.Images;
+import com.checkcheck.ecoreading.domain.users.entity.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,16 +41,20 @@ public class BoardService {
     // db에 글 업로드시 필요한 과정 (into IMAGES, BOOKS, BOARDS, DELIVERY
     @Transactional
     public void uploadIntoDB(List<String> imgUrlList, InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO) {
+        //todo: 로그인 정보 가져와서 아이디값 가져오기
+        Long userId = 1L;
 
+        // 유저 아이디 (로그인 받아온 정보 빌드) //todo: 고치기
+        Users user = Users.builder()
+                .id(userId)
+                .build();
+        
         // 1. boardDTO에서 받아온 정보 빌드
         Boards boards = Boards.builder()
                 .message(boardDTO.getMessage())
                 .build();
 
-        // boards를 DB에 저장
-        boardRepository.save(boards);
-
-        // bookDTO에서 받아온 정보 빌드
+        // 2. bookDTO에서 받아온 정보 빌드
         Books books = Books.builder()
                 .title(bookDTO.getTitle())
                 .isbn(bookDTO.getIsbn())
@@ -59,7 +64,7 @@ public class BoardService {
                 .pubdate(bookDTO.getPubdate())
                 .build();
 
-        // deliveryDTO에서 받아온 정보 빌드
+        // 3. deliveryDTO에서 받아온 정보 빌드
         Delivery delivery = Delivery.builder()
                 .postcode(deliveryDTO.getPostcode())
                 .road_address(deliveryDTO.getRoadAddress())
@@ -68,10 +73,16 @@ public class BoardService {
                 .form(deliveryDTO.getForm())
                 .build();
 
-        // board에도 book 저장해주기.
-        // board에도 delivery 저장해주기.
+        user.addBoard(boards);
+        // 4. board올리면서 book, delivery에도 함께 추가 (연관관계 메서드)
         boards.addBook(books);
         boards.addDelivery(delivery);
+
+
+        // 5. boards를 DB에 저장
+        boardRepository.save(boards);
+
+//        books.addTransaction(transa);
 
         // 이미지 urlList에서 각 url을 db에 넣어주는 과정
         for(String imgUrl : imgUrlList) {
@@ -80,6 +91,7 @@ public class BoardService {
             image.setImage_url(imgUrl);
             // book에도 image 함께 저장해주기
             books.addImage(image);
+
         }
         // book정보는 DB에 저장.
         bookRepository.save(books);
