@@ -10,22 +10,24 @@ import javax.persistence.*;
 @Table(name = "images")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
-@Getter @Setter
+@Getter
+@Builder
 public class Images extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long image_id;
+    private Long imagesId;
 
     @ManyToOne(fetch = FetchType.LAZY) //books:images = 1:n
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "books_id")
     private Books books;
 
-    @Column(name = "image_url", nullable = false)
-    private String image_url;
+    @Column(name = "images_url", nullable = false)
+    private String imagesUrl;
 
     public void setBooks(Books book){
         this.books = book;
     }
+
 
 
 }

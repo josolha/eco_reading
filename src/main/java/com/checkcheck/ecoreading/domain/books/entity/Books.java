@@ -26,14 +26,11 @@ import java.util.List;
 public class Books extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookId;
+    private Long booksId;
 
     @ManyToOne(fetch = FetchType.LAZY) // boards:books = 1:n
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "boards_id")
     private Boards boards;
-
-    @OneToOne
-    private Delivery delivery;
 
     @OneToOne(mappedBy = "books")
     private Transactions transactions;
@@ -47,26 +44,13 @@ public class Books extends BaseEntity {
              즉 부모엔티티에 대한 변경사항이 자식 엔티티에도 적용된다. */
     private List<Images> imagesList = new ArrayList<>();  // Todo: 변수명 images-> imageList로 변경
 
-    @Column(name = "isbn")
     private String isbn;
-
-    @Column(name = "title")
     private String title;
-
-    @Column(name = "author")
     private String author;
-
-    @Column(name = "publisher")
     private String publisher;
-
-    @Column(name = "pubdate")
-    private String pubdate;
-
-    @Column(name = "description")
+    private String pubDate;
     @Lob //lob은 clob 데이터베이스에서 VARCHAR보다 큰 데이터를 담고 싶을 때 사용한다.
     private String description;
-
-    @Column(name = "grade")
     private String grade;
 
     // 연관관계 메서드
@@ -85,6 +69,8 @@ public class Books extends BaseEntity {
     public void setBoards(Boards boards){
         this.boards = boards;
     }
+
+
 
 
 

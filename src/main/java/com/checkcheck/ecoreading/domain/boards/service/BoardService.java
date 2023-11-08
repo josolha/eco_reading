@@ -49,7 +49,7 @@ public class BoardService {
 
         // 유저 아이디 (로그인 받아온 정보 빌드) //todo: 고치기
         Users user = Users.builder()
-                .id(userId)
+                .usersId(userId)
                 .build();
 
         // 1. boardDTO에서 받아온 정보 빌드
@@ -64,14 +64,14 @@ public class BoardService {
                 .description(bookDTO.getDescription())
                 .author(bookDTO.getAuthor())
                 .publisher(bookDTO.getPublisher())
-                .pubdate(bookDTO.getPubdate())
+                .pubDate(bookDTO.getPubdate())
                 .build();
 
         // 3. deliveryDTO에서 받아온 정보 빌드
         Delivery delivery = Delivery.builder()
                 .postcode(deliveryDTO.getPostcode())
-                .road_address(deliveryDTO.getRoadAddress())
-                .detail_address(deliveryDTO.getDetailAddress())
+                .roadAddress(deliveryDTO.getRoadAddress())
+                .detailAddress(deliveryDTO.getDetailAddress())
                 .place(deliveryDTO.getPlace())
                 .form(deliveryDTO.getForm())
                 .build();
@@ -89,9 +89,9 @@ public class BoardService {
 
         // 이미지 urlList에서 각 url을 db에 넣어주는 과정
         for(String imgUrl : imgUrlList) {
-            Images image = new Images();
+            Images image = Images.builder()
+                    .imagesUrl(imgUrl).build();
 
-            image.setImage_url(imgUrl);
             // book에도 image 함께 저장해주기
             books.addImage(image);
 

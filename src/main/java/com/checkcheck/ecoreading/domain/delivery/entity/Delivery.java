@@ -18,11 +18,11 @@ import javax.persistence.*;
 public class Delivery extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long deliveryId;
 
     private int postcode;
-    private String road_address;
-    private String detail_address;
+    private String roadAddress;
+    private String detailAddress;
 
     @Enumerated(EnumType.STRING)
     private DeliveryPlace place; // 수거/배송 장소(문앞, 경비실, 무인택배함)
@@ -31,14 +31,11 @@ public class Delivery extends BaseEntity {
     private DeliveryForm form; // 배송형태 (수거 or 배송) 둘중 하나 무조건 선택.
 
     @OneToOne
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "boards_id")
     private Boards boards;
 
-
-    //TODO: TRANSACTION(SALES_ID)와 매핑
     @OneToOne
-    @JoinColumn(name = "sales_id")
+    @JoinColumn(name = "transactions_id")
     private Transactions transactions;
-
 
 }

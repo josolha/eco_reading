@@ -18,12 +18,11 @@ import java.util.List;
 @Table(name = "boards")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-@Setter
 @Builder
 public class Boards extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long boardId;
 
     @Builder.Default
     @OneToMany(
@@ -33,17 +32,17 @@ public class Boards extends BaseEntity {
     private List<Books> booksList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY) //users: boards = 1:n
-    @JoinColumn(name = "user_id")
-
+    @JoinColumn(name = "users_id")
     // 기부어 아이디
     private Users users;
 
     // DELIVERY 엔티티와 연결.
-    @OneToOne
+    @OneToOne(
+            mappedBy = "boards"
+    )
     private Delivery delivery;
 
     // 기부어의 한마디
-    @Column(name = "message")
     private String message;
 
 

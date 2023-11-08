@@ -73,7 +73,7 @@ public class UserService {
                 .emailVerified(false)
                 .build();
         user = userRepository.save(user);
-        return user.getId();
+        return user.getUsersId();
     }
 
     @Transactional

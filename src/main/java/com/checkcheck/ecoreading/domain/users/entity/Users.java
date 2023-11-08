@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,8 +29,8 @@ public class Users extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long id;
+    @Column(name = "users_id")
+    private Long usersId;
     private String userName;
     private String nickName;
     private String password;
@@ -47,6 +48,12 @@ public class Users extends BaseEntity implements UserDetails {
             mappedBy = "users",
             cascade = CascadeType.ALL)
     private List<Boards> boardsList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(
+            mappedBy = "users",
+            cascade = CascadeType.ALL)
+    private List<PointHistory> pointHistoryList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
