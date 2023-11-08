@@ -1,6 +1,9 @@
 package com.checkcheck.ecoreading.domain.users.controller;
 
 
+import com.checkcheck.ecoreading.domain.boards.dto.BookDTO;
+import com.checkcheck.ecoreading.domain.boards.service.BookService;
+import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -21,6 +27,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserViewController {
+    private final BookService bookService;
 
     private final BookService bookService;
 
@@ -36,10 +43,7 @@ public class UserViewController {
     public String showTestPage() {
         return "test";
     }
-    @GetMapping("/")
-    public String mainhtml(){
-        return "/content/user/main";
-    }
+
 
     @GetMapping("/mypage/myinfor")
     public String myInfor(){
@@ -67,4 +71,18 @@ public class UserViewController {
         return "/content/mypage/takeList";
     }
 
+    // 메인 화면(나눔 글 전체 조회)
+    @GetMapping("/")
+    public String getBoards(Model model){
+        List<Books> books = bookService.findAll(); // Book 엔티티를 가져옴
+        List<BookDTO> bookDTOs = new ArrayList<>();
+
+        for (Books book : books) {
+            bookDTOs.add(bookService.convertToDTO(book)); // 엔티티를 DTO로 변환
+        }
+
+        model.addAttribute("Books", bookDTOs); // BookDTO 리스트를 모델에 추가
+
+        return "content/user/main";
+    }
 }
