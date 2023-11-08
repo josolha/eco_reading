@@ -1,20 +1,23 @@
 package com.checkcheck.ecoreading.domain.boards.controller;
 
-import com.checkcheck.ecoreading.domain.boards.dto.BookDTO;
+
 import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.InsertDeliveryDTO;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.boards.service.S3Service;
+import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller

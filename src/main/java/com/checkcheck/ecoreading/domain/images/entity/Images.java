@@ -18,10 +18,14 @@ public class Images extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY) //books:images = 1:n
     @JoinColumn(name = "book_id")
-    private Books bookId;
+    private Books books;
 
     @Column(name = "image_url", nullable = false)
     private String image_url;
+
+    public void setBooks(Books book){
+        this.books = book;
+    }
 
 
 }

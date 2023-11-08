@@ -7,6 +7,7 @@ import com.checkcheck.ecoreading.domain.images.entity.Images;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.images.entity.Images;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
+import com.checkcheck.ecoreading.domain.users.entity.Users;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,21 +22,20 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Getter
-@Setter
 @Builder
 public class Books extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long book_id;
+    private Long bookId;
 
     @ManyToOne(fetch = FetchType.LAZY) // boards:books = 1:n
     @JoinColumn(name = "board_id")
-    private Boards boardId;
+    private Boards boards;
 
     @OneToOne
     private Delivery delivery;
 
-    @OneToOne(mappedBy = "bookId")
+    @OneToOne(mappedBy = "books")
     private Transactions transactions;
 
     @Builder.Default
@@ -82,6 +82,11 @@ public class Books extends BaseEntity {
         this.transactions = transactions;
         transactions.setBooks(this);
     }
+    public void setBoards(Boards boards){
+        this.boards = boards;
+    }
+
+
 
 }
 

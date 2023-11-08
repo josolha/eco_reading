@@ -24,9 +24,4 @@ public class BookDTO {
     private String isbn;
     private String description;
 
-    private String grade;
-    private Long book_id;
-    private Boards boards;
-    private Transactions transactions;
-    private List<Images> images;
 }

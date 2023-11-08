@@ -1,4 +1,4 @@
-package com.checkcheck.ecoreading.domain.books.repository;
+package com.checkcheck.ecoreading.domain.books.Repository;
 
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Boards, Long> {
 
-    List<Boards> findAllByGiverUserId(Long giverUserId);
+//    List<Boards> findAllByUsers(Long giverUserId);
 }

@@ -12,5 +12,5 @@ public interface TransactionRepository extends JpaRepository<Transactions, Long>
 
 
 //    List<Integer> findBook_idByTaker(Long taker);
-    List<Transactions> findByTaker(Long taker);
+    //List<Transactions> findByTaker(Long taker);
 }

@@ -1,6 +1,5 @@
 package com.checkcheck.ecoreading.domain.boards.controller;
 
-import com.checkcheck.ecoreading.domain.boards.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import lombok.RequiredArgsConstructor;
