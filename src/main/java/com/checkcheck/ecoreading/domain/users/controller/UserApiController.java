@@ -1,9 +1,13 @@
 package com.checkcheck.ecoreading.domain.users.controller;
 
 
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.boards.service.BookService;
+import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.users.dto.EmailVerificationRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserEmailVerificationRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequestDTO;
+import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.checkcheck.ecoreading.domain.users.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -57,4 +64,8 @@ public class UserApiController {
         userService.verifiedCode(emailVerificationRequestDTO.getEmail(), emailVerificationRequestDTO.getCode());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
+
 }

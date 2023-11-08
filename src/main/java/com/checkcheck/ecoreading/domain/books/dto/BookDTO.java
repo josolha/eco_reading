@@ -1,4 +1,4 @@
-package com.checkcheck.ecoreading.domain.boards.dto;
+package com.checkcheck.ecoreading.domain.books.dto;
 
 import lombok.*;
 

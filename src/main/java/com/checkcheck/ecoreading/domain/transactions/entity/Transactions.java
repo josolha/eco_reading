@@ -14,19 +14,35 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "transactions")
 public class Transactions extends BaseEntity {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long salesId;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private Users userId;
+//
+//    @OneToOne
+//    @JoinColumn(name = "book_id")
+//    private Books book;
+//    private String status;
+//    private LocalDateTime salesDate;
+//    private String userStatus;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long salesId;
+    private Long transactionId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users userId;
+    private Long giver;
+    private Long taker;
 
     @OneToOne
     @JoinColumn(name = "book_id")
-    private Books bookId;
+    private Books book;
+
     private String status;
+
     private LocalDateTime salesDate;
-    private String userStatus;
 
 }
+
+

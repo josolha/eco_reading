@@ -2,10 +2,14 @@ package com.checkcheck.ecoreading.domain.books.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.images.entity.Images;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -19,7 +23,7 @@ public class Books extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "board_id")
-    private Boards boards;
+    private Boards boardId;
 
     @Column(name = "isbn")
     private String isbn;
@@ -43,4 +47,9 @@ public class Books extends BaseEntity {
     @Column(name = "grade")
     private String grade;
 
+    @OneToOne(mappedBy = "book") // "bookId"는 Transactions 엔티티의 필드 이름
+    private Transactions transactions;
+
+    @OneToMany(mappedBy = "books")
+    private List<Images> images;
 }
