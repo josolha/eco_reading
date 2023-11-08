@@ -5,10 +5,14 @@ import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
 import com.checkcheck.ecoreading.domain.images.entity.Images;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
+import com.checkcheck.ecoreading.domain.images.entity.Images;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
+import com.checkcheck.ecoreading.domain.users.entity.Users;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,12 +22,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Getter
-@Setter
 @Builder
 public class Books extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long book_id;
+    private Long bookId;
 
     @ManyToOne(fetch = FetchType.LAZY) // boards:books = 1:n
     @JoinColumn(name = "board_id")
@@ -32,7 +35,7 @@ public class Books extends BaseEntity {
     @OneToOne
     private Delivery delivery;
 
-    @OneToOne(mappedBy = "bookId")
+    @OneToOne(mappedBy = "books")
     private Transactions transactions;
 
     @Builder.Default
@@ -42,7 +45,7 @@ public class Books extends BaseEntity {
             /* cascade옵션은 부모 엔티티에 대한 동작을 자식 엔티티로 전파할 때 사용됨.
              모든 영속성 동작(PERSIST, MERGE, REMOVE, REFRESH, DETACH)을 자식 엔티티로 전파하겠다는 의미.
              즉 부모엔티티에 대한 변경사항이 자식 엔티티에도 적용된다. */
-    private List<Images> imagesList = new ArrayList<>();  // Todo: 변수명 images-> imageList로 변경 
+    private List<Images> imagesList = new ArrayList<>();  // Todo: 변수명 images-> imageList로 변경
 
     @Column(name = "isbn")
     private String isbn;
@@ -79,6 +82,11 @@ public class Books extends BaseEntity {
         this.transactions = transactions;
         transactions.setBooks(this);
     }
+    public void setBoards(Boards boards){
+        this.boards = boards;
+    }
+
+
 
 }
 

@@ -1,16 +1,22 @@
 package com.checkcheck.ecoreading.domain.boards.service;
 
-import com.checkcheck.ecoreading.domain.boards.dto.BookDTO;
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
+import com.checkcheck.ecoreading.domain.books.Repository.BookRepository;
+import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.NaverResultDTO;
+import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
-import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
+import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +24,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
 // API 활용해 책 정보 검색 기능 구현
@@ -34,6 +43,12 @@ public class BookService {
 
     @Value("${naver-property.clientSecret}")
     private String naverClientSecret;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
 
     //네이버 검색 API 요청
     public List<BookDTO> searchBooks (String text) {
@@ -85,10 +100,10 @@ public class BookService {
     }
 
     // Book 엔티티를 BookDTO로 변환 메서드
-    public BookDTO convertToDTO(Books books) {
-        BookDTO bookDTO = new BookDTO();
+    public BookMainDTO convertToDTO(Books books) {
+        BookMainDTO bookDTO = new BookMainDTO();
 
-        bookDTO.setBook_id(books.getBook_id());
+        bookDTO.setBook_id(books.getBookId());
         bookDTO.setBoards(books.getBoards());
         bookDTO.setIsbn(books.getIsbn());
         bookDTO.setTitle(books.getTitle());
@@ -98,7 +113,7 @@ public class BookService {
         bookDTO.setDescription(books.getDescription());
         bookDTO.setGrade(books.getGrade());
         bookDTO.setTransactions(books.getTransactions());
-        bookDTO.setImages(books.getImages());
+        bookDTO.setImages(books.getImagesList());
 
         return bookDTO;
     }
@@ -107,5 +122,20 @@ public class BookService {
     public Books findBoardByBookId(Long book_id) {
         return bookRepository.findById(book_id).orElse(null);
     }
+
+
+//    public List<Boards> giveList(Long userId){
+//        return boardRepository.findAllByGiverUserId(userId);
+//    }
+//    public List<Books> takeList(Long userId){
+//        List<Transactions> transactions = transactionRepository.findByTaker(userId);
+//        List<Books> books = new ArrayList<>();
+//        for (Transactions tran : transactions){
+//            books.add(tran.getBooks());
+//        }
+//        return books;
+//    }
+
+
 
 }

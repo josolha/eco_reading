@@ -47,31 +47,29 @@
             <br>
             <h2 class="text-center">나눔 받은 책 현황</h2>
             <hr>
-
-            <div class="row">
+            <div class="row" th:each="book : ${books}">
                 <div class="col-12">
                     <div class="custom-text-box">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card mb-3">
-                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">
+                                    <img class="card-img-top" th:src="${book.images[0].image_url}" alt="책 이미지" width="200" height="300">
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <h5 class="card-title">책 제목</h5>
-                                            <p>출판사: ${}</p>
+                                            <h5 class="card-title" th:text="${book.title}">책 제목</h5>
+                                            <p th:text="'출판사: ' + ${book.publisher}">출판사: 출판사명</p>
                                         </div>
                                         <div class="col-md-4">
-                                            <p>글 올린 날짜: ${}</p>
-                                            <p>책 등급: ${}</p>
+                                            <p th:text="'글 올린 날짜: ' + ${book.pubdate}">글 올린 날짜: 날짜</p>
+                                            <p th:text="'책 등급: ' + ${book.grade}">책 등급: 등급</p>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="status-box">
-                                                <p>현재 상태: ${나눔 완료}</p>
-                                                <p class="small-giver-id">기버 아이디: ${rakyun}</p>
+                                                <p th:text="'현재 상태: ' + ${book.transactions.getStatus()}">현재 상태: 상태</p>
                                             </div>
                                         </div>
                                     </div>
@@ -82,39 +80,73 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="custom-text-box">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card mb-3">
-                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h5 class="card-title">책 제목</h5>
-                                            <p>출판사: ${}</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p>글 올린 날짜: ${}</p>
-                                            <p>책 등급: ${}</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="status-box">
-                                                <p>현재 상태: ${나눔 완료}</p>
-                                                <p class="small-giver-id">기버 아이디: ${rakyun}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="row">-->
+<!--                <div class="col-12">-->
+<!--                    <div class="custom-text-box">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-4">-->
+<!--                                <div class="card mb-3">-->
+<!--                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-8">-->
+<!--                                <div class="card-body">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-md-4">-->
+<!--                                            <h5 class="card-title">책 제목</h5>-->
+<!--                                            <p>출판사: ${}</p>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-md-4">-->
+<!--                                            <p>글 올린 날짜: ${}</p>-->
+<!--                                            <p>책 등급: ${}</p>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-md-4">-->
+<!--                                            <div class="status-box">-->
+<!--                                                <p>현재 상태: ${나눔 완료}</p>-->
+<!--                                                <p class="small-giver-id">기버 아이디: ${rakyun}</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="row">-->
+<!--                <div class="col-12">-->
+<!--                    <div class="custom-text-box">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-4">-->
+<!--                                <div class="card mb-3">-->
+<!--                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-8">-->
+<!--                                <div class="card-body">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-md-4">-->
+<!--                                            <h5 class="card-title">책 제목</h5>-->
+<!--                                            <p>출판사: ${}</p>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-md-4">-->
+<!--                                            <p>글 올린 날짜: ${}</p>-->
+<!--                                            <p>책 등급: ${}</p>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-md-4">-->
+<!--                                            <div class="status-box">-->
+<!--                                                <p>현재 상태: ${나눔 완료}</p>-->
+<!--                                                <p class="small-giver-id">기버 아이디: ${rakyun}</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </main>
     </div>
 </div>

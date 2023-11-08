@@ -15,6 +15,20 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "transactions")
 public class Transactions extends BaseEntity {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long salesId;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private Users userId;
+//
+//    @OneToOne
+//    @JoinColumn(name = "book_id")
+//    private Books book;
+//    private String status;
+//    private LocalDateTime salesDate;
+//    private String userStatus;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
@@ -40,10 +54,11 @@ public class Transactions extends BaseEntity {
     private UserStatus userStatus; //유저 상태 (유저가 기부어인지, 테이커인지)
 
 
-    private LocalDateTime transactionDate;
 
 
 
     //private String userStatus;
 
 }
+
+

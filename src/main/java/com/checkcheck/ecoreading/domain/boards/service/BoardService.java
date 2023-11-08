@@ -10,11 +10,13 @@ import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.InsertDeliveryDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
+import com.checkcheck.ecoreading.domain.books.Repository.BookRepository;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
-import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
 import com.checkcheck.ecoreading.domain.images.entity.Images;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.List;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +51,7 @@ public class BoardService {
         Users user = Users.builder()
                 .id(userId)
                 .build();
-        
+
         // 1. boardDTO에서 받아온 정보 빌드
         Boards boards = Boards.builder()
                 .message(boardDTO.getMessage())

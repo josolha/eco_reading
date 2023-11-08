@@ -1,12 +1,16 @@
 package com.checkcheck.ecoreading.domain.users.controller;
 
 
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.boards.service.BookService;
+import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.users.dto.EmailVerificationRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserEmailVerificationRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserLoginRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserResponseDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserResponseDTO.TokenInfo;
+import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.checkcheck.ecoreading.domain.users.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +31,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -79,4 +85,8 @@ public class UserApiController {
         userService.verifiedCode(emailVerificationRequestDTO.getEmail(), emailVerificationRequestDTO.getCode());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
+
 }

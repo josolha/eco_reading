@@ -10,4 +10,7 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transactions, Long> {
     List<Transactions> findAll();
 
+
+//    List<Integer> findBook_idByTaker(Long taker);
+    //List<Transactions> findByTaker(Long taker);
 }

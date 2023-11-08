@@ -1,5 +1,6 @@
 package com.checkcheck.ecoreading.domain.boards.dto;
 
+import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import lombok.*;
 
 import java.util.List;

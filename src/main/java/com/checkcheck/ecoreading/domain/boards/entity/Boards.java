@@ -59,7 +59,8 @@ public class Boards extends BaseEntity {
         this.delivery = delivery;
         delivery.setBoards(this);
     }
-
-
+    public void setUsers(Users users){
+        this.users = users;
+    }
 
 }

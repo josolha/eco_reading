@@ -1,4 +1,5 @@
-package com.checkcheck.ecoreading.domain.boards.dto;
+package com.checkcheck.ecoreading.domain.books.dto;
+
 
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.images.entity.Images;
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BookDTO {
+public class BookMainDTO {
     private String title;
     private String link;
     private String image;
