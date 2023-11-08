@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>detail</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -9,7 +7,6 @@
         hr {
             border: 2px solid #E2ECE2;
         }
-
         .custom-button {
             background-color: #E2ECE2;
             font-size: 18px;
@@ -18,23 +15,64 @@
             width: 40%;
         }
 
+        .custom-button {
+            font-weight: bold;
+        }
+
+        .custom-box p {
+            font-weight: bold;
+        }
+
         .custom-text-box {
             border: 1px solid black;
             padding: 10px;
         }
 
-        .image-size img {
+        .image-slider {
+            display: block;
+            position: relative;
             width: 450px;
             height: 350px;
+        }
+
+        .image-container {
+            display: block;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #E2ECE2;
+            font-size: 24px;
+            color: black;
+            padding: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
         }
     </style>
 </head>
 
 <body>
-    <header th:replace="~{/header/header :: headerFragment}"></header>
+<header th:replace="~{/header/header :: headerFragment}"></header>
 
-    <div class="container-fluid">
-        <div class="row">
+<div class="container-fluid">
+    <div class="row">
         <!-- Sidebar -->
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
@@ -46,8 +84,12 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <div th:each="image : ${book.images}" class="image-size">
-                        <img th:src="${image.image_url}" th:alt="${book.title}">
+                    <div class="image-slider">
+                        <div class="image-container">
+                            <img class="slide" th:each="image : ${book.images}" th:src="${image.image_url}" th:alt="${book.title}">
+                        </div>
+                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlides(1)">&#10095;</a>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -80,11 +122,32 @@
                 </div>
             </div>
         </main>
-
-        </div>
     </div>
+</div>
 
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("slide");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+            slides[i].style.width = "450px";
+            slides[i].style.height = "350px";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+</script>
 
 </body>
 </html>

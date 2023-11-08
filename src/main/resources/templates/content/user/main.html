@@ -35,7 +35,7 @@
             <div class="input-group">
                 <div class="input-group-prepend">
                     <select class="custom-select rounded-pill" id="search-type">
-                        <option value="title">통합검색</option>
+                        <option value="search">통합검색</option>
                         <option value="title">제목</option>
                         <option value="author">작가</option>
                         <option value="publisher">출판사</option>
@@ -50,9 +50,9 @@
             <form>
                 <div class="form-row">
                     <div class="form-group col-md-4" th:each="book : ${Books}">
-                        <div th:each="image : ${book.images}" class="image-size" style="text-align: center;">
+                        <div th:with="firstImage=${book.images[0]}" class="image-size" style="text-align: center;">
                             <a th:href="@{/board/detail/{bookId}(bookId=${book.book_id})}">
-                                <img th:src="${image.image_url}" th:alt="${book.title}" style="display: inline-block;">
+                                <img th:src="${firstImage.image_url}" th:alt="${book.title}" style="display: inline-block;">
                             </a>
                         </div>
                         <div style="margin-bottom: 10px;"></div>
