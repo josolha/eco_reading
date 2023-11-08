@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -25,44 +27,36 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "USERS")
 public class Users extends BaseEntity implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String userName;
-
     private String nickName;
     private String password;
     private String email;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
-
     private String phone;
-
     private String postcode;
     private String roadAddress;
     private String detailAddress;
-
     private int totalPoint;
-
 
     @Enumerated(EnumType.STRING)
     private Role role;
     private Boolean enabled = true;
-
     private String socialAuth;
-
     private String socialAuthId;
-
     private Boolean emailVerified = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 권한 정보가 CustomUserDetailsService 내에서 처리되므로 여기서는 비워둔다.
-        return new ArrayList<>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role.name()));
+        return authorities;
     }
 
      /*
@@ -71,7 +65,6 @@ public class Users extends BaseEntity implements UserDetails {
        UserDetails의 getUsername() 메서드가 반환하는 값은 UserDetailsService 인터페이스를 구현하는 서비스에서
        loadUserByUsername(String username) 메서드를 호출할 때 전달되는 파라미터와 일치해야 한다.
      */
-
     @Override
     public String getUsername(){
         return email;

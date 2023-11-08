@@ -16,17 +16,26 @@ import java.time.LocalDateTime;
 public class Transactions extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long salesId;
+    private Long transactionId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users userId;
+    @JoinColumn(name = "giver_id")
+    private Users giver;
+
+    @ManyToOne
+    @JoinColumn(name = "taker_id")
+    private Users taker;
 
     @OneToOne
     @JoinColumn(name = "book_id")
-    private Books bookId;
+    private Books book;
+
     private String status;
-    private LocalDateTime salesDate;
-    private String userStatus;
+
+    private LocalDateTime transactionDate;
+
+
+
+    //private String userStatus;
 
 }
