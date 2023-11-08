@@ -1,14 +1,12 @@
 package com.checkcheck.ecoreading.domain.boards.controller;
 
-import com.checkcheck.ecoreading.config.S3Config;
 import com.checkcheck.ecoreading.domain.boards.dto.BookDTO;
-import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardBookDTO;
+import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
+import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
+import com.checkcheck.ecoreading.domain.boards.dto.InsertDeliveryDTO;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.boards.service.S3Service;
-import com.checkcheck.ecoreading.domain.books.dto.InsertBookRequest;
-import com.checkcheck.ecoreading.domain.books.entity.Books;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -28,18 +24,20 @@ public class BoardApiController {
     private final BookService bookService;
     private final S3Service s3Service;
 
-    // 등록 폼에서 input 가져오기
+    // 등록 폼에서 input 가져와서 DB에 업로드
     @ResponseBody
     @PostMapping(value = "/board/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadBoard(@RequestParam("image") List<MultipartFile> multipartFiles,
-                            InsertBoardBookDTO insertDTO) throws IOException {
+                              InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO) {
         System.out.println(multipartFiles);
-        System.out.println(insertDTO.toString());
+//        System.out.println(insertDTO.toString());
 //        if(multipartFiles==null) {
 //            //예외 던지기
 //        }
-        List<String> imgPaths = s3Service.uploadImg(multipartFiles);
-        System.out.println(imgPaths);
+
+        // 올린 이미지 파일의 경로 리스트 받아오기 >> todo: 리스트에서 하나하나 db에 넣어야함.
+        boardService.uploadBoard(multipartFiles, bookDTO, boardDTO, deliveryDTO);
+
         //todo: db에 url 저장
 
         return null;

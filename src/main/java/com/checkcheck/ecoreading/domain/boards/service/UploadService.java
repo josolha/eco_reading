@@ -1,17 +1,13 @@
 package com.checkcheck.ecoreading.domain.boards.service;
 
-import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardBookDTO;
-import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
-import com.checkcheck.ecoreading.domain.images.entity.Images;
 import com.checkcheck.ecoreading.domain.images.repository.ImageRepository;
-import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +19,7 @@ public class UploadService {
     private final S3Service s3Service;
     
     @Transactional
-    public void uploadBoard(InsertBoardBookDTO dto, List<String> imgPaths) {
+    public void uploadBoard(InsertBookDTO dto, List<String> imgPaths) {
         postBlankCheck(imgPaths);
         // TODO: 잘 모르겠지만 일단 유저 아이디나 닉네임을 가져와야 함....
         // getCurrentUsername();
