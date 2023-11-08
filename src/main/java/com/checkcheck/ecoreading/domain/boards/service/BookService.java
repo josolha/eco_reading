@@ -103,13 +103,13 @@ public class BookService {
     public BookMainDTO convertToDTO(Books books) {
         BookMainDTO bookDTO = new BookMainDTO();
 
-        bookDTO.setBook_id(books.getBookId());
+        bookDTO.setBook_id(books.getBooksId());
         bookDTO.setBoards(books.getBoards());
         bookDTO.setIsbn(books.getIsbn());
         bookDTO.setTitle(books.getTitle());
         bookDTO.setAuthor(books.getAuthor());
         bookDTO.setPublisher(books.getPublisher());
-        bookDTO.setPubdate(books.getPubdate());
+        bookDTO.setPubdate(books.getPubDate());
         bookDTO.setDescription(books.getDescription());
         bookDTO.setGrade(books.getGrade());
         bookDTO.setTransactions(books.getTransactions());
