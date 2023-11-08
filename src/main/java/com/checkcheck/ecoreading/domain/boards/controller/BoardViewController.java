@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/board")
 public class BoardViewController {
+    // 나눔글 등록 화면으로 이동
     @GetMapping("/new")
     public String addBoard() {
         return "/content/user/boardAddForm";

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -32,6 +33,7 @@ public class Users extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
     private String userName;
     private String nickName;
