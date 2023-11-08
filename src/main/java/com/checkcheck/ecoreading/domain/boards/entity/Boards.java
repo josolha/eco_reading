@@ -30,6 +30,7 @@ public class Boards extends BaseEntity {
             orphanRemoval = true)
     private List<Books> booksList = new ArrayList<>();
 
+
     @OneToOne
     // 기부어 아이디
     private Users user_id;

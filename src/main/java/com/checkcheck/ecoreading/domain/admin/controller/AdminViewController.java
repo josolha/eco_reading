@@ -15,4 +15,9 @@ public class AdminViewController {
 
     @GetMapping("/admin/{board-id}/boardDetail/checkList")
     public String checkList(){ return "/content/admin/checkList"; }
+
+    @GetMapping("/admin/board/detail")
+    public String boardDetail() {
+        return "/content/admin/boardDetail";
+    }
 }

@@ -1,10 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>My Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href=".static/css/App.css">
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 40%;
+        }
+
+        .custom-text-box {
+            border: 1px solid #E2ECE2;
+            padding: 20px;
+            margin: 20px;
+            background-color: #F7F7F7;
+        }
+
+        .status-box {
+            background-color: #E2ECE2;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .small-giver-id {
+            font-size: 14px;
+            color: gray;
+        }
+    </style>
 </head>
 <body>
+<header th:replace="~{/header/header :: headerFragment}"></header>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <br>
+            <h2 class="text-center">나눔 받은 책 현황</h2>
+            <hr>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="custom-text-box">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5 class="card-title">책 제목</h5>
+                                            <p>출판사: ${}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>글 올린 날짜: ${}</p>
+                                            <p>책 등급: ${}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="status-box">
+                                                <p>현재 상태: ${나눔 완료}</p>
+                                                <p class="small-giver-id">기버 아이디: ${rakyun}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="custom-text-box">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5 class="card-title">책 제목</h5>
+                                            <p>출판사: ${}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>글 올린 날짜: ${}</p>
+                                            <p>책 등급: ${}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="status-box">
+                                                <p>현재 상태: ${나눔 완료}</p>
+                                                <p class="small-giver-id">기버 아이디: ${rakyun}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 </body>
 </html>
