@@ -141,6 +141,12 @@ public class UserService {
         log.info("tokenInfo = {}", tokenInfo);
         return tokenInfo;
     }
+
+    public Users findAll(Long userId){
+       return userRepository.findAllByUsersId(userId);
+    }
+
+
 }
 
 

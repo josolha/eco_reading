@@ -52,7 +52,7 @@
                     <div class="form-group col-md-4" th:each="book : ${Books}">
                         <div th:with="firstImage=${book.images[0]}" class="image-size" style="text-align: center;">
                             <a th:href="@{/board/detail/{bookId}(bookId=${book.book_id})}">
-                                <img th:src="${firstImage.image_url}" th:alt="${book.title}" style="display: inline-block;">
+                                <img th:src="${firstImage.imagesUrl}" th:alt="${book.title}" style="display: inline-block;">
                             </a>
                         </div>
                         <div style="margin-bottom: 10px;"></div>

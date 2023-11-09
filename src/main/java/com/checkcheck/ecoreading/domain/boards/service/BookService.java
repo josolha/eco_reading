@@ -10,6 +10,7 @@ import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
 
+import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -124,17 +125,17 @@ public class BookService {
     }
 
 
-//    public List<Boards> giveList(Long userId){
-//        return boardRepository.findAllByGiverUserId(userId);
-//    }
-//    public List<Books> takeList(Long userId){
-//        List<Transactions> transactions = transactionRepository.findByTaker(userId);
-//        List<Books> books = new ArrayList<>();
-//        for (Transactions tran : transactions){
-//            books.add(tran.getBooks());
-//        }
-//        return books;
-//    }
+    public List<Boards> giveList(Users users){
+        return boardRepository.findAllByUsers(users);
+    }
+    public List<Books> takeList(Long takerId){
+        List<Transactions> transactions = transactionRepository.findAllByTakerId(takerId);
+        List<Books> books = new ArrayList<>();
+        for (Transactions transaction : transactions){
+            books.add(transaction.getBooks());
+        }
+        return books;
+    }
 
 
 

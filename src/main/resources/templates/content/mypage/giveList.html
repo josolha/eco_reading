@@ -51,7 +51,7 @@
                             <div class="col-md-4">
                                 <div class="card mb-3">
                                     <!-- 첫 번째 이미지에만 액세스 -->
-                                    <img class="card-img-top" th:src="${book.images[0].image_url}" alt="" width="200" height="300">
+                                    <img class="card-img-top" th:src="${book.imagesList[0].imagesUrl}" alt="" width="200" height="300">
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -62,7 +62,7 @@
                                             <p th:text="'출판사: ' + ${book.publisher}">출판사: 출판사명</p>
                                         </div>
                                         <div class="col-md-4">
-                                            <p th:text="'글 올린 날짜: ' + ${book.pubdate}">글 올린 날짜: 날짜</p>
+                                            <p th:text="'글 올린 날짜: ' + ${book.pubDate}">글 올린 날짜: 날짜</p>
                                             <p th:text="'책 등급: ' + ${book.grade}">책 등급: 등급</p>
                                         </div>
                                         <div class="col-md-4">

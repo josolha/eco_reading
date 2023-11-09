@@ -104,6 +104,14 @@ public class Users extends BaseEntity implements UserDetails {
         return enabled;
     }
 
+    /**
+     * 잠깐 데이터 넣을 용도로 사용합니다! 나중에 삭제 할 예정이에여 -락윤-
+     * @param usersId
+     */
+    public void setUsersId(Long usersId){
+        this.usersId = usersId;
+    }
+
 
     // 연관관계 메서드
     // 책 한 권을 올리면 Boards에 Book 추가되면서 Books엔티티에도 추가
