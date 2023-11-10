@@ -110,4 +110,12 @@ public class BoardService {
     private void uploadAddressIntoDB(InsertDeliveryDTO deliveryDTO) {
     }
 
+    public List<Boards> findAll(){
+        return boardRepository.findAll();
+    }
+
+    public Boards findAllByBoardId(Long boardId){
+       return boardRepository.findAllByBoardId(boardId);
+    }
+
 }

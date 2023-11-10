@@ -12,6 +12,7 @@ import com.checkcheck.ecoreading.security.jwt.JwtTokenProvider;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
@@ -144,6 +145,14 @@ public class UserService {
 
     public Users findAll(Long userId){
        return userRepository.findAllByUsersId(userId);
+    }
+
+    public List<Users> findAll(){
+        return userRepository.findAll();
+    }
+
+    public Users findAllById(Long usersId){
+       return userRepository.findAllByUsersId(usersId);
     }
 
 

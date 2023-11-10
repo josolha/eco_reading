@@ -39,4 +39,9 @@ public class BoardViewController {
 
         return "/content/board/detail";
     }
+
+    @GetMapping("/update/{boardId}")
+    public String boardUpdate(@PathVariable Long boardId, Model model){
+        return "/content/board/updateBoardForm";
+    }
 }
