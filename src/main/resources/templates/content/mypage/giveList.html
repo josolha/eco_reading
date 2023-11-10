@@ -66,12 +66,15 @@
                                             <p th:text="'책 등급: ' + ${book.grade}">책 등급: 등급</p>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="status-box">
-                                                <p>수정 하기</p>
+                                            <div th:if="${book.transactions.status.toString() == '신규등록'}">
+                                                <div class="status-box">
+                                                    <a th:href="@{/board/update/{boardId}(boardId=${board.boardId})}">수정 하기</a>
+                                                </div>
+                                                <div class="status-box">
+                                                    <a th:href="@{/board/delete/{boardId}(boardId=${board.boardId})}">삭제 하기</a>
+                                                </div>
                                             </div>
-                                            <div class="status-box">
-                                                <p>삭제 하기</p>
-                                            </div>
+                                            <p th:unless="${book.transactions.status.toString() == '신규등록'}" th:text="'상태: ' + ${book.transactions.status}">상태: 상태</p>
                                         </div>
                                     </div>
                                 </div>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>My Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>나눔글 관리</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href=".static/css/App.css">
+    <link rel="stylesheet" href="static/css/App.css">
 </head>
 <body>
 <header th:replace="~{/header/header :: headerFragment}"></header>
@@ -13,40 +14,43 @@
         <!-- Sidebar -->
         <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
 
-        <!-- Main -->
+        <!-- Main Content -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">나눔글 관리</h1>
             </div>
-            <!-- 사용자 정보 테이블 -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>등록 유저 아이디</th>
-                    <th>책 바코드</th>
-                    <th>등록일자</th>
-                    <th>현재 상황</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- userList 반복 -->
-<!--                <tr th:each="boardDto : ${boardList}">-->
-<!--                    <td th:text="${boardDto.userId}">등록 유저 아이디</td>-->
-<!--                    <td th:text="${boardDto.bookIsbn}">책 바코드</td>-->
-<!--                    <td th:text="${boardDto.regDate}">등록일자</td>-->
-<!--                    <td th:text="${boardDto.boardStatus}">현재 상황</td>-->
-<!--                </tr>-->
-                <tr>
-                    <td th:text="dbskim ">등록 유저 아이디</td>
-                    <td th:text="1234.345">책 바코드</td>
-                    <td th:text="2023.10.16">등록일자</td>
-                    <td th:text="배달중">현재 상황</td>
-                    <td><a th:href="@{/admin/board/detail}">자세히 보기</a></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>등록 유저 아이디</th>
+                        <th>등록 일자</th>
+                        <th>책 바코드</th>
+                        <th>거래 상태</th>
+                        <th>자세히 보기</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- boardsList 반복 -->
+                    <tr th:each="board : ${boardsList}">
+                        <td th:text="${board.users.usersId}"></td>
+                        <td th:text="${board.createdDate}"></td>
+                        <td>
+                            <!-- booksList 반복 -->
+                            <span th:each="book : ${board.booksList}" th:text="${book.isbn}"></span>
+                        </td>
+                        <td>
+                            <!-- booksList 반복 -->
+                            <span th:each="book : ${board.booksList}" th:text="${book.transactions.status}"></span>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin/board/detail/{boardId}(boardId=${board.boardId})}" class="btn btn-primary">자세히 보기</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </main>
-
     </div>
 </div>
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
