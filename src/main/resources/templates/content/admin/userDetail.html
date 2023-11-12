@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 40%;
+        }
+
+        .custom-text-box {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="~{/header/header :: headerFragment}"></header>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
+        <!-- Main -->
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <br>
+            <h2 class="text-center">유저 상세</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">회원 정보</h4>
+                            <p class="card-text"><strong>아이디:</strong> <span th:text="${user.usersId}"></span></p>
+                            <p class="card-text"><strong>핸드폰 번호:</strong> <span th:text="${user.getPhone()}"></span></p>
+                            <p class="card-text"><strong>이메일:</strong> <span th:text="${user.email}"></span></p>
+                            <p class="card-text"><strong>주소:</strong> <span th:text="${user.detailAddress}"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-right">
+                        <button class="btn custom-button">회원 잠금</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">책 갈피 이용 내역</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>책 제목</th>
+                                <th>포인트</th>
+                                <th>날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- user.pointHistoryList를 반복하여 데이터 표시 -->
+                            <tr th:each="pointHistory : ${user.pointHistoryList}">
+                                <td th:text="${pointHistory.transactions.books.title}"></td>
+                                <td th:text="${pointHistory.form} + ${pointHistory.point}"></td>
+                                <td th:text="${pointHistory.createdDate}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+</body>
+</html>

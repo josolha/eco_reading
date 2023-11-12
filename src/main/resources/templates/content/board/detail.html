@@ -86,7 +86,7 @@
                 <div class="col-md-6">
                     <div class="image-slider">
                         <div class="image-container">
-                            <img class="slide" th:each="image : ${book.images}" th:src="${image.image_url}" th:alt="${book.title}">
+                            <img class="slide" th:each="image : ${book.imagesList}" th:src="${image.imagesUrl}" th:alt="${book.title}">
                         </div>
                         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                         <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -96,8 +96,8 @@
                     <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
                         <p th:text="'저자: ' + ${book.author}"></p>
                         <p th:text="'출판사: ' + ${book.publisher}"></p>
-                        <p th:text="'발행일자: ' + ${book.pubdate}"></p>
-                        <p th:text="'기부어: ' + ${book.boards.giver_user_id}"></p>
+                        <p th:text="'발행일자: ' + ${book.pubDate}"></p>
+                        <p th:text="'기부어: ' + ${book.transactions.giverId}"></p>
                     </div>
                 </div>
             </div>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>My Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>유저관리</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href=".static/css/App.css">
+    <link rel="stylesheet" href="static/css/App.css">
 </head>
 <body>
 <header th:replace="~{/header/header :: headerFragment}"></header>
@@ -13,40 +14,37 @@
         <!-- Sidebar -->
         <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
 
-        <!-- Main -->
+        <!-- Main Content -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">유저관리</h1>
             </div>
-            <!-- 사용자 정보 테이블 -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>사용자 ID</th>
-                    <th>사용자 이름</th>
-                    <th>책갈피</th>
-                    <th>사용자 상태</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- userList 반복 -->
-<!--                <tr th:each="userDto : ${userList}">-->
-<!--                    <td th:text="${userDto.userId}">사용자 ID</td>-->
-<!--                    <td th:text="${userDto.userName}">사용자 이름</td>-->
-<!--                    <td th:text="${userDto.point}">책갈피</td>-->
-<!--                    <td th:text="${userDto.userStatus}">사용자 상태</td>-->
-<!--                </tr>-->
-                <tr>
-                    <td th:text="dbskim">사용자 ID</td>
-                    <td th:text="김락윤">사용자 이름</td>
-                    <td th:text="10책갈피">책갈피</td>
-                    <td th:text="활성화">사용자 상태</td>
-                    <td><a href="/user/detail/">자세히 보기</a></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>사용자 ID</th>
+                        <th>사용자 이메일</th>
+                        <th>책갈피</th>
+                        <th>사용자 상태</th>
+                        <th>자세히 보기</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- usersList 반복 -->
+                    <tr th:each="user : ${usersList}">
+                        <td th:text="${user.usersId}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.totalPoint}"></td>
+                        <td th:text="${user.enabled}"></td>
+                        <td>
+                            <a th:href="@{/admin/user/details/{userId}(userId=${user.usersId})}" class="btn btn-primary">자세히 보기</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </main>
-
     </div>
 </div>
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>

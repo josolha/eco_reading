@@ -25,10 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 
 // API 활용해 책 정보 검색 기능 구현
@@ -135,6 +133,29 @@ public class BookService {
             books.add(transaction.getBooks());
         }
         return books;
+    }
+
+    public void update(BookDTO bookDTO, Long boardId){
+        Boards boards = boardRepository.findAllByBoardId(boardId);
+        List<Books> bookList = boards.getBooksList();
+        Long bookId = bookList.get(0).getBooksId();
+        Books books = bookRepository.findByBooksId(bookId);
+        books.setAuthor(bookDTO.getAuthor());
+        books.setIsbn(bookDTO.getIsbn());
+        books.setPubDate(bookDTO.getPubdate());
+        books.setPublisher(bookDTO.getPublisher());
+        books.setTitle(bookDTO.getTitle());
+        books.setDescription(bookDTO.getDescription());
+
+        //        Books updateBook = Books.builder()
+//                .booksId(bookDTO.getBookId())
+//                .isbn(bookDTO.getIsbn())
+//                .author(bookDTO.getAuthor())
+//                .title(bookDTO.getTitle())
+//                .publisher(bookDTO.getPublisher())
+//                .pubDate(bookDTO.getPubdate())
+//                .build();
+        bookRepository.save(books);
     }
 
 

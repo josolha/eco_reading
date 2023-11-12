@@ -32,7 +32,8 @@ public class Books extends BaseEntity {
     @JoinColumn(name = "boards_id")
     private Boards boards;
 
-    @OneToOne(mappedBy = "books")
+    @OneToOne(mappedBy = "books",
+            cascade = CascadeType.ALL)
     private Transactions transactions;
 
     @Builder.Default
@@ -52,7 +53,6 @@ public class Books extends BaseEntity {
     @Lob //lob은 clob 데이터베이스에서 VARCHAR보다 큰 데이터를 담고 싶을 때 사용한다.
     private String description;
     private String grade;
-
     // 연관관계 메서드
     // 이미지를 올리면 Books의 이미지리스트에 추가가 되면서 또 Images 엔티티에 추가가 된다.
     public void addImage(Images image) {
@@ -69,11 +69,39 @@ public class Books extends BaseEntity {
     public void setBoards(Boards boards){
         this.boards = boards;
     }
+    public Books(String isbn, String title, String author, String publisher, String pubDate, String description) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.pubDate = pubDate;
+        this.description = description;
+        // 나머지 필드의 초기화는 생략 (필요에 따라 추가)
+    }
 
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
 
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
 
 

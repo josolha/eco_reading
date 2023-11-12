@@ -2,7 +2,6 @@ package com.checkcheck.ecoreading.domain.users.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -103,6 +102,7 @@ public class Users extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 
     /**
      * 잠깐 데이터 넣을 용도로 사용합니다! 나중에 삭제 할 예정이에여 -락윤-
