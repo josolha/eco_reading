@@ -29,6 +29,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Optional;
 
 // API 활용해 책 정보 검색 기능 구현
 @Service
@@ -118,9 +119,34 @@ public class BookService {
         return bookDTO;
     }
 
+    // Book 엔티티 리스트를 BookDTO로 변환 후 BookDTO 리스트로 리턴 메서드
+    public List<BookMainDTO> returnDTOs(List<Books> books) {
+        List<BookMainDTO> bookDTOs = new ArrayList<>();
+
+        for (Books book : books) {
+            bookDTOs.add(convertToDTO(book)); // 엔티티를 DTO로 변환
+        }
+
+        return bookDTOs;
+    }
+
     // 나눔 글 상세
     public Books findBoardByBookId(Long booksId) {
         return bookRepository.findById(booksId).orElse(null);
+    }
+
+    // 검색 기능
+    public List<Books> searchBooks(String searchType, String keyword) {
+        if ("title".equalsIgnoreCase(searchType)) {
+            return bookRepository.findByTitleContaining(keyword);
+        } else if ("author".equalsIgnoreCase(searchType)) {
+            return bookRepository.findByAuthorContaining(keyword);
+        } else if ("publisher".equalsIgnoreCase(searchType)) {
+            return bookRepository.findByPublisherContaining(keyword);
+        } else {
+            // 기본은 통합검색
+            return bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(keyword, keyword, keyword);
+        }
     }
 
 

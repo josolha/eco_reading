@@ -79,14 +79,14 @@
         <!-- Main -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
             <br>
-            <h2 class="text-center"><span th:text="${book.title}"></span></h2>
+            <h3 class="text-center" style="font-weight: bold;"><span th:text="${book.title}"></span></h3>
             <hr>
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="image-slider">
                         <div class="image-container">
-                            <img class="slide" th:each="image : ${book.imagesList}" th:src="${image.imagesUrl}" th:alt="${book.title}">
+                            <img class="slide" th:each="image : ${book.images}" th:src="${image.imagesUrl}" th:alt="${book.title}">
                         </div>
                         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                         <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -103,19 +103,21 @@
             </div>
 
             <div class="d-flex justify-content-center mt-4">
-                <button class="custom-button btn btn-primary btn-lg btn-block">나눔 받기</button>
+                <a th:href="@{/board/detail/{bookId}/taker(bookId=${book.booksId})}">
+                    <button class="custom-button btn btn-primary btn-lg btn-block" style="white-space: nowrap; width: 100%;">나눔 받기</button>
+                </a>
             </div>
 
             <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
                 <div class="custom-box">
-                    <p>기부어의 한마디</p>
+                    <p style="font-size: 20px;">기부어의 한마디</p>
                     <div class="custom-text-box">
                         <span th:text="${book.boards.message}"></span>
                     </div>
                 </div>
                 <br>
                 <div class="custom-box">
-                    <p>책 소개</p>
+                    <p style="font-size: 20px;">책 소개</p>
                     <div class="custom-text-box">
                         <span th:text="${book.description}"></span>
                     </div>

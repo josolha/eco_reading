@@ -23,6 +23,8 @@ public class Delivery extends BaseEntity {
     private int postcode;
     private String roadAddress;
     private String detailAddress;
+    private String name;
+    private String phone;
 
     @Enumerated(EnumType.STRING)
     private DeliveryPlace place; // 수거/배송 장소(문앞, 경비실, 무인택배함)

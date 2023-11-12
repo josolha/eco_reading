@@ -10,4 +10,5 @@ public interface UserRepository extends JpaRepository<Users,Long> {
 
     // 유저 id 찾기 (???) 임시..
     Users findUsersByNickName(String nickName);
+
 }

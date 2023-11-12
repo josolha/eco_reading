@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +22,25 @@ public class MainViewController {
 
     // 메인 화면(나눔 글 전체 조회)
     @GetMapping("/")
-    public String getBoards(Model model){
-        List<Books> books = bookService.findAll(); // Book 엔티티를 가져옴
-        List<BookMainDTO> bookDTOs = new ArrayList<>();
+    public String getBoards(@RequestParam(name = "search", required = false) String keyword, Model model){
+        List<Books> books = bookService.findAll();
+        List<BookMainDTO> bookDTOs = bookService.returnDTOs(books);  // DTOs로 변환
 
-        for (Books book : books) {
-            bookDTOs.add(bookService.convertToDTO(book)); // 엔티티를 DTO로 변환
-        }
-
-        model.addAttribute("Books", bookDTOs); // BookDTO 리스트를 모델에 추가
+        model.addAttribute("Books", bookDTOs);
 
         return "content/user/main";
+    }
+
+    // 검색 화면
+    @GetMapping("/search")
+    public String searchBooks(@RequestParam(name = "searchType", required = false, defaultValue = "search") String searchType,
+                              @RequestParam(name = "search", required = false) String searchInput, Model model) {
+        List<Books> books = bookService.searchBooks(searchType, searchInput);
+        List<BookMainDTO> searchResults = bookService.returnDTOs(books);  // DTOs로 변환
+
+        model.addAttribute("searchBooks", searchResults);
+
+        return "content/board/searchBooks";
     }
 
 }
