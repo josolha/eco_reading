@@ -1,11 +1,14 @@
 package com.checkcheck.ecoreading.domain.boards.service;
 
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
+import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
 import com.checkcheck.ecoreading.domain.books.dto.NaverBookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.NaverResultDTO;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
 
 import com.checkcheck.ecoreading.domain.users.entity.Users;

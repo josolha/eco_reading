@@ -6,7 +6,6 @@ import com.checkcheck.ecoreading.domain.boards.dto.InsertDeliveryDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
 import com.checkcheck.ecoreading.domain.books.entity.BookProcessingMethod;
-import com.checkcheck.ecoreading.domain.books.Repository.BookRepository;
 import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.books.repository.BookRepository;

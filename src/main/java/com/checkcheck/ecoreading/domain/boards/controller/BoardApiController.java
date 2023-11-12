@@ -8,6 +8,7 @@ import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.boards.service.S3Service;
+import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.books.dto.NaverBookDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -59,7 +60,7 @@ public class BoardApiController {
 
     @GetMapping("/board/update/bookSearch")
     public String updateSearch(@RequestParam String searchText, Model model, @RequestParam Long boardId) {
-        List<BookDTO> books = bookService.searchBooks(searchText);
+        List<NaverBookDTO> books = bookService.searchBooks(searchText);
         System.out.println("검색결과: "+ books);
         model.addAttribute("books", books);
         model.addAttribute("boardId", boardId);
