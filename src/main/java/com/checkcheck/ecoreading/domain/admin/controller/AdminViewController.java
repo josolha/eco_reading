@@ -2,11 +2,9 @@ package com.checkcheck.ecoreading.domain.admin.controller;
 
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
-import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.checkcheck.ecoreading.domain.users.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +30,7 @@ public class AdminViewController {
     public String board(Model model){
         List<Boards> boardsList = boardService.findAll();
         model.addAttribute("boardsList", boardsList);
-        return "/content/admin/board";
+        return "/content/admin/boardList";
     }
 
     @GetMapping("/{board-id}/boardDetail/checkList")
