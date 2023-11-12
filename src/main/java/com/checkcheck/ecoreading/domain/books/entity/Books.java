@@ -28,7 +28,7 @@ public class Books extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long booksId;
 
-    @ManyToOne(fetch = FetchType.LAZY) // boards:books = 1:n
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // boards:books = 1:n
     @JoinColumn(name = "boards_id")
     private Boards boards;
 
@@ -53,16 +53,19 @@ public class Books extends BaseEntity {
     @Lob //lob은 clob 데이터베이스에서 VARCHAR보다 큰 데이터를 담고 싶을 때 사용한다.
     private String description;
     private String grade;
+    @Enumerated(EnumType.STRING)
+    private BookProcessingMethod processing; //만약 등급이 똥휴지일때 처리하는 방법 정의 (true일 때 폐기처리, false일 때 착불반송)
+
     // 연관관계 메서드
     // 이미지를 올리면 Books의 이미지리스트에 추가가 되면서 또 Images 엔티티에 추가가 된다.
-    public void addImage(Images image) {
+    public void addImages(Images image) {
         imagesList.add(image);
         image.setBooks(this);
     }
 
     // 연관관계 메서드
     // 책 한 권을 올리면 Transactions 엔티티에 추가가 된다.
-    public void addTransaction(Transactions transactions) {
+    public void addTransactions(Transactions transactions) {
         this.transactions = transactions;
         transactions.setBooks(this);
     }

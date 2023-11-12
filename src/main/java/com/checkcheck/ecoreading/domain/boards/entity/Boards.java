@@ -31,14 +31,15 @@ public class Boards extends BaseEntity {
             orphanRemoval = true)
     private List<Books> booksList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY) //users: boards = 1:n
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //users: boards = 1:n
     @JoinColumn(name = "users_id")
     // 기부어 아이디
     private Users users;
 
     // DELIVERY 엔티티와 연결.
     @OneToOne(
-            mappedBy = "boards"
+            mappedBy = "boards",
+            cascade = CascadeType.ALL
     )
     private Delivery delivery;
 

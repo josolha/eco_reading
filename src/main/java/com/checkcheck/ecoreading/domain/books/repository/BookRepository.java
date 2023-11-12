@@ -1,4 +1,4 @@
-package com.checkcheck.ecoreading.domain.books.Repository;
+package com.checkcheck.ecoreading.domain.books.repository;
 
 import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;

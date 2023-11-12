@@ -49,7 +49,7 @@ public class UserViewController {
     @GetMapping("/mypage/myinfor")
     public String myInformation(Model model){
         Long userId = 1L;
-        Users user = userService.findAll(userId);
+        Users user = userService.findAllById(userId);
         System.out.println(user.getPointHistoryList());
         model.addAttribute("user", user);
         return "content/mypage/myInfor";

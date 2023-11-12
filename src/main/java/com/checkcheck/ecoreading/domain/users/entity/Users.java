@@ -114,7 +114,7 @@ public class Users extends BaseEntity implements UserDetails {
 
 
     // 연관관계 메서드
-    // 책 한 권을 올리면 Boards에 Book 추가되면서 Books엔티티에도 추가
+    // 게시글을 하나 올리면 Users의 엔티티에도 추가
     public void addBoard(Boards boards) {
         boards.setUsers(this);
         this.getBoardsList().add(boards);
