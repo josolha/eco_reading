@@ -174,11 +174,11 @@ public class UserService {
             cookie.setMaxAge(0); // 쿠키를 즉시 만료시킵니다.
             response.addCookie(cookie);
         });
-
-    public Users findAll(Long userId){
-       return userRepository.findAllByUsersId(userId);
     }
 
+    public Users findAll (Long userId){
+        return userRepository.findAllByUsersId(userId);
+    }
 
 }
 
