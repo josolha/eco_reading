@@ -89,6 +89,7 @@ public class S3Service {
 
         String idxFileName = fileName.substring(fileName.lastIndexOf("."));
         if(!fileValidate.contains(idxFileName)) {
+//            throw new RuntimeException("이미지 파일만 첨부할 수 있습니다.");
             // TODO: 예외처리
             //throw new PrivateException(Code.WRONG_IMAGE_FORMAT);
         }

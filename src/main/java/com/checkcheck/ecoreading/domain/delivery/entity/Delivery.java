@@ -23,6 +23,8 @@ public class Delivery extends BaseEntity {
     private int postcode;
     private String roadAddress;
     private String detailAddress;
+    private String name;
+    private String phone;
 
     @Enumerated(EnumType.STRING)
     private DeliveryPlace place; // 수거/배송 장소(문앞, 경비실, 무인택배함)
@@ -30,7 +32,7 @@ public class Delivery extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private DeliveryForm form; // 배송형태 (수거 or 배송) 둘중 하나 무조건 선택.
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "boards_id")
     private Boards boards;
 

@@ -21,6 +21,7 @@ public class BoardViewController {
 
     private final BookService bookService;
 
+    // 나눔글 쓰기
     @GetMapping("/new")
     public String addBoard() {
         return "/content/user/boardAddForm";

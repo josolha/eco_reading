@@ -1,13 +1,11 @@
 package com.checkcheck.ecoreading.domain.boards.service;
 
-import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
-import com.checkcheck.ecoreading.domain.books.Repository.BookRepository;
-import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
+import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
+import com.checkcheck.ecoreading.domain.books.dto.NaverBookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.NaverResultDTO;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
-import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 
 // API 활용해 책 정보 검색 기능 구현
@@ -51,7 +46,7 @@ public class BookService {
     private BoardRepository boardRepository;
 
     //네이버 검색 API 요청
-    public List<BookDTO> searchBooks (String text) {
+    public List<NaverBookDTO> searchBooks (String text) {
         // JSON 결과
         // String apiURL = "https://openapi.naver.com/v1/search/book.json?query="+ text;
         URI uri = UriComponentsBuilder
@@ -89,7 +84,7 @@ public class BookService {
             e.printStackTrace();
         }
 
-        List<BookDTO> books = resultDTO.getItems();
+        List<NaverBookDTO> books = resultDTO.getItems();
 //        BookDTO bookDTO = new BookDTO();
 //        bookDTO.getIsbn();
         return books;
