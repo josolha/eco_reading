@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transactions, Long> {
-    List<Transactions> findAll();
+    List<Transactions> findAllByTakerId(Long takerId);
 
 
 //    List<Integer> findBook_idByTaker(Long taker);
