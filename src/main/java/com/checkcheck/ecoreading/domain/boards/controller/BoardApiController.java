@@ -4,6 +4,7 @@ package com.checkcheck.ecoreading.domain.boards.controller;
 import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.InsertDeliveryDTO;
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.boards.service.S3Service;
@@ -12,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -51,5 +49,29 @@ public class BoardApiController {
     public String fillBook(NaverBookDTO naverBookDTO){
         System.out.println("북디티오: "+ naverBookDTO);
         return "/content/user/boardAddForm";
+    }
+
+    @GetMapping("/board/delete/{boardId}")
+    public String deleteBoard(@PathVariable Long boardId){
+        if (boardService.deleteBoardByBoardId(boardId)) return "/content/board/deleteComplete";
+        return "/content/mypage/giveList";
+    }
+
+    @GetMapping("/board/update/bookSearch")
+    public String updateSearch(@RequestParam String searchText, Model model, @RequestParam Long boardId) {
+        List<BookDTO> books = bookService.searchBooks(searchText);
+        System.out.println("검색결과: "+ books);
+        model.addAttribute("books", books);
+        model.addAttribute("boardId", boardId);
+        model.addAttribute("BookDTO", new BookDTO());
+        return "/content/board/updateBoardSearch";
+    }
+
+    @PostMapping("/board/update/bookSearch")
+    public String updateBook(@ModelAttribute BookDTO dto, @RequestParam Long boardId, Model model) {
+        bookService.update(dto, boardId);
+        Boards boards = boardService.findAllByBoardId(boardId);
+        model.addAttribute("boards", boards);
+        return "/content/board/updateBoardSearchForm";
     }
 }

@@ -27,11 +27,11 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
+        <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
         <!-- Main -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
             <br>
-            <h2 class="text-center">마이 페이지</h2>
+            <h2 class="text-center">유저 상세</h2>
             <hr>
             <div class="row">
                 <div class="col-md-6">
@@ -40,14 +40,14 @@
                             <h4 class="card-title">회원 정보</h4>
                             <p class="card-text"><strong>아이디:</strong> <span th:text="${user.usersId}"></span></p>
                             <p class="card-text"><strong>핸드폰 번호:</strong> <span th:text="${user.getPhone()}"></span></p>
-                            <p class="card-text"><strong>닉네임:</strong> <span th:text="${user.nickName}"></span></p>
+                            <p class="card-text"><strong>이메일:</strong> <span th:text="${user.email}"></span></p>
                             <p class="card-text"><strong>주소:</strong> <span th:text="${user.detailAddress}"></span></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="text-right">
-                        <button class="btn custom-button">회원 정보 변경</button>
+                        <button class="btn custom-button">회원 잠금</button>
                     </div>
                 </div>
             </div>

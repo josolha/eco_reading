@@ -32,8 +32,7 @@ public class Books extends BaseEntity {
     @JoinColumn(name = "boards_id")
     private Boards boards;
 
-    @OneToOne(
-            mappedBy = "books",
+    @OneToOne(mappedBy = "books",
             cascade = CascadeType.ALL)
     private Transactions transactions;
 
@@ -73,11 +72,39 @@ public class Books extends BaseEntity {
     public void setBoards(Boards boards){
         this.boards = boards;
     }
+    public Books(String isbn, String title, String author, String publisher, String pubDate, String description) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.pubDate = pubDate;
+        this.description = description;
+        // 나머지 필드의 초기화는 생략 (필요에 따라 추가)
+    }
 
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
 
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
 
 

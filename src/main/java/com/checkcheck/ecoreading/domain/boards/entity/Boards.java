@@ -63,4 +63,6 @@ public class Boards extends BaseEntity {
         this.users = users;
     }
 
+    public void setMessage(String message) {this.message = message;}
+
 }

@@ -19,4 +19,7 @@ public class RedisService {
         Object value = redisTemplate.opsForValue().get(key);
         return value != null ? value.toString() : null;
     }
+    public void deleteValues(String key) {
+        redisTemplate.delete(key);
+    }
 }

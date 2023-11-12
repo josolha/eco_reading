@@ -8,6 +8,7 @@ import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
 
+import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 // API 활용해 책 정보 검색 기능 구현
@@ -119,17 +121,40 @@ public class BookService {
     }
 
 
-//    public List<Boards> giveList(Long userId){
-//        return boardRepository.findAllByGiverUserId(userId);
-//    }
-//    public List<Books> takeList(Long userId){
-//        List<Transactions> transactions = transactionRepository.findByTaker(userId);
-//        List<Books> books = new ArrayList<>();
-//        for (Transactions tran : transactions){
-//            books.add(tran.getBooks());
-//        }
-//        return books;
-//    }
+    public List<Boards> giveList(Users users){
+        return boardRepository.findAllByUsers(users);
+    }
+    public List<Books> takeList(Long takerId){
+        List<Transactions> transactions = transactionRepository.findAllByTakerId(takerId);
+        List<Books> books = new ArrayList<>();
+        for (Transactions transaction : transactions){
+            books.add(transaction.getBooks());
+        }
+        return books;
+    }
+
+    public void update(BookDTO bookDTO, Long boardId){
+        Boards boards = boardRepository.findAllByBoardId(boardId);
+        List<Books> bookList = boards.getBooksList();
+        Long bookId = bookList.get(0).getBooksId();
+        Books books = bookRepository.findByBooksId(bookId);
+        books.setAuthor(bookDTO.getAuthor());
+        books.setIsbn(bookDTO.getIsbn());
+        books.setPubDate(bookDTO.getPubdate());
+        books.setPublisher(bookDTO.getPublisher());
+        books.setTitle(bookDTO.getTitle());
+        books.setDescription(bookDTO.getDescription());
+
+        //        Books updateBook = Books.builder()
+//                .booksId(bookDTO.getBookId())
+//                .isbn(bookDTO.getIsbn())
+//                .author(bookDTO.getAuthor())
+//                .title(bookDTO.getTitle())
+//                .publisher(bookDTO.getPublisher())
+//                .pubDate(bookDTO.getPubdate())
+//                .build();
+        bookRepository.save(books);
+    }
 
 
 

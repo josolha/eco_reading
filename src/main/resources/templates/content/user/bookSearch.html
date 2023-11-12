@@ -38,7 +38,7 @@
                     <td th:text="${book.publisher}" th:name="publisher"></td>
                     <td th:text="${book.pubdate}" th:name="pubdate"></td>
                     <td>
-                        <form th:action="@{/board/bookSearch}" th:object="${BookDTO}" th:method="post">
+                        <form th:action="@{/board/update/bookSearch}" th:object="${BookDTO}" th:method="post">
                         <button type="submit" class="btn btn-dark mx-1">선택</button>
                         <input type="hidden" name="title" th:value="${book.title}" />
                         <input type="hidden" name="isbn" th:value="${book.isbn}" />
