@@ -2,33 +2,32 @@ package com.checkcheck.ecoreading.domain.users.service;
 
 import com.checkcheck.ecoreading.domain.users.dto.UserLoginRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequestDTO;
-import com.checkcheck.ecoreading.domain.users.dto.UserResponseDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserResponseDTO.TokenInfo;
 import com.checkcheck.ecoreading.domain.users.entity.Role;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
-import com.checkcheck.ecoreading.domain.users.exception.AuthenticationEmailException;
 import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
 import com.checkcheck.ecoreading.security.jwt.JwtTokenProvider;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,7 +39,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private static final String AUTH_CODE_PREFIX = "AuthCode :";
+    private static final String AUTH_CODE_PREFIX = "AuthCode:";
 
     private final MailService mailService;
 
@@ -117,30 +116,67 @@ public class UserService {
         }
     }
 
-    public TokenInfo login(UserLoginRequestDTO loginDto) {
-        UsernamePasswordAuthenticationToken authenticationToken = loginDto.toAuthentication();
-        Authentication authentication;
-        try {
-            // 인증 시도
-            authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-//        } catch (BadCredentialsException e) {
-//            // 사용자가 입력한 비밀번호가 올바르지 않을 때의 처리
-//            throw new AuthenticationServiceException("비밀번호가 틀립니다.");
-//        } catch (AuthenticationEmailException e) {
-//            // 사용자 이름을 찾을 수 없을 때의 처리
-//            throw new AuthenticationServiceException("해당 사용자를 찾을 수 없습니다.");
-//        } catch (AuthenticationException e) {
-//            // 기타 인증 관련 예외 처리
-//            throw new AuthenticationServiceException("인증 과정에서 문제가 발생했습니다: ");
-//        }
-        }catch (Exception e){
-            throw new AuthenticationServiceException("이메일 또는 비밀번호가 틀렸습니다.");
-        }
-        // 인증 성공, JWT 토큰 생성
+    public TokenInfo login(UserLoginRequestDTO loginDto, HttpServletResponse response) {
+        Authentication authentication = authenticateUser(loginDto);
+        // 바로 JwtTokenProvider를 사용하여 토큰을 생성합니다.
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+        addTokenCookiesToResponse(tokenInfo, response);
         log.info("tokenInfo = {}", tokenInfo);
         return tokenInfo;
     }
+
+    private Authentication authenticateUser(UserLoginRequestDTO loginDto) {
+        UsernamePasswordAuthenticationToken authenticationToken = loginDto.toAuthentication();
+        try {
+            return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        } catch (Exception e) {
+            throw new AuthenticationServiceException("이메일 또는 비밀번호가 틀렸습니다.");
+        }
+    }
+    private void addTokenCookiesToResponse(TokenInfo tokenInfo, HttpServletResponse response) {
+        Cookie accessTokenCookie = createCookie("accessToken", tokenInfo.getAccessToken(), 10L);
+        Cookie refreshTokenCookie = createCookie("refreshToken", tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime());
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
+    }
+    private Cookie createCookie(String name, String value, Long maxAge) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setHttpOnly(false);
+        cookie.setSecure(false);
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAge.intValue());
+        return cookie;
+    }
+
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+            deleteCookies(request, response, "accessToken", "refreshToken");
+            if (authentication.getPrincipal() instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                String userEmail = userDetails.getUsername();
+                redisService.deleteValues("RefreshToken:" + userEmail);
+            } else if (authentication.getPrincipal() instanceof String) {
+                String username = (String) authentication.getPrincipal();
+                redisService.deleteValues("RefreshToken:" + username);
+            } else {
+                throw new IllegalStateException("Unexpected type of principal object");
+            }
+        }
+    }
+    private void deleteCookies(HttpServletRequest request, HttpServletResponse response, String... cookieNames) {
+        Arrays.asList(cookieNames).forEach(cookieName -> {
+            Cookie cookie = new Cookie(cookieName, null);
+            cookie.setHttpOnly(false);
+            cookie.setSecure(false);
+            cookie.setPath("/"); // 쿠키 경로를 설정합니다. 일반적으로 루트("/")를 사용합니다.
+            cookie.setMaxAge(0); // 쿠키를 즉시 만료시킵니다.
+            response.addCookie(cookie);
+        });
+    }
+
+
 }
 
 
