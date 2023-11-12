@@ -13,8 +13,8 @@ public class UserResponseDTO {
     @AllArgsConstructor
     @ToString
     public static class TokenInfo {
-        private String granType;
         private String accessToken;
+        private Long accessTokenExpirationTime;
         private String refreshToken;
         private Long refreshTokenExpirationTime;
     }
