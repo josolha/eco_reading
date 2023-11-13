@@ -112,7 +112,7 @@ function sample4_execDaumPostcode() {
     }).open();
 }
 
-$("#imageUpload").on("change", "input[type='file']", function(){
+$("#imageUpload").on("change", function(){
     var file_path = $(this).val();
     var reg = /(.*?)\.(jpg|bmp|jpeg|png|JPG|BMP|JPEG|PNG)$/;
     var maxSize = 5 * 1024 * 1024;
@@ -128,11 +128,13 @@ $("#imageUpload").on("change", "input[type='file']", function(){
         if(!file_path.match(reg)) {
             alert("이미지 파일만 업로드 가능합니다. ");
             return;
-        } else if(fileSize = maxSize) {
+        } else if(fileSize >= maxSize) {
             alert("파일 사이즈는 5MB까지 가능합니다. ");
             return;
         }
     }
+});
+
     // // 허용되지 않은 확장자일 경우
     // if (file_path != "" && (file_path.match(reg) == null || reg.test(file_path) == false)) {
     //     // 파일 입력 필드의 값을 비움
@@ -141,4 +143,3 @@ $("#imageUpload").on("change", "input[type='file']", function(){
     //     // 알림 표시
     //     alert("이미지 파일만 업로드 가능합니다.");
     // }
-});
