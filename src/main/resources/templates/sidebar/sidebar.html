@@ -14,13 +14,23 @@
         .nav-item:hover #myPageSubMenu {
             display: block;
         }
+
+        #sidebar {
+            position: relative;
+            top: auto;
+            left: 0;
+            bottom: 0;
+            z-index: 1000;
+            height: max-content;
+        }
+
     </style>
 </head>
 
 <body>
 
-<nav id="sidebar" class="col-md-3 col-lg-2 bg-light d-md-block sidebar" th:fragment="sidebarFragment" style="position: fixed; height: 100%; width: 150px;">
-    <div class="position-sticky">
+<nav id="sidebar" class="col-md-3 col-lg-2 bg-light d-md-block sidebar" th:fragment="sidebarFragment" style="width: 150px;">
+    <div>
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link active" href="/board/new" style="color: black; font-weight: bold;">나눔하기</a>

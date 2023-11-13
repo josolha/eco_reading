@@ -55,7 +55,6 @@ public class UserViewController {
         return "content/mypage/myInfor";
     }
 
-
     @GetMapping("/mypage/givelist")
     public String giveBoardList(Model model){
         Users users = new Users();

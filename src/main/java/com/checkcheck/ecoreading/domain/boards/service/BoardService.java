@@ -67,6 +67,7 @@ public class BoardService {
                 .author(bookDTO.getAuthor())
                 .publisher(bookDTO.getPublisher())
                 .pubDate(bookDTO.getPubdate())
+                .processing(BookProcessingMethod.valueOf(process))
                 .build();
 
         Transactions transactions = Transactions.builder()

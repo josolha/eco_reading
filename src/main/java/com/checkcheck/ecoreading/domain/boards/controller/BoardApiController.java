@@ -33,7 +33,7 @@ public class BoardApiController {
         // 등록 폼의 전체 데이터 업로드하기
         boardService.uploadBoard(multipartFiles, bookDTO, boardDTO, deliveryDTO);
 
-        return "redirect:/main";
+        return "redirect:/main/";
     }
 
     // 나눔글 등록시 책 검색하기
