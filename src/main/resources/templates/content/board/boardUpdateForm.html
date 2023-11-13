@@ -19,14 +19,13 @@
 <body>
 <!-- header -->
 <header th:replace="~{/header/header :: headerFragment}"></header>
-<!--todo : th:object랑 th:field 활용해야함. -->
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- main 나눔글 작성하기-->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px" >
             <div class = "container">
                 <h2 class="mb-3 mt-3 text-center">나눔글 수정</h2>
                 <!-- 검색창 -->
@@ -71,7 +70,6 @@
                             <input id="message" name="message" class="form-control" type="text" th:value="${boards.message}">
                         </div>
                     </div>
-
                     <div class="border mt-5 mb-5"></div>
                     <div> 수거 주소 입력</div>
                     <div>원하시는 수거 주소를 입력해주세요. </div>
@@ -87,13 +85,35 @@
                             <input type="text" class="form-control mt-2" id="roadAddress" name="roadAddress" placeholder="도로명주소" th:value="${boards.delivery.roadAddress}">
                             <input type="text" class="form-control mt-2" id="detailAddress" name="detailAddress" placeholder="상세주소" th:value="${boards.delivery.detailAddress}">
                         </div>
-                        <div class="container-fluid">
-                            <!-- ... 나머지 코드 ... -->
-                            <!-- 제출 버튼 -->
-                            <input type="submit" value="제출">
-                        </div>
+                    </div>
+                    <label for="imageUpload">기부하고자 하는 책의 사진 파일을 첨부해주세요. (최대 5장) 오염도나, 책의 외상 등을 촬영해주세요! :)</label>
+                    <div class="mt-3">
+                        <label for="imageUpload">새로운 이미지 추가</label>
+                        <input type="file" class="form-control-file" id="imageUpload" onchange="imgUpload(this)" name="image" accept="image/*" multiple>
+                    </div>
+                    <div class="container-fluid">
+                        <input type="submit" value="제출">
                     </div>
                 </form>
+                <div class="form-group mt-4">
+                    <!-- 기존 이미지 표시 -->
+                    <div th:each="book : ${boards.booksList}">
+                        <div class="mt-3" >
+                            <label for="currentImages">현재 첨부된 이미지</label>
+                            <div id="currentImages" class="row">
+                                <!-- imageList를 반복하고 각 이미지를 표시 -->
+                                <div th:each="image : ${book.imagesList}" class="col-md-4 mb-3">
+                                    <form th:action="@{'/board/deleteimage/' + ${image.imagesId}}" method="post">
+                                        <!-- 아래의 input 태그에서 boardId를 board-Id로 수정 -->
+                                        <input type="hidden" id="board-Id" name="boardId" th:value="${boards.boardId}">
+                                        <img class="card-img-top" th:src="${image.imagesUrl}" alt="책 이미지" style="max-width: 100px; max-height: 100px; margin-right: 10px;">
+                                        <button type="submit" class="btn btn-danger btn-sm mt-2">삭제</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -107,7 +127,11 @@
 </html>
 <script th:src="@{/js/member.js}"></script>
 
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 </title>
 </head>

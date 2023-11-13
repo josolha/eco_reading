@@ -2,6 +2,7 @@ package com.checkcheck.ecoreading.domain.boards.repository;
 
 import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.ui.Model;

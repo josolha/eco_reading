@@ -28,7 +28,7 @@ public class MainViewController {
 
         model.addAttribute("Books", bookDTOs);
 
-        return "content/user/main/";
+        return "content/user/main";
     }
 
     // 검색 화면

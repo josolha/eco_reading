@@ -30,10 +30,6 @@
             margin: 5px;
         }
 
-        .small-giver-id {
-            font-size: 14px;
-            color: gray;
-        }
     </style>
 </head>
 <body>
@@ -43,7 +39,7 @@
         <!-- Sidebar -->
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px" >
             <br>
             <h2 class="text-center">나눔 받은 책 현황</h2>
             <hr>
@@ -79,74 +75,6 @@
                     </div>
                 </div>
             </div>
-
-<!--            <div class="row">-->
-<!--                <div class="col-12">-->
-<!--                    <div class="custom-text-box">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-4">-->
-<!--                                <div class="card mb-3">-->
-<!--                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-8">-->
-<!--                                <div class="card-body">-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-md-4">-->
-<!--                                            <h5 class="card-title">책 제목</h5>-->
-<!--                                            <p>출판사: ${}</p>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-md-4">-->
-<!--                                            <p>글 올린 날짜: ${}</p>-->
-<!--                                            <p>책 등급: ${}</p>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-md-4">-->
-<!--                                            <div class="status-box">-->
-<!--                                                <p>현재 상태: ${나눔 완료}</p>-->
-<!--                                                <p class="small-giver-id">기버 아이디: ${rakyun}</p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="row">-->
-<!--                <div class="col-12">-->
-<!--                    <div class="custom-text-box">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-4">-->
-<!--                                <div class="card mb-3">-->
-<!--                                    <img src="이미지_경로" alt="책 이미지" class="card-img-top">-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-8">-->
-<!--                                <div class="card-body">-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-md-4">-->
-<!--                                            <h5 class="card-title">책 제목</h5>-->
-<!--                                            <p>출판사: ${}</p>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-md-4">-->
-<!--                                            <p>글 올린 날짜: ${}</p>-->
-<!--                                            <p>책 등급: ${}</p>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-md-4">-->
-<!--                                            <div class="status-box">-->
-<!--                                                <p>현재 상태: ${나눔 완료}</p>-->
-<!--                                                <p class="small-giver-id">기버 아이디: ${rakyun}</p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
         </main>
     </div>
 </div>

@@ -153,4 +153,16 @@ public class BoardService {
         model.addAttribute("delivery", deliveryRepository.save(delivery));
         return model;
     }
+
+//    public List<Boards> adminSearchBooks(String searchType, String keyword) {
+//        if ("isbn".equalsIgnoreCase(searchType)) {
+//            return boardRepository.findByTitleContaining(keyword);
+//        } else if ("status".equalsIgnoreCase(searchType)) {
+//            return bookRepository.findByAuthorContaining(keyword);
+//        }
+//        else {
+//            // 기본은 통합검색
+//            return bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(keyword, keyword, keyword);
+//        }
+//    }
 }

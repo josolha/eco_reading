@@ -6,6 +6,7 @@ import com.checkcheck.ecoreading.domain.boards.dto.InsertDeliveryDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
+import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.delivery.dto.DeliveryDTO;
@@ -25,8 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class BoardViewController {
 
     private final BookService bookService;
-    private final DeliveryService deliveryService;
     private final BoardService boardService;
+    private final DeliveryService deliveryService;
 
     // 나눔글 쓰기
     @GetMapping("/new")
@@ -50,6 +51,8 @@ public class BoardViewController {
     }
 
     // 나눔받기
+
+
     @GetMapping("/detail/{booksId}/taker")
     public String takeBook(@PathVariable Long booksId, Model model) {
         Books books = bookService.findBoardByBookId(booksId);
@@ -65,14 +68,6 @@ public class BoardViewController {
 
         return "/content/board/takeBook";
     }
-
-    // 나눔받기 완료
-//    @PostMapping("/detail/complete")
-//    public String completeTakeBook() {
-//
-//        return "/content/board/completeTakeBook";
-//    }
-
 
     @GetMapping("/update/{boardId}")
     public String boardUpdateForm(@PathVariable Long boardId, Model model){
