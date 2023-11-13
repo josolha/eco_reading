@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class NaverBookDTO {
+public class NewBoardBookDTO {
     private String title;
     private String link;
     private String image;
@@ -17,5 +17,4 @@ public class NaverBookDTO {
     private String pubdate;
     private String isbn;
     private String description;
-
 }
