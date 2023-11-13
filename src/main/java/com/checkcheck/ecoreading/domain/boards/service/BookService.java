@@ -150,7 +150,6 @@ public class BookService {
         }
     }
 
-
     public List<Boards> giveList(Users users){
         return boardRepository.findAllByUsers(users);
     }

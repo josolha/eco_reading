@@ -13,6 +13,7 @@ import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
 import com.checkcheck.ecoreading.domain.delivery.repository.DeliveryRepository;
 import com.checkcheck.ecoreading.domain.delivery.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -65,6 +66,14 @@ public class BoardViewController {
         return "/content/board/takeBook";
     }
 
+    // 나눔받기 완료
+//    @PostMapping("/detail/complete")
+//    public String completeTakeBook() {
+//
+//        return "/content/board/completeTakeBook";
+//    }
+
+
     @GetMapping("/update/{boardId}")
     public String boardUpdateForm(@PathVariable Long boardId, Model model){
         Boards boards = boardService.findAllByBoardId(boardId);
@@ -84,12 +93,4 @@ public class BoardViewController {
     public String boardList(){
         return "content/mypage/giveList";
     }
-
-    // 나눔받기 완료
-//    @PostMapping("/detail/complete")
-//    public String completeTakeBook() {
-//
-//        return "/content/board/completeTakeBook";
-//    }
-
 }
