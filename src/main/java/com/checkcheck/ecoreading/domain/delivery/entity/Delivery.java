@@ -32,7 +32,7 @@ public class Delivery extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private DeliveryForm form; // 배송형태 (수거 or 배송) 둘중 하나 무조건 선택.
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "boards_id")
     private Boards boards;
 

@@ -2,7 +2,6 @@ package com.checkcheck.ecoreading.domain.users.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -105,8 +104,17 @@ public class Users extends BaseEntity implements UserDetails {
     }
 
 
+    /**
+     * 잠깐 데이터 넣을 용도로 사용합니다! 나중에 삭제 할 예정이에여 -락윤-
+     * @param usersId
+     */
+    public void setUsersId(Long usersId){
+        this.usersId = usersId;
+    }
+
+
     // 연관관계 메서드
-    // 책 한 권을 올리면 Boards에 Book 추가되면서 Books엔티티에도 추가
+    // 게시글을 하나 올리면 Users의 엔티티에도 추가
     public void addBoard(Boards boards) {
         boards.setUsers(this);
         this.getBoardsList().add(boards);

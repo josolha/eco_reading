@@ -39,7 +39,7 @@ public class Transactions extends BaseEntity {
             cascade = CascadeType.ALL)
     private Delivery delivery;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "books_id")
     private Books books;
 

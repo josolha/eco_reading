@@ -51,21 +51,18 @@ public class UserApiController {
     }
 
     @PostMapping("/login")
-    public String login(Model model, UserLoginRequestDTO loginDto, RedirectAttributes redirectAttributes) {
+    public String login(Model model, UserLoginRequestDTO loginDto, HttpServletResponse response) {
         // try 블록은 유지하되, catch 블록은 제거합니다.
-        TokenInfo tokenInfo = userService.login(loginDto);
-        // TODO: 토큰을 세션에 저장하거나 쿠키에 추가하는 등의 로직을 추가하세요.
-
-        model.addAttribute("token", tokenInfo);
-
+        TokenInfo tokenInfo = userService.login(loginDto,response);
+        // TODO: 토큰을 세션에 저장하거나 쿠키에 추가하는 등의 로직을 추가하세요. ok 함
+       // model.addAttribute("token", tokenInfo);
         return "redirect:/user/"; // 성공 시 메인 페이지로 리다이렉트
-        // GlobalExceptionHandler가 예외를 처리하도록 합니다.
+        // GlobalExceptionHandler가 예외를 처리함.
     }
-
-
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
-        new SecurityContextLogoutHandler().logout(request,response, SecurityContextHolder.getContext().getAuthentication());
+        userService.logout(request, response);
+       // new SecurityContextLogoutHandler().logout(request,response, SecurityContextHolder.getContext().getAuthentication());
         return "redirect:/user/login";
     }
     @PostMapping("/emails/verification-requests")

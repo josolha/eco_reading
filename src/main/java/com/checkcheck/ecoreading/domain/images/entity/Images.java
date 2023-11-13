@@ -17,7 +17,7 @@ public class Images extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imagesId;
 
-    @ManyToOne(fetch = FetchType.LAZY) //books:images = 1:n
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //books:images = 1:n
     @JoinColumn(name = "books_id")
     private Books books;
 

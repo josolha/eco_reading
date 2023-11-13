@@ -5,6 +5,12 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
+import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
+import com.checkcheck.ecoreading.domain.boards.entity.Boards;
+import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
+import com.checkcheck.ecoreading.domain.books.entity.Books;
+import com.checkcheck.ecoreading.domain.images.entity.Images;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -82,6 +88,7 @@ public class S3Service {
 
         String idxFileName = fileName.substring(fileName.lastIndexOf("."));
         if(!fileValidate.contains(idxFileName)) {
+//            throw new RuntimeException("이미지 파일만 첨부할 수 있습니다.");
             // TODO: 예외처리
             //throw new PrivateException(Code.WRONG_IMAGE_FORMAT);
         }

@@ -1,5 +1,6 @@
 package com.checkcheck.ecoreading.domain.boards.dto;
 
+import com.checkcheck.ecoreading.domain.books.entity.BookProcessingMethod;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,6 @@ public class InsertBookDTO {
     private String publisher;
     private String author;
     private String description;
+    private BookProcessingMethod process;
 
 }
