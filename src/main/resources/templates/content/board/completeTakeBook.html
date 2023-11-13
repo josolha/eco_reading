@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>completeTakeBook</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<header th:replace="~{/header/header :: headerFragment}"></header>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
+
+        <!-- Main -->
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <div style="text-align: center; margin-top: 100px;">
+                <h1>주문이 완료되었습니다!</h1>
+                <br>
+                <a class="custom-button btn btn-primary" th:href="@{/main/}">메인으로 돌아가기</a>
+            </div>
+        </main>
+    </div>
+</div>
+
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+
+</body>
+</html>

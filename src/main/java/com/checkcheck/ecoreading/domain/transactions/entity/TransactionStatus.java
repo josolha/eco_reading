@@ -7,4 +7,5 @@ public enum TransactionStatus {
     검수중,
     나눔중,
     나눔완료;
+
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>searchBooks</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href=".static/css/App.css">
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-text-box {
+            border: 1px solid #E2ECE2;
+            padding: 20px;
+            margin: 20px;
+            background-color: #F7F7F7;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="~{/header/header :: headerFragment}"></header>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
+
+        <!-- Main -->
+        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <br>
+            <h3><span style="font-weight: bold;" th:text="'\'' + ${param.search} + '\''"></span>의 검색 결과 총 <span th:text="${searchBooks.size()}"></span>건</h3>
+            <hr>
+
+            <!-- 검색 결과 목록 -->
+            <div class="row" th:each="searchBook : ${searchBooks}">
+                <div class="col-12">
+                    <a th:href="@{/board/detail/{bookId}(bookId=${searchBook.booksId})}">
+                        <div class="custom-text-box">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card mb-3">
+                                        <img class="card-img-top" th:src="${searchBook.images[0].imagesUrl}" th:alt="${searchBook.title}" width="150" height="225">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h4 class="card-title" th:text="${searchBook.title}" style="font-weight: bold;"></h4>
+                                        <br>
+                                        <p th:text="'출판사: ' + ${searchBook.publisher}"></p>
+                                        <p th:text="'작가: ' + ${searchBook.author}"></p>
+                                        <p th:text="'발행일자: ' + ${searchBook.pubDate}"></p>
+                                        <div style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px; pointer-events: none; display: inline-block;">
+                                            <span th:text="${searchBook.transactions.status}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+</body>
+</html>

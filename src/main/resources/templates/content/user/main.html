@@ -15,6 +15,10 @@
             text-align: center;
         }
 
+        a {
+            color: black;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -30,35 +34,37 @@
         <!-- Main -->
         <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
 
-            <!-- 검색창 추가 -->
+            <!-- 검색창 -->
             <br>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <select class="custom-select rounded-pill" id="search-type">
-                        <option value="search">통합검색</option>
-                        <option value="title">제목</option>
-                        <option value="author">작가</option>
-                        <option value="publisher">출판사</option>
-                    </select>
+            <form action="/main/search" method="get">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select class="custom-select rounded-pill" name="searchType">
+                            <option value="search">통합검색</option>
+                            <option value="title">제목</option>
+                            <option value="author">작가</option>
+                            <option value="publisher">출판사</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control rounded-pill" name="search" placeholder=" " aria-label="Search" aria-describedby="search-addon" />
+                    <button type="submit" class="btn btn-outline-primary rounded-pill" style="color: black; border-color: #E2ECE2; background-color: #E2ECE2;">검색</button>
                 </div>
-                <input type="search" class="form-control rounded-pill" id="search-input" placeholder=" " aria-label="Search" aria-describedby="search-addon" />
-                <button type="button" class="btn btn-outline-primary rounded-pill" style="color: black; border-color: #E2ECE2; background-color: #E2ECE2;" onclick="performSearch()">검색</button>
-            </div>
+            </form>
             <br>
 
-            <!-- 이미지 출력 폼 -->
+            <!-- 전체 나눔 글 목록 -->
             <form>
                 <div class="form-row">
                     <div class="form-group col-md-4" th:each="book : ${Books}">
-                        <div th:with="firstImage=${book.images[0]}" class="image-size" style="text-align: center;">
-                            <a th:href="@{/board/detail/{bookId}(bookId=${book.book_id})}">
-                                <img th:src="${firstImage.imagesUrl}" th:alt="${book.title}" style="display: inline-block;">
+                        <div class="image-size" style="text-align: center;">
+                            <a th:href="@{/board/detail/{bookId}(bookId=${book.booksId})}">
+                                <img th:src="${book.images[0].imagesUrl}" th:alt="${book.title}" style="display: inline-block;">
                             </a>
                         </div>
                         <div style="margin-bottom: 10px;"></div>
                         <figcaption class="figcaption-center">
-                            <a th:href="@{/board/detail/{bookId}(bookId=${book.book_id})}">
-                                <span th:text="${book.title}"></span>
+                            <a th:href="@{/board/detail/{bookId}(bookId=${book.booksId})}">
+                                <span th:text="${book.title}" style="font-weight: bold;"></span>
                             </a>
                             <div style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px; pointer-events: none; display: inline-block;">
                                 <span th:text="${book.transactions.status}"></span>

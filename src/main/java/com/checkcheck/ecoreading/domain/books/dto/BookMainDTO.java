@@ -15,19 +15,16 @@ import java.util.List;
 @Getter
 @Setter
 public class BookMainDTO {
-    private String title;
-    private String link;
-    private String image;
-    private String author;
-    private String discount;
-    private String publisher;
-    private String pubdate;
-    private String isbn;
-    private String description;
-
-    private String grade;
-    private Long book_id;
+    private Long booksId;
     private Boards boards;
+    private String isbn;
+    private String title;
+    private String author;
+    private String publisher;
+    private String pubDate;
+    private String description;
+    private String grade;
     private Transactions transactions;
     private List<Images> images;
+
 }

@@ -74,17 +74,17 @@ public class UserViewController {
     }
 
     // 메인 화면(나눔 글 전체 조회)
-    @GetMapping("/")
-    public String getBoards(Model model){
-        List<Books> books = bookService.findAll(); // Book 엔티티를 가져옴
-        List<BookMainDTO> bookDTOs = new ArrayList<>();
-
-        for (Books book : books) {
-            bookDTOs.add(bookService.convertToDTO(book)); // 엔티티를 DTO로 변환
-        }
-
-        model.addAttribute("Books", bookDTOs); // BookDTO 리스트를 모델에 추가
-
-        return "content/user/main";
-    }
+//    @GetMapping("/")
+//    public String getBoards(Model model){
+//        List<Books> books = bookService.findAll(); // Book 엔티티를 가져옴
+//        List<BookMainDTO> bookDTOs = new ArrayList<>();
+//
+//        for (Books book : books) {
+//            bookDTOs.add(bookService.convertToDTO(book)); // 엔티티를 DTO로 변환
+//        }
+//
+//        model.addAttribute("Books", bookDTOs); // BookDTO 리스트를 모델에 추가
+//
+//        return "content/user/main";
+//    }
 }
