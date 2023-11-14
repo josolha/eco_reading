@@ -4,9 +4,27 @@
 <head>
     <title>Add Board</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500&display=swap');
+        .donation {
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        * {cursor: url('/images/cursor.cur') 1 1, auto;
+        }
+
+        .bold-label{
+            font-weight: bold;
+        }
+        .light-label {
+            font-weight: lighter;
+        }
+    </style>
 </head>
 <body>
 <!-- header -->
@@ -18,17 +36,17 @@
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- main 나눔글 작성하기-->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 30px;">
-            <div class="container">
-                <h2 class="mb-3 mt-3 text-center">나눔하겠습니다!</h2>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px;">
+            <div class="main-container border rounded p-3 mt-2">
+                <h2 class="donation mb-3 mt-4 text-center" style="color: #82BA82">DONATION</h2>
+                <div class="border mt-2 mb-5"></div> <!--구분선 넣기 -->
                 <!-- 검색창 -->
-                <!-- todo: 검색 미입력시 예외처리-->
                 <form action="/board/bookSearch" method="get" id="search">
-                    <div class="col-md-5 d-flex justify-content-between align-items-center">
-                        <div class="col-auto"> 바코드 입력</div>
+                    <div class="col-md-5 mt-5 d-flex justify-content-center align-items-center mx-auto">
+                        <div class="bold-label col-auto"> 바코드 입력</div>
                         <input type="search" id="searchInput" name="text" class="form-control d-inline-block mx-1" maxlength="50"
                                placeholder="ISBN을 입력하세요" th:value="${param.isbn}">
-                        <button type="submit" class="btn btn-dark mx-1" onclick="searchValidateForm()" style="width: 100px; white-space: nowrap;">검색
+                        <button type="submit" class="btn btn-dark mx-1" onclick="searchValidateForm()" style="width: 100px; white-space: nowrap; ">검색
                         </button>
                     </div>
                 </form>
@@ -39,27 +57,27 @@
                     <div class="form-group mt-3"> <!--도서 정보 자동 입력칸 -->
                         <input type="hidden" id="isbn" name="isbn" th:value="${param.isbn}" class="form-control">
                         <div>
-                            <label for="title">도서 제목</label>
+                            <label for="title" class="light-label">도서 제목</label>
                             <input id="title" name="title" th:value="${param.title}" class="form-control" readonly
                                    type="text">
                         </div>
                         <div>
-                            <label for="pubdate">발행일자</label>
+                            <label for="pubdate" class="light-label">발행일자</label>
                             <input id="pubdate" name="pubdate" th:value="${param.pubdate}" class="form-control" readonly
                                    type="text">
                         </div>
                         <div>
-                            <label for="publisher">출판사</label>
+                            <label for="publisher" class="light-label">출판사</label>
                             <input id="publisher" name="publisher" th:value="${param.publisher}" class="form-control"
                                    readonly type="text">
                         </div>
                         <div>
-                            <label for="author">저자</label>
+                            <label for="author" class="light-label">저자</label>
                             <input id="author" name="author" th:value="${param.author}" class="form-control" readonly
                                    type="text">
                         </div>
                         <div>
-                            <label for="description">책 소개</label>
+                            <label for="description" class="light-label">책 소개</label>
                             <textarea id="description" name="description" class="form-control"
                                       th:text="${param.description}" rows="5" readonly
                                       style="overflow-y: scroll;"></textarea>
@@ -69,8 +87,10 @@
                     <div class="border mt-5 mb-5"></div> <!--구분선 넣기 -->
 
                     <!--이미지 파일 넣기 -->
-                    <div class="form-group mt-4">  <!--todo: 책 최대 5장으로 제한 -->>
-                        <label for="imageUpload">기부하고자 하는 책의 사진 파일을 첨부해주세요. (최대 5장) 오염도나, 책의 외상 등을 촬영해주세요! :)</label>
+
+                    <div class="form-group mt-5">
+                        <div class="bold-label text-center mb-4" style="font-size: 20px;">이미지 첨부</div>
+                        <label for="imageUpload" class="light-label">기부하고자 하는 책의 사진 파일을 첨부해주세요. (최대 5장) 오염도나, 책의 외상 등을 촬영해주세요! :)</label>
                         <!-- input 타입을 file로 설정하고, 파일을 여러 개 선택할 수 있도록 multiple 속성 추가 -->
                         <div id="imageContainer"></div>
 <!--                        <img id="preview" style="max-width: 200px; max-height: 200px;">-->
@@ -79,8 +99,8 @@
                     </div>
 
                     <!-- 기부어의 한마디 -->
-                    <div class="form-group mt-4">
-                        <label for="message">기부어의 한마디 (최대 250자) </label>
+                    <div class="form-group mt-5">
+                        <label for="message" class="light-label">기부어의 한마디 (최대 250자) </label>
                         <textarea id="message" name="message" class="form-control" maxlength="250" rows="4"
                                   placeholder="나눔받을 테이커에게 전하고 싶은 말이나 인상깊었던 책의 부분을 적어주세요! :)"
                                   style="overflow-y: scroll;"></textarea>
@@ -90,7 +110,8 @@
 
                     <!--수거정보 입력칸 개인정보, 주소, 정확한 위치 입력 -->
                     <div class="form-group mt-3">
-                        <div> 수거 정보 입력 (기부하는 도서는 박스에 담아 포장해주세요.)</div>
+                        <div class="bold-label text-center mb-4" style="font-size: 20px;">수거 정보 입력</div>
+                        <div class="light-label"> 기부어 정보를 입력해주세요. (기부하는 도서는 박스에 담아 포장해주세요.)</div>
                         <div class="row g-3">
                             <div class="col-md-3">
                                 <label class="visually-hidden" for="username"></label>
@@ -109,38 +130,42 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row mt-3">
-                            <label for="postcode" class="col-sm-3 col-form-label text-nowrap">주소 :</label>
-                            <div class="col-sm-4">
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label for="postcode" class="light-label">주소 :</label>
+                        <div class="row g-3">
+                            <div class="col-md-3">
                                 <div class="input-group">
-                                    <input type="text" pattern="[0-9]+"  class="form-control" id="postcode" name="postcode" minlength="4" maxlength="5"
-                                           placeholder="우편번호">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button"
-                                                onclick="sample4_execDaumPostcode()">우편번호 검색
-                                        </button>
-                                    </div>
+                                    <input type="text" pattern="[0-9]+" class="form-control mt-2" id="postcode" name="postcode" minlength="4" maxlength="5"
+                                           placeholder="우편번호" style="height: 38px;">
+                                    <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="sample4_execDaumPostcode()" style="height: 38px;">우편번호 검색</button>
                                 </div>
-                                <input type="text" class="form-control mt-2" id="roadAddress" name="roadAddress" maxlength="50"
-                                       placeholder="도로명주소">
-                                <input type="text" class="form-control mt-2" id="detailAddress" name="detailAddress" maxlength="30"
-                                       placeholder="상세주소">
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <input type="text" class="form-control" id="roadAddress" name="roadAddress" maxlength="50" placeholder="도로명주소" style="height: 38px;">
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <input type="text" class="form-control" id="detailAddress" name="detailAddress" maxlength="30" placeholder="상세주소" style="height: 38px;">
                             </div>
                         </div>
-                        <div class="col-auto col-form-label text-nowrap">정확한 수거 장소를 선택해주세요.</div>
+                    </div>
 
+                    <div class="form-group mt-3">
+                        <div class="light-label mt-2 mb-2">정확한 수거 장소를 선택해주세요.</div>
+<!--                        <div class="col-auto col-form-label text-nowrap">정확한 수거 장소를 선택해주세요.</div>-->
                         <div class="col-sm-3 col-form-label text-nowrap">
                             <div class="form-check">
                                 <input type="radio" id="문앞" name="place" value="문앞" class="form-check-input"/>
-                                <label for="문앞" class="form-check-label">문 앞</label>
+                                <label for="문앞" class="light-label form-check-label">문 앞</label>
                             </div>
                             <div class="form-check">
                                 <input type="radio" id="경비실" name="place" value="경비실" class="form-check-input"/>
-                                <label for="경비실" class="form-check-label">관리실</label>
+                                <label for="경비실" class="light-label form-check-label">관리실</label>
                             </div>
                             <div class="form-check">
                                 <input type="radio" id="무인택배함" name="place" value="무인택배함" class="form-check-input"/>
-                                <label for="무인택배함" class="form-check-label">무인택배함</label>
+                                <label for="무인택배함" class="light-label form-check-label">무인택배함</label>
                             </div>
                         </div>
                     </div>
@@ -148,12 +173,13 @@
                     <div class="border mt-5 mb-5"></div> <!--구분선 넣기 -->
 
                     <div class="container">
+                        <div class="bold-label text-center mb-4" style="font-size: 20px;">약관 동의</div>
                         <div class="card">
                             <div class="card-body">
-                                <h2 class="card-title">서비스 이용 약관 동의</h2>
-                                <p class="card-text">이 서비스를 이용하시려면 아래의 약관에 동의하여 주세요.</p>
-                                <li class="mt-1">나눔 책의 품질에 따라 책갈피는 차등지급됩니다. (품질 판정은 가장 낮은 단계를 기준으로 합니다.)</li>
-                                <td class="container mt-1">
+                                <h3 class="card-title">서비스 이용 약관 동의</h3>
+                                <p class="light-label card-text">이 서비스를 이용하시려면 아래의 약관에 동의하여 주세요.</p>
+                                <li class="light-label mt-1">나눔 책의 품질에 따라 책갈피는 차등지급됩니다. (품질 판정은 가장 낮은 단계를 기준으로 합니다.)</li>
+                                <td class="container mt-3">
                                     <table class="table mt-2">
                                         <thead>
                                         <tr>
@@ -164,7 +190,7 @@
                                             <th scope="col">똥휴지(기부불가)</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="light-label">
                                         <tr>
                                             <td><b>헌 상태</b></td>
                                             <td>새 것에 가까운 책</td>
@@ -195,16 +221,16 @@
                                         </tr>
                                         <tr>
                                             <td><b>책갈피 지급</b></td>
-                                            <td>10책갈피</td>
-                                            <td>7책갈피</td>
-                                            <td>5책갈피</td>
-                                            <td>0책갈피 (착불반송 혹은 폐기처리)</td>
+                                            <td style="color: darkgreen;"><b>10책갈피</b></td>
+                                            <td style="color: darkgreen;"><b>7책갈피</b></td>
+                                            <td style="color: darkgreen;"><b>5책갈피</b></td>
+                                            <td style="color: orangered;"><b>0책갈피 (착불반송 혹은 폐기처리)</b></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </td>
-                                <li>똥휴지 등급은 나눔불가 상품입니다. 만약 검수결과가 똥휴지 등급일 시 옵션을 선택해주세요.</li>
-                                <div class="col-sm-3 col-form-label text-nowrap">
+                                <li class="mt-2 light-label">똥휴지 등급은 나눔불가 상품입니다. 만약 검수결과가 똥휴지 등급일 시 옵션을 선택해주세요.</li>
+                                <div class="light-label col-sm-3 col-form-label text-nowrap">
                                     <div class="form-check">
                                         <input type="radio" id="폐기처리" name="process" value="폐기처리"
                                                class="form-check-input" checked/>
@@ -216,13 +242,11 @@
                                         <label for="착불반송" class="form-check-label">착불 반송(기부어 부담)</label>
                                     </div>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check mt-3">
                                     <input class="form-check-input" type="checkbox" id="termsCheckbox">
-                                    <label class="form-check-label" for="termsCheckbox">
-                                        서비스 이용 약관에 동의합니다.
-                                    </label>
+                                    <label class="bold-label form-check-label" for="termsCheckbox">서비스 이용 약관에 동의합니다.</label>
                                 </div>
-                                <input type="submit" class="btn btn-primary" value="제출" onclick="submitFormWithValidation()">
+                                <div class="text-center"><input type="submit" class="btn btn-dark" value="제출" onclick="submitFormWithValidation()"></div>
                             </div>
                         </div>
                     </div>
@@ -237,10 +261,10 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">폼 제출 완료</h5>
+                <h5 class="modal-title" id="myModalLabel">나눔글 제출 완료</h5>
             </div>
             <div class="modal-body">
-                폼이 성공적으로 제출되었습니다.
+                소중한 도서 나눔 감사합니다. 도서 수거는 1~2일 내로 이루어질 예정이니 수거 주소로 도서를 배출해주시기 바랍니다.
             </div>
             <div class="modal-footer">
                 <button type="button" id="closeModalButton" class="btn btn-primary">확인</button>
@@ -257,4 +281,11 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script th:src="@{/js/boardAdd.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+<!--<script type="text/javascript">-->
+<!--    $('html').css({'cursor':'url(/images/cursor.cur) 1 1, auto'});-->
+<!--</script>-->
 

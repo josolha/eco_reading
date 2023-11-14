@@ -1,12 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500&display=swap');
+    </style>
+</head>
+<body>
 <header th:fragment="headerFragment" style="background-color: #E2ECE2">
     <nav class="navbar navbar-expand-lg navbar-light justify-content-between pt-3">
         <div class = "logo ml-3">
         <a class="logo" th:href="@{/main/}"><img th:src="@{/images/logo.png}" alt="Logo" width="60px" height="60px"></a>
         </div>
 
-        <h1 class="font-weight-bold">
-            eco-reading
-        </h1>
+        <h1 style="font-family: 'Chakra Petch', sans-serif;">eco-reading</h1>
                 <div>
                 <a class="navbar-brand" th:href="@{/main/}"><img th:src="@{/images/bookmark.png}" alt="Points" width="30px" height="30px"></a>
                 <a class="navbar-brand" th:href="@{/main/}"><img th:src="@{/images/alarm.png}" alt="Alarm" width="30px" height="30px"></a>
@@ -14,3 +20,6 @@
                 </div>
             </nav>
 </header>
+</body>
+</html>
+
