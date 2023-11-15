@@ -65,32 +65,13 @@ function submitValidateForm() {
     return true;
 }
 
-// 폼 제출 이벤트 리스너 추가
-// $(document).ready(function() {
-//     $("#form").on("submit", function(e) {
-//         if (!submitValidateForm()) {
-//             e.preventDefault();  // 폼 제출 막기
-//         } else {
-//             e.preventDefault();  // 폼 제출 막기
-//             // 모달 창 띄우기
-//             $("#myModal").modal("show");
-//         }
-//     });
-//     // 모달 창의 닫기 버튼 클릭 이벤트 처리
-//     $("#closeModalButton").on("click", function() {
-//         // 폼 수동으로 제출
-//         $("#form").submit();
-//     });
-// });
 
 function submitFormWithValidation() {
+    event.preventDefault();
+
     if (submitValidateForm()) {
         // 유효성 검사 통과 시 모달 창 띄우기
-        $("#myModal").modal("show");
-        event.preventDefault();
-    } else {
-        // 유효성 검사 실패 시 폼 제출 막기
-        event.preventDefault();
+        $("#myModal").modal('show');
     }
 }
 

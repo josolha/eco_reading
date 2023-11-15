@@ -26,10 +26,11 @@
         }
     </style>
 </head>
+
+
 <body>
 <!-- header -->
 <header th:replace="~{/header/header :: headerFragment}"></header>
-<!--todo : th:object랑 th:field 활용해야함. -->
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
@@ -38,6 +39,7 @@
         <!-- main 나눔글 작성하기-->
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px;">
             <div class="main-container border rounded p-3 mt-2">
+
                 <h2 class="donation mb-3 mt-4 text-center" style="color: #82BA82">DONATION</h2>
                 <div class="border mt-2 mb-5"></div> <!--구분선 넣기 -->
                 <!-- 검색창 -->
@@ -50,7 +52,6 @@
                         </button>
                     </div>
                 </form>
-
 
                 <!--이미지 파일을 업로드하기 위해 enctype을 multipart/form-data로 설정-->
                 <form th:action="@{/board/new}" id="form" method="post" enctype="multipart/form-data">
@@ -93,9 +94,7 @@
                         <label for="imageUpload" class="light-label">기부하고자 하는 책의 사진 파일을 첨부해주세요. (최대 5장) 오염도나, 책의 외상 등을 촬영해주세요! :)</label>
                         <!-- input 타입을 file로 설정하고, 파일을 여러 개 선택할 수 있도록 multiple 속성 추가 -->
                         <div id="imageContainer"></div>
-<!--                        <img id="preview" style="max-width: 200px; max-height: 200px;">-->
-                        <input type="file" class="form-control-file" id="imageUpload" onchange="imgUpload(this)" name="image" accept="image/*"
-                               multiple>
+                        <input type="file" class="form-control-file" id="imageUpload" name="image" accept="image/*" multiple>
                     </div>
 
                     <!-- 기부어의 한마디 -->
@@ -125,8 +124,8 @@
                                 <label class="visually-hidden" for="phone"></label>
                                 <div class="input-group">
                                     <div class="input-group-text">전화번호</div>
-                                    <input type="tel" pattern="\d{10,11}" class="form-control col-md-6" id="phone" name="phone"
-                                           placeholder="010-0000-0000 ('-' 없이 입력)" minlength="10" maxlength="11">
+                                    <input type="tel" pattern="\d{11,11}" class="form-control col-md-6" id="phone" name="phone"
+                                           placeholder="010-0000-0000 ('-' 없이 입력)" minlength="11" maxlength="11">
                                 </div>
                             </div>
                         </div>
@@ -137,7 +136,7 @@
                         <div class="row g-3">
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <input type="text" pattern="[0-9]+" class="form-control mt-2" id="postcode" name="postcode" minlength="4" maxlength="5"
+                                    <input type="text" pattern="[0-9]+" class="form-control mt-2" id="postcode" name="postcode" minlength="5" maxlength="5"
                                            placeholder="우편번호" style="height: 38px;">
                                     <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="sample4_execDaumPostcode()" style="height: 38px;">우편번호 검색</button>
                                 </div>
@@ -246,7 +245,9 @@
                                     <input class="form-check-input" type="checkbox" id="termsCheckbox">
                                     <label class="bold-label form-check-label" for="termsCheckbox">서비스 이용 약관에 동의합니다.</label>
                                 </div>
-                                <div class="text-center"><input type="submit" class="btn btn-dark" value="제출" onclick="submitFormWithValidation()"></div>
+                                <div class="text-center">
+                                    <input type="submit" class="btn btn-dark" value="제출" onclick="submitFormWithValidation()">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -274,18 +275,14 @@
 </div>
 
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+<script th:src="@{/js/boardAdd.js}"></script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </body>
 </html>
 
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<script th:src="@{/js/boardAdd.js}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
 
-
-
-<!--<script type="text/javascript">-->
-<!--    $('html').css({'cursor':'url(/images/cursor.cur) 1 1, auto'});-->
-<!--</script>-->
 

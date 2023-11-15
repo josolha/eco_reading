@@ -5,12 +5,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
-import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
-import com.checkcheck.ecoreading.domain.boards.entity.Boards;
-import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
-import com.checkcheck.ecoreading.domain.books.entity.Books;
-import com.checkcheck.ecoreading.domain.images.entity.Images;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,8 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,8 +28,9 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Transactional
     // 업로드할 이미지 파일의 목록을 받아서 이미지 업로드, 업로드된 이미지 URL 목록 반환하기.
-    protected List<String> uploadIntoS3(List<MultipartFile> multipartFileList) {
+    public List<String> uploadIntoS3(List<MultipartFile> multipartFileList) {
         List<String> imgUrlList = new ArrayList<>();
 
         //forEach 구문을 통해 multipartFile로 넘어온 파일들을 하나씩 fileNameList에 추가
@@ -56,9 +49,8 @@ public class S3Service {
                 // 이미지가 성공적으로 업로드되면 해당 이미지의 url을 리스트에 추가.
                 imgUrlList.add(amazonS3.getUrl(bucket+"/book", fileName).toString());
             } catch (IOException e) {
-                // todo: 에러메시지 뜨도록 파일 만들기
-                //throw new PrivateException(Code.IMAGE_UPLOAD_ERROR);
-                e.printStackTrace();
+                System.out.println("이미지 업로드에 실패하였습니다.");
+                System.out.println(e.getMessage());
             }
         }
         return imgUrlList;
@@ -72,8 +64,7 @@ public class S3Service {
     // 파일이름에서 확장명 추출하는 메서드
     private String getFileExtension(String fileName) {
         if (fileName.length()==0) {
-            //TODO: 예외처리
-            //throw new PrivateException(Code.WRONG_INPUT_IMAGE);
+            System.out.println("적절한 이미지가 아닙니다. ");
         }
 
         ArrayList<String> fileValidate = new ArrayList<>();
@@ -86,12 +77,6 @@ public class S3Service {
         fileValidate.add(".PNG");
         fileValidate.add(".GIF");
 
-        String idxFileName = fileName.substring(fileName.lastIndexOf("."));
-        if(!fileValidate.contains(idxFileName)) {
-//            throw new RuntimeException("이미지 파일만 첨부할 수 있습니다.");
-            // TODO: 예외처리
-            //throw new PrivateException(Code.WRONG_IMAGE_FORMAT);
-        }
         return fileName.substring(fileName.lastIndexOf("."));
     }
 
