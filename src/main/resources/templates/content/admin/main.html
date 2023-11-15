@@ -19,6 +19,12 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">유저관리</h1>
             </div>
+            <br>
+            <div class="input-group">
+                <button type="button" class="btn btn-outline-primary rounded-pill" style="color: black; border-color: #E2ECE2; background-color: #E2ECE2;" onclick="searchUsers('enabled')">활성화 계정 보기</button>
+                <button type="button" class="btn btn-outline-primary rounded-pill" style="color: black; border-color: #E2ECE2; background-color: #E2ECE2;" onclick="searchUsers('disabled')">비활성화 계정 보기</button>
+            </div>
+            <br>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -36,7 +42,9 @@
                         <td th:text="${user.usersId}"></td>
                         <td th:text="${user.username}"></td>
                         <td th:text="${user.totalPoint}"></td>
-                        <td th:text="${user.enabled}"></td>
+                        <td>
+                            <span th:text="${user.enabled} ? '활성화 계정' : '비활성화 계정'"></span>
+                        </td>
                         <td>
                             <a th:href="@{/admin/user/details/{userId}(userId=${user.usersId})}" class="btn btn-primary">자세히 보기</a>
                         </td>
@@ -48,5 +56,21 @@
     </div>
 </div>
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+
+<script>
+    function searchUsers(searchType) {
+        // Set the URL based on the selected search type
+        var url;
+        if (searchType === 'enabled') {
+            url = '/admin/search/user?enabled=true';
+        } else if (searchType === 'disabled') {
+            url = '/admin/search/user?enabled=false';
+        }
+
+        // Redirect to the constructed URL
+        window.location.href = url;
+    }
+</script>
+
 </body>
 </html>

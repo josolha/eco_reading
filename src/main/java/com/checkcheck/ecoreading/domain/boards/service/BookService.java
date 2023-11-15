@@ -8,7 +8,6 @@ import com.checkcheck.ecoreading.domain.books.dto.NaverBookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.NaverResultDTO;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
-import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
 
@@ -46,11 +45,9 @@ public class BookService {
     @Value("${naver-property.clientSecret}")
     private String naverClientSecret;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    @Autowired
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
     //네이버 검색 API 요청
     public List<NaverBookDTO> searchBooks (String text) {
@@ -185,6 +182,19 @@ public class BookService {
         bookRepository.save(books);
     }
 
+    public Boards searchBooksFromIsbn(String searchInput){
+        List<Books> books =  bookRepository.findByIsbn(searchInput);
+        Long boardId = books.get(0).getBoards().getBoardId();
+        return boardRepository.findAllByBoardId(boardId);
+    }
 
-
+    public boolean updateGrade(Books books, int minScore){
+        log.info("책 아이디 : " + books.getBooksId());
+        if (minScore == 0) books.setGrade("똥휴지");
+        if (minScore == 1) books.setGrade("쓸만하네");
+        if (minScore == 2) books.setGrade("헌책 감사");
+        if (minScore == 3) books.setGrade("우와 새책");
+        Books book = bookRepository.save(books);
+        return book.getBooksId() != null;
+    }
 }

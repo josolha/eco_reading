@@ -190,6 +190,9 @@ public class UserService {
        return userRepository.findAllByUsersId(usersId);
     }
 
+    public List<Users> findAllByEnabled(boolean enabled){
+        return userRepository.findByEnabled(enabled);
+    }
 
 }
 

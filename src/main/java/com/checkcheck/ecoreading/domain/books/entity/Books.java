@@ -105,6 +105,8 @@ public class Books extends BaseEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void setGrade(String grade) {this.grade = grade;}
 }
 
 

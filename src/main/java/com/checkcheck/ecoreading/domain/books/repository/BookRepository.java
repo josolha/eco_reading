@@ -10,6 +10,7 @@ public interface BookRepository extends JpaRepository<Books, Long> {
 
     List<Books> findAll();
     Books findByBooksId(Long bookId);
+    List<Books> findByIsbn(String isbn);
 
     // 검색 메서드
     List<Books> findByTitleContaining(String keyword);
