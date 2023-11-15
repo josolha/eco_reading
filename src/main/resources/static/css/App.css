@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500&display=swap');
-.donation {
+.titles {
     font-family: 'Chakra Petch', sans-serif;
+    color: #82BA82
 }
 
 * {cursor: url('../images/cursor.cur') 1 1, auto;
