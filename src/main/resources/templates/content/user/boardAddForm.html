@@ -18,7 +18,7 @@
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- main 나눔글 작성하기-->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 30px;">
             <div class="container">
                 <h2 class="mb-3 mt-3 text-center">나눔하겠습니다!</h2>
                 <!-- 검색창 -->
@@ -72,14 +72,16 @@
                     <div class="form-group mt-4">  <!--todo: 책 최대 5장으로 제한 -->>
                         <label for="imageUpload">기부하고자 하는 책의 사진 파일을 첨부해주세요. (최대 5장) 오염도나, 책의 외상 등을 촬영해주세요! :)</label>
                         <!-- input 타입을 file로 설정하고, 파일을 여러 개 선택할 수 있도록 multiple 속성 추가 -->
+                        <div id="imageContainer"></div>
+<!--                        <img id="preview" style="max-width: 200px; max-height: 200px;">-->
                         <input type="file" class="form-control-file" id="imageUpload" onchange="imgUpload(this)" name="image" accept="image/*"
                                multiple>
                     </div>
 
                     <!-- 기부어의 한마디 -->
                     <div class="form-group mt-4">
-                        <label for="message">기부어의 한마디 (최대 300자) </label>
-                        <textarea id="message" name="message" class="form-control" maxlength="300" rows="4"
+                        <label for="message">기부어의 한마디 (최대 250자) </label>
+                        <textarea id="message" name="message" class="form-control" maxlength="250" rows="4"
                                   placeholder="나눔받을 테이커에게 전하고 싶은 말이나 인상깊었던 책의 부분을 적어주세요! :)"
                                   style="overflow-y: scroll;"></textarea>
                     </div>
@@ -102,7 +104,7 @@
                                 <label class="visually-hidden" for="phone"></label>
                                 <div class="input-group">
                                     <div class="input-group-text">전화번호</div>
-                                    <input type="tel" pattern="\d{10,11}" class="form-control" id="phone" name="phone"
+                                    <input type="tel" pattern="\d{10,11}" class="form-control col-md-6" id="phone" name="phone"
                                            placeholder="010-0000-0000 ('-' 없이 입력)" minlength="10" maxlength="11">
                                 </div>
                             </div>
@@ -125,9 +127,7 @@
                                        placeholder="상세주소">
                             </div>
                         </div>
-                        <div class="col-auto col-form-label text-nowrap">
-                            정확한 수거 장소를 선택해주세요.
-                        </div>
+                        <div class="col-auto col-form-label text-nowrap">정확한 수거 장소를 선택해주세요.</div>
 
                         <div class="col-sm-3 col-form-label text-nowrap">
                             <div class="form-check">
@@ -222,13 +222,30 @@
                                         서비스 이용 약관에 동의합니다.
                                     </label>
                                 </div>
-                                <input type="submit" class="btn btn-primary" value="제출">
+                                <input type="submit" class="btn btn-primary" value="제출" onclick="submitFormWithValidation()">
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
         </main>
+    </div>
+</div>
+
+<!-- 모달 창 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">폼 제출 완료</h5>
+            </div>
+            <div class="modal-body">
+                폼이 성공적으로 제출되었습니다.
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModalButton" class="btn btn-primary">확인</button>
+            </div>
+        </div>
     </div>
 </div>
 

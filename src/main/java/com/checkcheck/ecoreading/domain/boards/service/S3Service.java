@@ -54,7 +54,7 @@ public class S3Service {
                 amazonS3.putObject(new PutObjectRequest(bucket+"/book", fileName, inputStream, metadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
                 // 이미지가 성공적으로 업로드되면 해당 이미지의 url을 리스트에 추가.
-                imgUrlList.add(amazonS3.getUrl(bucket+"/book/", fileName).toString());
+                imgUrlList.add(amazonS3.getUrl(bucket+"/book", fileName).toString());
             } catch (IOException e) {
                 // todo: 에러메시지 뜨도록 파일 만들기
                 //throw new PrivateException(Code.IMAGE_UPLOAD_ERROR);
