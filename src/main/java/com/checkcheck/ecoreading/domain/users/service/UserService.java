@@ -1,6 +1,8 @@
 package com.checkcheck.ecoreading.domain.users.service;
 
+import com.checkcheck.ecoreading.domain.users.dto.UserKakaoRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserLoginRequestDTO;
+import com.checkcheck.ecoreading.domain.users.dto.UserOAuth2CustomDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserResponseDTO.TokenInfo;
 import com.checkcheck.ecoreading.domain.users.entity.Role;
@@ -28,6 +30,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -78,19 +81,44 @@ public class UserService {
         user = userRepository.save(user);
         return user.getUsersId();
     }
+    public Long saveKakao(UserKakaoRegisterRequestDTO dto){
+        Users user = Users.builder()
+                .email(dto.getEmail())
+                .birthDate(dto.getBirthdate())
+                .nickName(dto.getNickname())
+                .phone(dto.getPhone())
+                .userName(dto.getUsername())
+                .socialAuthId(dto.getSocialAuthId())
+                .socialAuth("kakao")
+                .password(null)
+                .role(Role.ROLE_USER)
+                .detailAddress(dto.getDetailAddress())
+                .roadAddress(dto.getRoadAddress())
+                .postcode(dto.getPostcode())
+                .enabled(true)
+                .emailVerified(true)
+                .build();
+        user = userRepository.save(user);
+        return user.getUsersId();
+    }
 
     @Transactional
     public void sendCodeToEmail(String toEmail) {
         this.checkDuplicatedEmail(toEmail);
-        String title = "[췍췍 이메일 인증 번호]";
-        String authCode = this.createCode();
+        String title = "[eco-reading 이메일 인증 번호]";
+
+       String authCode = this.createCode();
+
+//        String authCode = "<p>eco-reading 인증 번호 입니다.<p>"
+//                + "<p> 인증 번호 : " + this.createCode() + "<p>";
+
         mailService.sendEmail(toEmail, title, authCode);
         // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "Email" / value = AuthCode )
         redisService.setValues(AUTH_CODE_PREFIX+toEmail, authCode, Duration.ofMillis(this.authCodeExpirationMillis));
     }
 
     private void checkDuplicatedEmail(String email) {
-        Optional<Users> member = userRepository.findByEmail(email);
+        Optional<Users> member = userRepository.findByEmailAndSocialAuthIsNull(email);
         if (member.isPresent()) {
             log.debug("userservice exception occur email: {}", email);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이미 존재하는 회원입니다.");
@@ -118,6 +146,25 @@ public class UserService {
         if (redisAuthCode == null || !redisAuthCode.equals(code)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "인증 코드가 틀렸습니다 다시 확인부탁드립니다.");
         }
+    }
+
+    public TokenInfo kakaoLogin(UserOAuth2CustomDTO oauthUser, HttpServletResponse response) {
+        // 사용자의 소셜 고유 ID를 기반으로 데이터베이스에서 사용자 조회
+        Long socialAuthId = oauthUser.getSocialId();
+        Optional<Users> userOpt = userRepository.findBySocialAuthId(socialAuthId);
+        Users user;
+        // 이미 존재하는 사용자
+        user = userOpt.get();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // JWT 토큰 생성
+        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+        // 응답에 토큰 쿠키 추가
+        addTokenCookiesToResponse(tokenInfo, response);
+        log.info("Kakao user logged in: {}", user.getEmail());
+        return tokenInfo;
     }
 
     public TokenInfo login(UserLoginRequestDTO loginDto, HttpServletResponse response) {
@@ -180,6 +227,10 @@ public class UserService {
         });
     }
 
+    public Optional<Users> findByUserNameAndPhone(String name, String phone){
+        return userRepository.findByUserNameAndPhone(name,phone);
+    }
+
     public List<Users> findAll(){
         return userRepository.findAll();
     }
@@ -191,6 +242,7 @@ public class UserService {
     public Integer findTotalPointByUsersId(Long usersId) {
         return userRepository.findTotalPointByUsersId(usersId);
     }
+
 
 }
 
