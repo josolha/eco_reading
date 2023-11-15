@@ -36,7 +36,7 @@ public class Delivery extends BaseEntity {
     @JoinColumn(name = "boards_id")
     private Boards boards;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "transactions_id")
     private Transactions transactions;
 
