@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>book::search:result</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href=".static/css/App.css">
 </head>
 <body>
 <!-- header -->
@@ -20,7 +19,8 @@
         <div class="container">
             <h2 class="mb-3 mt-3 text-center">검색결과</h2>
             <!-- 검색 결과 표 -->
-            <table class="mb-3 mt-3 text-center">
+            <div class="table-responsive">
+                <table class="table mb-3 mt-3 text-center" style="width: 100%; max-width: 100%;">
                 <tr>
                     <th>이미지</th>
                     <th>ISBN</th>
@@ -31,14 +31,14 @@
                     <th>선택</th>
                 </tr>
                 <tr th:each="book : ${books}">
-                    <td><img th:src="${book.image}" id="image" th:alt="${book.image}" width="100"></td>
+                    <td><img th:src="${book.image}" th:id="image" th:alt="${book.image}" width="100"></td>
                     <td th:text="${book.isbn}" th:id="isbn" ></td>
                     <td><a th:text="${book.title}" th:name="title"></a></td>
                     <td th:text="${book.author}" th:name="author"></td>
                     <td th:text="${book.publisher}" th:name="publisher"></td>
                     <td th:text="${book.pubdate}" th:name="pubdate"></td>
                     <td>
-                        <form th:action="@{/board/bookSearch}" th:object="${NewBoardBookDTO}" th:method="post">
+                        <form th:action="@{/board/bookSearch}" th:object="${books}" th:method="post">
                         <button type="submit" class="btn btn-dark mx-1">선택</button>
                         <input type="hidden" name="title" th:value="${book.title}" />
                         <input type="hidden" name="isbn" th:value="${book.isbn}" />
@@ -51,6 +51,7 @@
                     </td>
                 </tr>
             </table>
+            </div>
         </div>
         </main>
     </div>

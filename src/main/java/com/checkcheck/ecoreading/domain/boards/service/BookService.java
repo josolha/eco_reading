@@ -86,14 +86,13 @@ public class BookService {
         try {
             resultDTO = om.readValue(response.getBody(), NaverResultDTO.class);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            e.getMessage();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
         List<NaverBookDTO> books = resultDTO.getItems();
-//        BookDTO bookDTO = new BookDTO();
-//        bookDTO.getIsbn();
+
         return books;
     }
 
@@ -184,7 +183,4 @@ public class BookService {
 //                .build();
         bookRepository.save(books);
     }
-
-
-
 }
