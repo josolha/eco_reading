@@ -51,6 +51,8 @@ public class Transactions extends BaseEntity {
         this.books = books;
     }
 
+    public void setStatus(TransactionStatus transactionStatus) { this.status = transactionStatus; }
+
 }
 
 

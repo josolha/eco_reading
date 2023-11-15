@@ -25,7 +25,7 @@
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- main 나눔글 작성하기-->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px" >
             <div class = "container">
                 <h2 class="mb-3 mt-3 text-center">나눔글 수정</h2>
                 <!-- 검색창 -->
@@ -69,7 +69,6 @@
                             <input id="message" name="message" class="form-control" type="text" th:value="${boards.message}">
                         </div>
                     </div>
-
                     <div class="border mt-5 mb-5"></div>
                     <div> 수거 주소 입력</div>
                     <div>원하시는 수거 주소를 입력해주세요. </div>
@@ -92,6 +91,31 @@
                         </div>
                     </div>
                 </form>
+                <div class="form-group mt-4">
+                    <label for="imageUpload">기부하고자 하는 책의 사진 파일을 첨부해주세요. (최대 5장) 오염도나, 책의 외상 등을 촬영해주세요! :)</label>
+                    <!-- 기존 이미지 표시 -->
+                    <div th:each="book : ${boards.booksList}">
+                    <div class="mt-3">
+                        <label for="currentImages">현재 첨부된 이미지</label>
+                        <div id="currentImages" class="row">
+                            <!-- imageList를 반복하고 각 이미지를 표시 -->
+                            <div th:each="image : ${book.imagesList}" class="col-md-4 mb-3">
+                                <form th:action="@{'/board/deleteimage/' + ${image.imagesId}}" method="post">
+                                    <!-- 아래의 input 태그에서 boardId를 board-Id로 수정 -->
+                                    <input type="hidden" id="board-Id" name="boardId" th:value="${boards.boardId}">
+                                    <img class="card-img-top" th:src="${image.imagesUrl}" alt="책 이미지" style="max-width: 100px; max-height: 100px; margin-right: 10px;">
+                                    <button type="submit" class="btn btn-danger btn-sm mt-2">삭제</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 새로운 이미지를 위한 입력 -->
+                    <div class="mt-3">
+                        <label for="imageUpload">새로운 이미지 추가</label>
+                        <input type="file" class="form-control-file" id="imageUpload" onchange="imgUpload(this)" name="image" accept="image/*" multiple>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

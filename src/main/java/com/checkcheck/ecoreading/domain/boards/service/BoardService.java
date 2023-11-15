@@ -17,6 +17,7 @@ import com.checkcheck.ecoreading.domain.images.entity.Images;
 import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
+import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.Banner;
@@ -41,6 +42,7 @@ public class BoardService {
     private final BookRepository bookRepository;
     private final BoardRepository boardRepository;
     private final DeliveryRepository deliveryRepository;
+    private final UserRepository userRepository;
 
 
     // db에 글 업로드시 필요한 과정 (into IMAGES, BOOKS, BOARDS, DELIVERY

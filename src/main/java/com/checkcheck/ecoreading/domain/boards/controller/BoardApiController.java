@@ -10,6 +10,7 @@ import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.boards.service.S3Service;
 import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.books.dto.NaverBookDTO;
+import com.checkcheck.ecoreading.domain.images.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ public class BoardApiController {
 
     private final BoardService boardService;
     private final BookService bookService;
+    private final ImageService imageService;
 
     // 나눔글 등록 폼에서 input 가져와서 DB에 업로드
     @PostMapping(value = "/board/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -75,4 +77,13 @@ public class BoardApiController {
         model.addAttribute("boards", boards);
         return "/content/board/updateBoardSearchForm";
     }
+
+    @PostMapping("/board/deleteimage/{imagesId}")
+    public String deleteImage(@PathVariable Long imagesId, @RequestParam("boardId") Long boardId, Model model){
+        imageService.deleteImage(imagesId);
+        model.addAttribute(boardService.findAllByBoardId(boardId));
+        return "/content/board/boardUpdateForm";
+    }
+
+
 }

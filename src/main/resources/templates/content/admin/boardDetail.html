@@ -61,13 +61,19 @@
                                 <div class="card-header">
                                     Book Details
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text"><strong>저자:</strong> <span th:text="${book.author}"></span></p>
-                                    <p class="card-text"><strong>출판사:</strong> <span th:text="${book.publisher}"></span></p>
-                                    <p class="card-text"><strong>발행 일자:</strong> <span th:text="${book.pubDate}"></span></p>
-                                    <p class="card-text"><strong>기부어 아이디:</strong> <span th:text="${book.transactions.giverId}"></span></p>
-                                    <button class="custom-button btn btn-primary btn-lg btn-block">검수 하기</button>
-                                </div>
+                                <form th:action="@{/admin/checkList/{boardId}(boardId=${book.boards.boardId})}" th:object="${book}" method="get">
+                                    <div class="card-body">
+                                        <p class="card-text"><strong>저자:</strong> <span th:text="${book.author}"></span></p>
+                                        <p class="card-text"><strong>출판사:</strong> <span th:text="${book.publisher}"></span></p>
+                                        <p class="card-text"><strong>발행 일자:</strong> <span th:text="${book.pubDate}"></span></p>
+                                        <p class="card-text"><strong>기부어 아이디:</strong> <span th:text="${book.transactions.giverId}"></span></p>
+                                        <p class="card-text"><strong>책 등급:</strong><span th:text="${book.grade}"></span></p>
+                                        <p class="card-text"><strong>거래 상태:</strong><span th:text="${book.transactions.status}" id="bookStatus"></span></p>
+                                        <p class="card-text" style="display: none;" id="transactionsId" th:text="${book.transactions.transactionsId}"></p>
+                                        <button class="custom-button btn btn-primary btn-lg btn-block" type="submit" id="inspectionButton">검수 하기</button>
+                                        <button class="custom-button btn btn-success btn-lg btn-block" type="submit" id="collectionButton">수거 완료</button>
+                                    </div>
+                                </form>
                             </div>
 
                             <!-- 기부어의 한마디 -->
@@ -102,13 +108,34 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <!-- Initialize Bootstrap Carousel -->
 <script>
     $(document).ready(function () {
         $('#imageCarousel').carousel();
     });
-</script>
 
+    $(document).ready(function () {
+    var bookStatus = $('#bookStatus').text();
+
+    if (bookStatus === '신규등록') {
+    $('#collectionButton').hide();
+
+}
+    else if (bookStatus === '수거중' || bookStatus === '검수중') {
+    $('#inspectionButton').hide();
+
+} else if (bookStatus === '나눔중' || bookStatus === '나눔완료') {
+        $('#inspectionButton').hide();
+        $('#collectionButton').hide();
+    }
+    $('#imageCarousel').carousel();
+});
+
+    $('#collectionButton').click(function (event) {
+        event.preventDefault();
+        var transactionsId = $('#transactionsId').text();
+        window.location.href = '/admin/update/status/' + encodeURIComponent(transactionsId);
+    });
+</script>
 </body>
 </html>

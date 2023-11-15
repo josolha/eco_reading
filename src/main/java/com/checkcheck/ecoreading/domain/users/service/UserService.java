@@ -1,5 +1,7 @@
 package com.checkcheck.ecoreading.domain.users.service;
 
+import com.checkcheck.ecoreading.domain.books.entity.Books;
+
 import com.checkcheck.ecoreading.domain.users.dto.UserKakaoRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserLoginRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserOAuth2CustomDTO;
@@ -239,6 +241,9 @@ public class UserService {
        return userRepository.findAllByUsersId(usersId);
     }
 
+    public List<Users> findAllByEnabled(boolean enabled){
+        return userRepository.findByEnabled(enabled);
+    }
     public Integer findTotalPointByUsersId(Long usersId) {
         return userRepository.findTotalPointByUsersId(usersId);
     }

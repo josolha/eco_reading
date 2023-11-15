@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href=".static/css/App.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        main {
+            margin-left: 200px;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .btn-primary {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <header th:replace="~{/header/header :: headerFragment}"></header>
@@ -14,27 +41,84 @@
         <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
 
         <!-- Main -->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+        <main role="main" class="col-md-9 col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">도서 체크 리스트</h1>
+                <h1 class="h2" th:text="'도서 체크 리스트 (boardId = ' + ${boardId} + ')'"></h1>
             </div>
-            <!-- 사용자 정보 테이블 -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>구분</th>
-                    <th>우와~새책</th>
-                    <th>헌책 감사</th>
-                    <th>쓸만하네</th>
-                    <th>똥휴지</th>
-                    <th>상태 체크</th>
-                </tr>
-                </thead>
-            </table>
+            <div class="container">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/admin/checkList/{boardId}(boardId=${boardId})}" method="post" id="bookForm">
+                        <table class="table mt-2">
+                            <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>우와 새책~!</th>
+                                <th>헌책 감사</th>
+                                <th>쓸만하네</th>
+                                <th>똥휴지(기부불가)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><b>헌 상태</b></td>
+                                <td>새 것에 가까운 책<input type="checkbox" class="single-checkbox" value="3"></td>
+                                <td>약간의 사용감은 있으나 깨끗한 책<input type="checkbox" class="single-checkbox" value="2"></td>
+                                <td>사용감이 많으며 헌 느낌이 나는 책<input type="checkbox" class="single-checkbox" value="1"></td>
+                                <td>독서 및 이용에 지장이 있는 책<input type="checkbox" class="single-checkbox" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td><b>표지</b></td>
+                                <td>변색/찢어짐/낙서 없음<input type="checkbox" class="single-checkbox" value="3"></td>
+                                <td>희미한 변색/얼룩 있음, 약간의 모서리 해짐, 낙서 없음<input type="checkbox" class="single-checkbox" value="2"></td>
+                                <td>전체적인 변색/모서리 해짐/오염 있음, 2cm 이하의 찢어짐 있음, 낙서 있음<input type="checkbox" class="single-checkbox" value="1"></td>
+                                <td>4cm 초과한 찢어짐 혹은 얼룩 있음<input type="checkbox" class="single-checkbox" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td><b>책등/책배</b></td>
+                                <td>변색/찢어짐/낙서 없음<input type="checkbox" class="single-checkbox" value="3"></td>
+                                <td>희미한 변색/얼룩 있음, 약간의 닳은 흔적 있음, 낙서 없음<input type="checkbox" class="single-checkbox" value="2"></td>
+                                <td>전체적인 변색/모서리 해짐/오염 있음, 낙서 있음 (이름포함)<input type="checkbox" class="single-checkbox" value="1"></td>
+                                <td>2cm 초과한 크기의 얼룩 있음<input type="checkbox" class="single-checkbox" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td><b>내부/제본상태</b></td>
+                                <td>변색/찢어짐/낙서/얼룩 없음, 제본 탈착 없음<input type="checkbox" class="single-checkbox" value="3"></td>
+                                <td>변색/낙서/얼룩 없음, 약간의 접힌 흔적 있음, 제본 탈착 없음<input type="checkbox" class="single-checkbox" value="2"></td>
+                                <td>변색/얼룩/오염 있음, 10쪽 이하의 필기 및 밑줄 있음, 2cm 이하의 찢어짐 있음, 본문 읽기에 지장 없는 부록 없음<input type="checkbox" class="single-checkbox" value="1"></td>
+                                <td>2cm 초과한 찢어짐 혹은 얼룩 있음, 제본 불량, 분책 된 경우<input type="checkbox" class="single-checkbox" value="0"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                            <div class="col-sm-3 col-form-label text-nowrap"></div>
+                            <input type="hidden" name="minScore" id="minScore" value="">
+                            <input type="submit" class="btn btn-primary" value="제출" onclick="submitForm()">
+                        </form>
+                </div>
+            </div>
         </main>
-
     </div>
 </div>
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.single-checkbox').on('change', function () {
+            // 같은 행에 있는 모든 체크박스를 선택 해제합니다.
+            $(this).closest('tr').find('.single-checkbox').not(this).prop('checked', false);
+        });
+    });
+
+function submitForm() {
+    var checkboxes = document.querySelectorAll('.single-checkbox');
+    var minScore = Math.min.apply(null, Array.from(checkboxes).map(function (checkbox) {
+    return checkbox.checked ? parseInt(checkbox.value) : Infinity; }));
+    // minScore 변수를 사용하여 서버로 전송 또는 다른 작업 수행
+    document.getElementById('minScore').value = minScore;
+    document.getElementById('bookForm').submit();
+}
+
+</script>
 </body>
 </html>
+
