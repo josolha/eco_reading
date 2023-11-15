@@ -83,7 +83,14 @@ public class UserApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/point")
+    public String getTotalPoint(Model model) {
+        Long userId = 1L;
+        Users user = userService.findAllById(userId);
+        int totalPoint = user.getTotalPoint();
+        model.addAttribute("totalPoint", totalPoint);
 
-
+        return "/header/header";
+    }
 
 }

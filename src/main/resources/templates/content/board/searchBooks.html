@@ -20,6 +20,26 @@
             color: black;
             text-decoration: none;
         }
+
+        .pagination-container {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .pagination-container .page-item {
+            margin: 0 5px;
+        }
+
+        .pagination-container .page-link {
+            line-height: 30px;
+        }
+
+        .pagination-container .page-item.active .page-link {
+            background-color: #E2ECE2;
+            color: #000000;
+        }
     </style>
 </head>
 <body>
@@ -30,9 +50,9 @@
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- Main -->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 40px;">
             <br>
-            <h3><span style="font-weight: bold;" th:text="'\'' + ${param.search} + '\''"></span>의 검색 결과 총 <span th:text="${searchBooks.size()}"></span>건</h3>
+            <h3><span style="font-weight: bold;" th:text="'\'' + ${param.search} + '\''"></span>의 검색 결과 총 <span th:text="${bookPage.totalElements}"></span>건</h3>
             <hr>
 
             <!-- 검색 결과 목록 -->
@@ -63,6 +83,24 @@
                     </a>
                 </div>
             </div>
+
+            <!-- 페이징 처리 -->
+            <nav aria-label="Page navigation" class="pagination-container">
+                <!-- 이전 페이지로 가는 링크 -->
+                <li th:if="${bookPage.hasPrevious()}" class="page-item">
+                    <a class="page-link" th:href="@{'/main/search?searchType=' + ${searchType} + '&search=' + ${searchInput} + '&page=' + ${bookPage.number - 1} + '&size=' + ${bookPage.size} + '&sort=' + ${bookPage.sort} }">이전</a>
+                </li>
+
+                <!-- 페이지 번호들 -->
+                <li th:each="i : ${#numbers.sequence(0, bookPage.totalPages - 1)}" class="page-item" th:classappend="${i == bookPage.number} ? 'active' : ''">
+                    <a class="page-link" th:href="@{'/main/search?searchType=' + ${searchType} + '&search=' + ${searchInput} + '&page=' + ${i} + '&size=' + ${bookPage.size} + '&sort=' + ${bookPage.sort} }" th:text="${i + 1}"></a>
+                </li>
+
+                <!-- 다음 페이지로 가는 링크 -->
+                <li th:if="${bookPage.hasNext()}" class="page-item">
+                    <a class="page-link" th:href="@{'/main/search?searchType=' + ${searchType} + '&search=' + ${searchInput} + '&page=' + ${bookPage.number + 1} + '&size=' + ${bookPage.size} + '&sort=' + ${bookPage.sort} }">다음</a>
+                </li>
+            </nav>
 
         </main>
     </div>

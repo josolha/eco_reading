@@ -19,10 +19,51 @@
             color: black;
             text-decoration: none;
         }
+
+        .pagination-container {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            justify-content: center; /* 중앙 정렬 */
+        }
+
+        .pagination-container .page-item {
+            margin: 0 5px; /* 각 페이지 버튼 사이의 간격 조절 */
+        }
+
+        .pagination-container .page-link {
+            line-height: 30px; /* 버튼 내에서 텍스트 수직 중앙 정렬 */
+        }
+
+        .pagination-container .page-item.active .page-link {
+            background-color: #E2ECE2; /* 연두색 배경색 */
+            color: #000000; /* 글자색 (검정색 등) */
+        }
+
+        /* CSS for Firework Animation */
+        @keyframes fireworks {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(-500px) rotate(720deg) scale(0.2);
+                opacity: 1;
+            }
+        }
+
+        .firework {
+            width: 60px; /* 책 크기 조절 */
+            height: 60px; /* 책 크기 조절 */
+            background-image: url('/images/flyingbook.png'); /* 책 이미지 경로 설정 */
+            background-size: contain;
+            position: absolute;
+            animation: fireworks 5s ease-out; /* 5초 동안 애니메이션 설정 */
+        }
     </style>
 </head>
 
-<body>
+<body onload="createFireworks()">
     <header th:replace="~{/header/header :: headerFragment}"></header>
 
     <div class="container-fluid">
@@ -32,7 +73,7 @@
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- Main -->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 40px;">
 
             <!-- 검색창 -->
             <br>
@@ -53,9 +94,10 @@
             <br>
 
             <!-- 전체 나눔 글 목록 -->
-            <form>
+            <form th:action="@{/}" method="get">
                 <div class="form-row">
                     <div class="form-group col-md-4" th:each="book : ${Books}">
+                        <!-- 책 정보 표시 -->
                         <div class="image-size" style="text-align: center;">
                             <a th:href="@{/board/detail/{bookId}(bookId=${book.booksId})}">
                                 <img th:src="${book.images[0].imagesUrl}" th:alt="${book.title}" style="display: inline-block;">
@@ -72,12 +114,60 @@
                         </figcaption>
                     </div>
                 </div>
-            </form>
 
+                <!-- 페이징 처리 -->
+                <nav aria-label="Page navigation" class="pagination-container">
+                    <!-- 이전 페이지로 가는 링크 -->
+                    <li th:if="${bookPage.hasPrevious()}" class="page-item">
+                        <a class="page-link" th:href="@{'/main/?page=' + ${bookPage.number - 1} + '&size=' + ${bookPage.size} + '&sort=' + ${bookPage.sort} }">이전</a>
+                    </li>
+
+                    <!-- 페이지 번호들 -->
+                    <li th:each="i : ${#numbers.sequence(0, bookPage.totalPages - 1)}" class="page-item" th:classappend="${i == bookPage.number} ? 'active' : ''">
+                        <a class="page-link" th:href="@{'/main/?page=' + ${i} + '&size=' + ${bookPage.size} + '&sort=' + ${bookPage.sort} }" th:text="${i + 1}"></a>
+                    </li>
+
+                    <!-- 다음 페이지로 가는 링크 -->
+                    <li th:if="${bookPage.hasNext()}" class="page-item">
+                        <a class="page-link" th:href="@{'/main/?page=' + ${bookPage.number + 1} + '&size=' + ${bookPage.size} + '&sort=' + ${bookPage.sort} }">다음</a>
+                    </li>
+                </nav>
+            </form>
         </main>
 
         </div>
     </div>
+
+    <!-- JavaScript for Firework Animation -->
+    <script>
+        function createFireworks() {
+            // 원하는 책의 수
+            var numberOfFireworks = 20;
+
+            for (var i = 0; i < numberOfFireworks; i++) {
+                createFirework();
+            }
+        }
+
+        function createFirework() {
+            var firework = document.createElement("div");
+            firework.classList.add("firework");
+
+            // 책 나올 위치를 랜덤으로 설정
+            var positionX = Math.random() * window.innerWidth;
+            var positionY = Math.random() * window.innerHeight;
+
+            firework.style.left = positionX + "px";
+            firework.style.top = positionY + "px";
+
+            document.body.appendChild(firework);
+
+            // 애니메이션 종료 후 책 제거
+            firework.addEventListener("animationend", function() {
+                document.body.removeChild(firework);
+            });
+        }
+    </script>
 
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 </body>

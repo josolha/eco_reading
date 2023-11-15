@@ -188,6 +188,9 @@ public class UserService {
        return userRepository.findAllByUsersId(usersId);
     }
 
+    public Integer findTotalPointByUsersId(Long usersId) {
+        return userRepository.findTotalPointByUsersId(usersId);
+    }
 
 }
 
