@@ -3,11 +3,14 @@ package com.checkcheck.ecoreading.domain.transactions.service;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
+
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,4 +65,5 @@ public class TransactionService {
         }
         transactionRepository.save(transactions);
     }
+
 }

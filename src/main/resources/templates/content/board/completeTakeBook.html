@@ -11,10 +11,32 @@
             border: 2px solid #E2ECE2;
             font-weight: bold;
         }
+
+        /* CSS for Firework Animation */
+        @keyframes fireworks {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(-500px) rotate(720deg) scale(0.2);
+                opacity: 1;
+            }
+        }
+
+        .firework {
+            width: 50px; /* 하트 크기 조절 */
+            height: 50px; /* 하트 크기 조절 */
+            background-image: url('/images/heart.png'); /* 하트 이미지 경로 설정 */
+            background-size: contain;
+            position: absolute;
+            animation: fireworks 5s ease-out; /* 5초 동안 애니메이션 설정 */
+        }
     </style>
 </head>
 
-<body>
+<body onload="createFireworks()">
+
 <header th:replace="~{/header/header :: headerFragment}"></header>
 
 <div class="container-fluid">
@@ -23,7 +45,7 @@
         <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- Main -->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 40px;">
             <div style="text-align: center; margin-top: 100px;">
                 <h1>주문이 완료되었습니다!</h1>
                 <br>
@@ -32,6 +54,37 @@
         </main>
     </div>
 </div>
+
+<!-- JavaScript for Firework Animation -->
+<script>
+    function createFireworks() {
+        // 원하는 하트의 수
+        var numberOfFireworks = 15;
+
+        for (var i = 0; i < numberOfFireworks; i++) {
+            createFirework();
+        }
+    }
+
+    function createFirework() {
+        var firework = document.createElement("div");
+        firework.classList.add("firework");
+
+        // 하트 나올 위치를 랜덤으로 설정
+        var positionX = Math.random() * window.innerWidth;
+        var positionY = Math.random() * window.innerHeight;
+
+        firework.style.left = positionX + "px";
+        firework.style.top = positionY + "px";
+
+        document.body.appendChild(firework);
+
+        // 애니메이션 종료 후 하트 제거
+        firework.addEventListener("animationend", function() {
+            document.body.removeChild(firework);
+        });
+    }
+</script>
 
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 

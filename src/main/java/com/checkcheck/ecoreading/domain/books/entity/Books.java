@@ -43,7 +43,7 @@ public class Books extends BaseEntity {
             /* cascade옵션은 부모 엔티티에 대한 동작을 자식 엔티티로 전파할 때 사용됨.
              모든 영속성 동작(PERSIST, MERGE, REMOVE, REFRESH, DETACH)을 자식 엔티티로 전파하겠다는 의미.
              즉 부모엔티티에 대한 변경사항이 자식 엔티티에도 적용된다. */
-    private List<Images> imagesList = new ArrayList<>();  // Todo: 변수명 images-> imageList로 변경
+    private List<Images> imagesList = new ArrayList<>();
 
     private String isbn;
     private String title;

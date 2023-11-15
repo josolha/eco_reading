@@ -8,6 +8,9 @@ import com.checkcheck.ecoreading.domain.books.dto.NaverBookDTO;
 import com.checkcheck.ecoreading.domain.boards.dto.NaverResultDTO;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
+
+import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
+import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
 
@@ -20,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -83,14 +89,13 @@ public class BookService {
         try {
             resultDTO = om.readValue(response.getBody(), NaverResultDTO.class);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            e.getMessage();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
         List<NaverBookDTO> books = resultDTO.getItems();
-//        BookDTO bookDTO = new BookDTO();
-//        bookDTO.getIsbn();
+
         return books;
     }
 
@@ -134,18 +139,18 @@ public class BookService {
     }
 
     // 검색 기능
-    public List<Books> searchBooks(String searchType, String keyword) {
-        if ("title".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByTitleContaining(keyword);
-        } else if ("author".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByAuthorContaining(keyword);
-        } else if ("publisher".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByPublisherContaining(keyword);
-        } else {
-            // 기본은 통합검색
-            return bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(keyword, keyword, keyword);
-        }
-    }
+//    public List<Books> searchBooks(String searchType, String keyword) {
+//        if ("title".equalsIgnoreCase(searchType)) {
+//            return bookRepository.findByTitleContaining(keyword);
+//        } else if ("author".equalsIgnoreCase(searchType)) {
+//            return bookRepository.findByAuthorContaining(keyword);
+//        } else if ("publisher".equalsIgnoreCase(searchType)) {
+//            return bookRepository.findByPublisherContaining(keyword);
+//        } else {
+//            // 기본은 통합검색
+//            return bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(keyword, keyword, keyword);
+//        }
+//    }
 
     public List<Boards> giveList(Users users){
         return boardRepository.findAllByUsers(users);
@@ -196,5 +201,30 @@ public class BookService {
         if (minScore == 3) books.setGrade("우와 새책");
         Books book = bookRepository.save(books);
         return book.getBooksId() != null;
+    }
+  
+    // 페이징된 도서 목록 조회
+    public Page<Books> findPagedBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+    // 상태 나눔중인 나눔 글만 조회 및 페이징
+    public Page<Books> findAllBooksByStatus(TransactionStatus bookStatus, Pageable pageable) {
+        return bookRepository.findAllByTransactions_Status(bookStatus, pageable);
+    }
+
+    // 검색 기능 및 페이징
+    public Page<Books> searchBooks(String searchType, String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        if ("title".equalsIgnoreCase(searchType)) {
+            return bookRepository.findByTitleContaining(keyword, pageable);
+        } else if ("author".equalsIgnoreCase(searchType)) {
+            return bookRepository.findByAuthorContaining(keyword, pageable);
+        } else if ("publisher".equalsIgnoreCase(searchType)) {
+            return bookRepository.findByPublisherContaining(keyword, pageable);
+        } else {
+            // 기본은 통합검색
+            return bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(keyword, keyword, keyword, pageable);
+        }
     }
 }

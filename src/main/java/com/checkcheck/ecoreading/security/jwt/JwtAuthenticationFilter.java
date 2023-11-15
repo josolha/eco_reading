@@ -38,8 +38,17 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         log.info("httpResponse"+httpResponse);
         // 로그인, 회원가입, 로그아웃, 유저 페이지 등 인증이 필요없는 경로 무시
         String requestURI = httpRequest.getRequestURI();
-        if (requestURI.startsWith("/user/login") || requestURI.startsWith("/user/signup")
-                || requestURI.startsWith("/user/logout")) {
+        if (requestURI.startsWith("/user/login")
+                || requestURI.startsWith("/user/signup")
+                || requestURI.startsWith("/user/logout")
+                || requestURI.startsWith("/user/social/login")
+                ||requestURI.startsWith("/user/kakao/signup")
+                || requestURI.startsWith("/user/kakao/login")
+                || requestURI.startsWith("/user/emails/verification-requests")
+                || requestURI.startsWith("/user/emails/verifications")
+                || requestURI.startsWith("/user/find/idPw")
+                || requestURI.startsWith("/user/find-email")
+        ) {
             chain.doFilter(request, response);
             return;
         }
