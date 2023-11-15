@@ -58,7 +58,7 @@ public class Users extends BaseEntity implements UserDetails {
     private Role role;
     private Boolean enabled = true;
     private String socialAuth;
-    private String socialAuthId;
+    private Long socialAuthId;
     private Boolean emailVerified = false;
 
     @Override

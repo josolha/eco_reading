@@ -41,21 +41,27 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests(auth -> auth
-                        .anyRequest().permitAll() // 모든 요청에 대해 접근을 허용
+                        .antMatchers("/**").permitAll() // 모든 요청에 대해 접근을 허용
 //                        .antMatchers("/user/login", "/user/signup","/user/logout","/user/").permitAll() // 로그인, 회원가입, 유저 페이지는 인증 없이 접근 허용
 //                        .antMatchers("/h2-console/**").permitAll() // H2 콘솔 경로도 인증 없이 접근 허용
 //                        .antMatchers("/user/test").hasAuthority("ROLE_USER") // '/test' 경로는 'ROLE_USER' 권한을 가진 사용자만 접근 가능
-//                        .anyRequest().authenticated() // 나머지 요청은 모두 인증 필요
+                        //.anyRequest().authenticated() // 나머지 요청은 모두 인증 필요
                 )
                 .formLogin().disable()
                 // 예외 처리 추가
-                .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/user/403error")
-                )
+//                .exceptionHandling(exception -> exception
+//                        .accessDeniedPage("/user/403error")
+//                )
                 .csrf(csrf -> csrf.disable()) // H2 콘솔 사용 시 CSRF 비활성화 필요
+
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/user/login")
+                        .defaultSuccessUrl("/user/social/login", true)
+                )
                 .headers(headers -> headers.frameOptions().disable()) // H2 콘솔은 iframe을 사용하기 때문에 이를 허용해야 함
                 .userDetailsService(userDetailsService) // UserDetailsService 설정
-      //          .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
+
                 .build();
     }
 
