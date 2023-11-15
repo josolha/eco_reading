@@ -66,14 +66,6 @@ public class BoardViewController {
         return "/content/board/takeBook";
     }
 
-    // 나눔받기 완료
-//    @PostMapping("/detail/complete")
-//    public String completeTakeBook() {
-//
-//        return "/content/board/completeTakeBook";
-//    }
-
-
     @GetMapping("/update/{boardId}")
     public String boardUpdateForm(@PathVariable Long boardId, Model model){
         Boards boards = boardService.findAllByBoardId(boardId);
