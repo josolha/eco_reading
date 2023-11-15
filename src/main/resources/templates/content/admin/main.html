@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>유저관리</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/App.css">
+    <link rel="stylesheet" href="/css/App.css">
 </head>
 <body>
 <header th:replace="~{/header/header :: headerFragment}"></header>
@@ -15,9 +15,9 @@
         <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
 
         <!-- Main Content -->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px;">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">유저관리</h1>
+                <h2>유저관리</h2 cla>
             </div>
             <br>
             <div class="input-group">
@@ -46,7 +46,7 @@
                             <span th:text="${user.enabled} ? '활성화 계정' : '비활성화 계정'"></span>
                         </td>
                         <td>
-                            <a th:href="@{/admin/user/details/{userId}(userId=${user.usersId})}" class="btn btn-primary">자세히 보기</a>
+                            <a th:href="@{/admin/user/details/{userId}(userId=${user.usersId})}" class="btn" style="background-color: #82BA82; color: #fff;">자세히 보기</a>
                         </td>
                     </tr>
                     </tbody>
@@ -55,6 +55,7 @@
         </main>
     </div>
 </div>
+
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 
 <script>

@@ -34,10 +34,10 @@ public class Transactions extends BaseEntity {
             cascade = CascadeType.ALL)
     private List<PointHistory> pointHistoryList = new ArrayList<>();
 
-    @OneToOne(
+    @OneToMany(
             mappedBy = "transactions",
             cascade = CascadeType.ALL)
-    private Delivery delivery;
+    private List<Delivery> deliveryList = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "books_id")

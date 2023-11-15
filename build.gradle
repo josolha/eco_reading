@@ -40,8 +40,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
 
-	// H2
-	runtimeOnly 'com.h2database:h2'
+//	// H2
+//	runtimeOnly 'com.h2database:h2'
 
 	//타입리프 레이아웃
 	//implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
@@ -60,9 +60,8 @@ dependencies {
 	//OAuth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-
-
-
+	//mysql
+	implementation 'mysql:mysql-connector-java:8.0.28'
 
 }
 
