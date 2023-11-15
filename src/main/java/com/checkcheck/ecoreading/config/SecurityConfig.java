@@ -61,6 +61,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions().disable()) // H2 콘솔은 iframe을 사용하기 때문에 이를 허용해야 함
                 .userDetailsService(userDetailsService) // UserDetailsService 설정
                 //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
+
                 .build();
     }
 

@@ -1,43 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/static/css/App.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        /* Add CSS for the sub-menu container */
-        #myPageSubMenu {
-            display: none; /* Initially hidden */
-        }
-
-        /* Show the sub-menu when hovering over the 마이페이지 link */
-        .nav-item:hover #myPageSubMenu {
-            display: block;
-        }
-    </style>
-</head>
-
-<body>
-
-<nav id="sidebar" class="col-md-3 col-lg-2 bg-light d-md-block sidebar" th:fragment="sidebarFragment" style="position: fixed; height: 100%; width: 150px;">
-    <div class="position-sticky">
+<nav id="sidebar" class="sidebar col-md-3 col-lg-2 bg-light d-md-block" th:fragment="sidebarFragment" style="width: 150px; font-family: 'Chakra Petch', sans-serif;">
+    <div style="padding-top: 20px;">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="/board/new" style="color: black; font-weight: bold;">나눔하기</a>
+                <a class="nav-link active" href="/board/new" style="color: black; font-weight: bold; font-size: 18px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">book donation</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" style="color: black; font-weight: bold;">마이페이지</a>
+                <a class="nav-link" href="#" style="color: black; font-weight: bold; font-size: 18px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">mypage</a>
                 <!-- Wrap the sub-menu items in a container with an id -->
                 <div id="myPageSubMenu">
                     <ul class="nav flex-column ml-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/mypage/myinfor" style="color: black; font-weight: bold;">내 정보</a>
+                            <a class="nav-link" href="/user/mypage/myinfor" style="color: black; font-weight: bold; font-size: 15px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">▶ myinfo</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/mypage/givelist" style="color: black; font-weight: bold;">Give</a>
+                            <a class="nav-link" href="/user/mypage/givelist" style="color: black; font-weight: bold; font-size: 15px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">▶ give</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/mypage/takelist" style="color: black; font-weight: bold;">Take</a>
+                            <a class="nav-link" href="/user/mypage/takelist" style="color: black; font-weight: bold; font-size: 15px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">▶ take</a>
                         </li>
                     </ul>
                 </div>
@@ -45,6 +24,3 @@
         </ul>
     </div>
 </nav>
-
-</body>
-</html>

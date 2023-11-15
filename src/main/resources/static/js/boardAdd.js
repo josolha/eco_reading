@@ -10,7 +10,7 @@ function isPlaceSelected() {
     return typeof selectedPosition !== "undefined" && selectedPosition !== "";
 }
 
-//
+// 검색 유효성 검사
 function searchValidateForm() {
     var searchInput = document.getElementById('searchInput').value;
     if (searchInput.trim() === "") {
@@ -65,37 +65,23 @@ function submitValidateForm() {
     return true;
 }
 
-// 폼 제출 이벤트 리스너 추가
+
+function submitFormWithValidation() {
+    event.preventDefault();
+
+    if (submitValidateForm()) {
+        // 유효성 검사 통과 시 모달 창 띄우기
+        $("#myModal").modal('show');
+    }
+}
+
 $(document).ready(function() {
-    $("#form").on("submit", function(e) {
-        if (!submitValidateForm()) {
-            e.preventDefault();  // 폼 제출 막기
-        }
+    // 모달 창의 닫기 버튼 클릭 이벤트 처리
+    $("#closeModalButton").on("click", function() {
+        // 폼 수동으로 제출
+        $("#form").submit();
     });
 });
-
-
-// $(document).ready(function () {
-//     $('#imageUpload').on('change', function () {
-//         var existingFiles = $(this)[0].files;
-//         var newFiles = $(this).prop('files');
-//         var maxFiles = 5; // 최대 파일 수
-//
-//         if (existingFiles.length + newFiles.length > maxFiles) {
-//             alert('이미지는 최대 5장까지 첨부할 수 있습니다.');
-//             // 새로운 파일들을 추가하기 전에 input 값을 비움
-//             $(this).val('');
-//             return;
-//         }
-//
-//         // 새로운 파일들을 기존 파일들에 추가
-//         for (var i = 0; i < newFiles.length; i++) {
-//             existingFiles.push(newFiles[i]);
-//         }
-//
-//         // 여기에서 추가로 필요한 작업 수행
-//     });
-// });
 
 function sample4_execDaumPostcode() {
     new daum.Postcode({
@@ -112,33 +98,51 @@ function sample4_execDaumPostcode() {
     }).open();
 }
 
-$("#imageUpload").on("change", "input[type='file']", function(){
-    var file_path = $(this).val();
+$("#imageUpload").on("change", function(){
+    var fileInput = $("#imageUpload")[0];
+    var files = fileInput.files;
     var reg = /(.*?)\.(jpg|bmp|jpeg|png|JPG|BMP|JPEG|PNG)$/;
     var maxSize = 5 * 1024 * 1024;
-    var fileSize;
 
-    if ($("#imageUpload")[0].files.length > 5) {
-        alert("이미지는 최대 5장까지 첨부할 수 있습니다.");
-    }
+    // var file = event.target.files[0];
+    var imageContainer = $("#imageContainer");
+    imageContainer.empty();
 
-    if(file_path != "" && file_path != null) {
-        fileSize = document.getElementById("imageUpload").files[0].size;
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var reader = new FileReader();
+        // reader.readAsDataURL(file);
 
-        if(!file_path.match(reg)) {
-            alert("이미지 파일만 업로드 가능합니다. ");
-            return;
-        } else if(fileSize = maxSize) {
-            alert("파일 사이즈는 5MB까지 가능합니다. ");
+        reader.onload = (function (file) {
+            return function (e) {
+                // 미리보기 이미지의 크기 조절
+                var img = $("<img>").attr("src", e.target.result).css({
+                    "max-width": "200px",
+                    "max-height": "200px",
+                    "margin": "5px"  // 이미지 간격을 조절하기 위한 스타일
+                });
+                // 이미지를 이미지 컨테이너에 추가
+                imageContainer.append(img);
+            };
+        })(file);
+
+        if (files.length > 5) {
+            alert("이미지는 최대 5장까지 첨부할 수 있습니다.");
+            fileInput.value = "";
+            imageContainer.empty();
             return;
         }
+
+        if (!file.name.match(reg)) {
+            alert("이미지 파일만 업로드 가능합니다. ");
+            fileInput.value = "";
+            return;
+        } else if (file.size >= maxSize) {
+            alert("파일 사이즈는 5MB까지 가능합니다. ");
+            fileInput.value = "";
+            return;
+        }
+        reader.readAsDataURL(file);
     }
-    // // 허용되지 않은 확장자일 경우
-    // if (file_path != "" && (file_path.match(reg) == null || reg.test(file_path) == false)) {
-    //     // 파일 입력 필드의 값을 비움
-    //     $(this).val("");
-    //
-    //     // 알림 표시
-    //     alert("이미지 파일만 업로드 가능합니다.");
-    // }
 });
+
