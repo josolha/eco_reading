@@ -213,18 +213,20 @@ public class BookService {
         return bookRepository.findAllByTransactions_Status(bookStatus, pageable);
     }
 
-    // 검색 기능 및 페이징
-    public Page<Books> searchBooks(String searchType, String keyword, int page, int size) {
+    // 나눔중인 글 검색 기능 및 페이징
+    public Page<Books> searchBooks(TransactionStatus bookStatus, String searchType, String keyword, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
+
         if ("title".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByTitleContaining(keyword, pageable);
+            return bookRepository.findByTitleContainingAndTransactions_Status(keyword, bookStatus, pageable);
         } else if ("author".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByAuthorContaining(keyword, pageable);
+            return bookRepository.findByAuthorContainingAndTransactions_Status(keyword, bookStatus, pageable);
         } else if ("publisher".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByPublisherContaining(keyword, pageable);
+            return bookRepository.findByPublisherContainingAndTransactions_Status(keyword, bookStatus, pageable);
         } else {
-            // 기본은 통합검색
-            return bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(keyword, keyword, keyword, pageable);
+            // 기본은 통합검색, 상태가 "나눔중"인 것만 검색
+            return bookRepository.findAllByTransactions_Status(bookStatus, pageable);
         }
     }
+
 }

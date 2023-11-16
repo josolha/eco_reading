@@ -41,7 +41,7 @@ dependencies {
 
 
 	// H2
-	runtimeOnly 'com.h2database:h2'
+	// runtimeOnly 'com.h2database:h2'
 
 	//타입리프 레이아웃
 	//implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
@@ -60,8 +60,7 @@ dependencies {
 	//OAuth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-
-
+	implementation 'mysql:mysql-connector-java:8.0.29'
 
 
 }

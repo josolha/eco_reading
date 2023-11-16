@@ -13,6 +13,9 @@ import com.checkcheck.ecoreading.domain.delivery.dto.DeliveryDTO;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
 import com.checkcheck.ecoreading.domain.delivery.repository.DeliveryRepository;
 import com.checkcheck.ecoreading.domain.delivery.service.DeliveryService;
+import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
+import com.checkcheck.ecoreading.domain.transactions.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,7 @@ public class BoardViewController {
     private final BookService bookService;
     private final BoardService boardService;
     private final DeliveryService deliveryService;
+    private final TransactionService transactionService;
 
     // 나눔글 쓰기
     @GetMapping("/new")
@@ -57,13 +61,17 @@ public class BoardViewController {
     public String takeBook(@PathVariable Long booksId, Model model) {
         Books books = bookService.findBoardByBookId(booksId);
         BookMainDTO booksDTO = bookService.convertToDTO(books);  // DTO로 변환
+        DeliveryDTO deliveryDTO = deliveryService.convertToDeliveryDTO(new Delivery());
 
         if (booksDTO == null) {
             return "redirect:/error";
         }
-        model.addAttribute("book", booksDTO);
+        // 나눔완료로 상태 변경
+        Transactions transactions = books.getTransactions();
+        transactions.setStatus(TransactionStatus.나눔완료);
+        transactionService.saveTransaction(transactions);
 
-        DeliveryDTO deliveryDTO = deliveryService.convertToDeliveryDTO(new Delivery());
+        model.addAttribute("book", booksDTO);
         model.addAttribute("delivery", deliveryDTO);
 
         return "/content/board/takeBook";
