@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500&display=swap');
-    </style>
+    <title>Your Page Title</title>
+    <!-- 기타 메타 태그와 스타일시트 링크 -->
 </head>
 <body>
 <header th:fragment="headerFragment" style="background-color: #E2ECE2">
@@ -18,7 +18,19 @@
                 <a class="navbar-brand" th:href="@{/main/}"><img th:src="@{/images/alarm.png}" alt="Alarm" width="30px" height="30px"></a>
                 <a class="navbar-brand" th:href="@{/user/mypage/myinfor}"><img th:src="@{/images/user.png}" alt="User" width="30px" height="30px"></a>
                 </div>
-            </nav>
+            </div>
+
+            <!-- 로그인하지 않은 상태일 때 -->
+            <div sec:authorize="!isAuthenticated()">
+                <a class="navbar-brand" th:href="@{/login}"><img th:src="@{/images/user.png}" alt="Login" width="30px" height="30px"></a>
+            </div>
+        </div>
+    </nav>
 </header>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
 </body>
 </html>

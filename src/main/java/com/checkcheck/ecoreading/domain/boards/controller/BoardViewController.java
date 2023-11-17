@@ -12,6 +12,8 @@ import com.checkcheck.ecoreading.domain.delivery.service.DeliveryService;
 import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.service.TransactionService;
+import com.checkcheck.ecoreading.domain.users.service.UserService;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -34,10 +36,13 @@ public class BoardViewController {
     private final BoardService boardService;
     private final DeliveryService deliveryService;
     private final TransactionService transactionService;
+    private final UserService userService;
 
     // 나눔글 쓰기
     @GetMapping("/new")
-    public String addBoard() {
+    public String addBoard(HttpServletRequest request) {
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+        System.out.println("시이잉이이이이이잉이ㅣㅇ이"+id);
         return "/content/user/boardAddForm";
     }
 

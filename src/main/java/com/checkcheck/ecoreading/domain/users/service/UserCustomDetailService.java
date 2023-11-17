@@ -26,12 +26,12 @@ public class UserCustomDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
+
         Optional<Users> user = userRepository.findByEmail(email);
         System.out.println("user ========== " + user);
         if (!user.isPresent()) {
             throw new UsernameNotFoundException("해당 이메일로 등록된 사용자가 없습니다: " + email);
         }
-
         GrantedAuthority authority = new SimpleGrantedAuthority(user.get().getRole().name());
         CustomUserDetails userDetails;
         if (user.get().getSocialAuth() != null) {

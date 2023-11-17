@@ -4,6 +4,9 @@ import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 
 import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistory;
+import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistoryForm;
+import com.checkcheck.ecoreading.domain.pointHistory.repository.PointHistoryRepository;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.users.dto.UserKakaoRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserLoginRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserOAuth2CustomDTO;
@@ -24,15 +27,16 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -61,6 +65,8 @@ public class UserService {
     private final MailService mailService;
 
     private final RedisService redisService;
+
+    private final PointHistoryRepository pointHistoryRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -179,8 +185,11 @@ public class UserService {
     }
 
     public TokenInfo login(UserLoginRequestDTO loginDto, HttpServletResponse response) {
+        //1. dto를 통해 시큐리티 인증 등록
         Authentication authentication = authenticateUser(loginDto);
+        //2. 토큰 발급
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+        //3. 쿠키에 저장
         addTokenCookiesToResponse(tokenInfo, response);
         return tokenInfo;
     }
@@ -194,7 +203,7 @@ public class UserService {
         }
     }
     private void addTokenCookiesToResponse(TokenInfo tokenInfo, HttpServletResponse response) {
-        Cookie accessTokenCookie = createCookie("accessToken", tokenInfo.getAccessToken(), 10L);
+        Cookie accessTokenCookie = createCookie("accessToken", tokenInfo.getAccessToken(), 30 * 60 * 1000L);
         Cookie refreshTokenCookie = createCookie("refreshToken", tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime());
         response.addCookie(accessTokenCookie);
         response.addCookie(refreshTokenCookie);
@@ -240,6 +249,10 @@ public class UserService {
         System.out.println("email = " + email);
         Users user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        if ("kakao".equals(user.getSocialAuth())) {
+            throw new UnsupportedOperationException("카카오 계정은 비밀번호 재설정을 지원하지 않습니다.");
+        }
         String token = UUID.randomUUID().toString();
         System.out.println("token = " + token);
         redisService.setValues(PASSWORD_CODE_PREFIX+token,email,Duration.ofMillis(this.authCodeExpirationMillis));
@@ -257,16 +270,25 @@ public class UserService {
         return userRepository.findByUserNameAndPhone(name,phone);
     }
 
-    public List<Users> findAll(){
-        return userRepository.findAll();
+//    public Page<Users> findAllPaging(Pageable pageable){
+//        return userRepository.findAllPage(pageable);
+//    }
+
+    public Page<Users> pageList(Pageable pageable){
+        // todo: 페이징 처리로 변경해야 함
+        return userRepository.findAll(pageable);
+    }
+
+    public List<Users> makeUserList(List<Users> users){
+        return users;
     }
 
     public Users findAllById(Long usersId){
        return userRepository.findAllByUsersId(usersId);
     }
 
-    public List<Users> findAllByEnabled(boolean enabled){
-        return userRepository.findByEnabled(enabled);
+    public Page<Users> findAllByEnabled(boolean enabled, Pageable pageable){
+        return userRepository.findByEnabled(enabled, pageable);
     }
     public Integer findTotalPointByUsersId(Long usersId) {
         return userRepository.findTotalPointByUsersId(usersId);
@@ -287,13 +309,12 @@ public class UserService {
 
     public Long getUserIdFromAccessTokenCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("accessToken".equals(cookie.getName())) {
-                    return jwtTokenProvider.getUserIdFromToken(cookie.getValue());
-                }
+        for (Cookie cookie : cookies) {
+            if ("accessToken".equals(cookie.getName())) {
+                return jwtTokenProvider.getUserIdFromToken(cookie.getValue());
             }
         }
+
         return null;
     }
 
@@ -308,6 +329,43 @@ public class UserService {
         users.setTotalPoint(users.getTotalPoint() - 5);  // 나눔받을 때 5 포인트 차감
 
         saveUsers(users);
+    }
+
+    public void changePassword(String token, String newPassword) {
+        String email = redisService.getValues(PASSWORD_CODE_PREFIX + token);
+        if (email == null) {
+            throw new IllegalStateException("유효하지 않은 토큰입니다.");
+        }
+        // 이메일 주소로 사용자 검색
+        Users user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다."));
+
+        // 새 비밀번호를 암호화
+        String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+
+        user.changePassword(encodedPassword);
+        userRepository.save(user);
+
+        // 사용된 토큰을 Redis에서 제거
+        redisService.deleteValues("PASSWORD_CODE_PREFIX" + token);
+      }
+
+    public void updatePoint(Books books, Long userId, Transactions transactions){
+        Users user = findAllById(userId);
+        int point = 0;
+        if (books.getGrade().equals("똥휴지")) point = 0;
+        if (books.getGrade().equals("쓸만하네")) point = 5;
+        if (books.getGrade().equals("헌책 감사")) point = 7;
+        if (books.getGrade().equals("우와 새책")) point = 10;
+        PointHistory pointHistory = PointHistory.builder()
+                .users(user)
+                .transactions(transactions)
+                .point(point)
+                .form(PointHistoryForm.PLUS)
+                .build();
+        user.updateTotalPoint(point);
+        userRepository.save(user);
+        pointHistoryRepository.save(pointHistory);
     }
 }
 

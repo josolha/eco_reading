@@ -122,4 +122,12 @@ public class Users extends BaseEntity implements UserDetails {
     public void setTotalPoint(int totalPoint) {
         this.totalPoint = totalPoint;
     }
+
+    public void changePassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+  
+    public void updateTotalPoint(int point){
+        this.totalPoint += point;
+    }
 }

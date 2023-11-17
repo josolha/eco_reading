@@ -52,7 +52,7 @@ public class TransactionService {
     }
 
     public void updateTransactionStatusFinishCheck(Transactions transactions){
-        transactions.setStatus(TransactionStatus.수거중);
+        transactions.setStatus(TransactionStatus.나눔중);
         transactionRepository.save(transactions);
     }
 

@@ -68,15 +68,10 @@
                         <div class="row" th:each="book : ${board.booksList}">
                             <div class="col-md-4">
                                 <div class="card mb-3">
-                                    <!-- 첫 번째 이미지에만 액세스 -->
-                                    <img class="card-img-top" th:src="${book.imagesList[0].imagesUrl}" th:alt="${book.title}" width="200" height="300">
+                                    <a th:href="@{'/board/detail/' + ${board.boardId}}">
+                                        <img class="card-img-top" th:src="${book.imagesList[0].imagesUrl}" th:alt="${book.title}" width="200" height="300">
+                                    </a>
                                 </div>
-<!--                                <div class="card mb-3">-->
-<!--                                    &lt;!&ndash; 첫 번째 이미지에만 액세스 &ndash;&gt;-->
-<!--                                    <a th:href="@{'/board/details/' + ${book.booksId}}">-->
-<!--                                        <img class="card-img-top" th:src="${book.imagesList[0].imagesUrl}" th:alt="${book.title}" width="200" height="300">-->
-<!--                                    </a>-->
-<!--                                </div>-->
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
