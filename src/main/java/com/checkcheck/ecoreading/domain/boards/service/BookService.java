@@ -9,7 +9,6 @@ import com.checkcheck.ecoreading.domain.boards.dto.NaverResultDTO;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 
-import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
 import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.repository.TransactionRepository;
@@ -21,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -36,7 +34,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 // API 활용해 책 정보 검색 기능 구현
@@ -195,14 +192,13 @@ public class BookService {
         return boardRepository.findAllByBoardId(boardId);
     }
 
-    public boolean updateGrade(Books books, int minScore){
+    public Books updateGrade(Books books, int minScore){
         log.info("책 아이디 : " + books.getBooksId());
         if (minScore == 0) books.setGrade("똥휴지");
         if (minScore == 1) books.setGrade("쓸만하네");
         if (minScore == 2) books.setGrade("헌책 감사");
         if (minScore == 3) books.setGrade("우와 새책");
-        Books book = bookRepository.save(books);
-        return book.getBooksId() != null;
+        return bookRepository.save(books);
     }
   
     // 페이징된 도서 목록 조회

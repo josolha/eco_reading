@@ -49,14 +49,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests(auth -> auth
-                    //    .antMatchers("/**").permitAll() // 모든 요청에 대해 접근을 허용
-                        .antMatchers("/user/login",
-                                "/user/signup",
-                                "/user/logout",
-                                "/find-email",
-                                "/find-password",
-                                "/user/find/idPw"
-                        ).permitAll() // 로그인, 회원가입, 유저 페이지는 인증 없이 접근 허용
+                        .antMatchers("/**").permitAll() // 모든 요청에 대해 접근을 허용
+//                        .antMatchers("/user/login",
+//                                "/user/signup",
+//                                "/user/logout",
+//                                "/find-email",
+//                                "/find-password",
+//                                "/user/find/idPw"
+//                        ).permitAll() // 로그인, 회원가입, 유저 페이지는 인증 없이 접근 허용
                         .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN") // '/test' 경로는 'ROLE_USER' 권한을 가진 사용자만 접근 가능
                         .anyRequest().authenticated() // 나머지 요청은 모두 인증 필요
                 )

@@ -69,6 +69,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     private void refreshTokenAndProcess(HttpServletResponse httpResponse, String refreshToken, HttpServletRequest httpRequest) {
         String userEmail = jwtTokenProvider.getSubject(refreshToken);
         Optional<Users> user = userRepository.findByEmail(userEmail);
+        user.ifPresent(u -> httpRequest.setAttribute("userId", u.getUsersId()));
         if (user.isPresent()) {
             Long userId = user.get().getUsersId(); // userId 추출
             Collection<GrantedAuthority> authorities = jwtTokenProvider.getRoles(refreshToken);

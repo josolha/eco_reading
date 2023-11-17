@@ -3,6 +3,9 @@ package com.checkcheck.ecoreading.domain.users.service;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 
 import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistory;
+import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistoryForm;
+import com.checkcheck.ecoreading.domain.pointHistory.repository.PointHistoryRepository;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.users.dto.UserKakaoRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserLoginRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserOAuth2CustomDTO;
@@ -43,6 +46,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -60,6 +64,8 @@ public class UserService {
     private final MailService mailService;
 
     private final RedisService redisService;
+
+    private final PointHistoryRepository pointHistoryRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -294,6 +300,24 @@ public class UserService {
             }
         }
         return null;
+    }
+
+    public void updatePoint(Books books, Long userId, Transactions transactions){
+        Users user = findAllById(userId);
+        int point = 0;
+        if (books.getGrade().equals("똥휴지")) point = 0;
+        if (books.getGrade().equals("쓸만하네")) point = 5;
+        if (books.getGrade().equals("헌책 감사")) point = 7;
+        if (books.getGrade().equals("우와 새책")) point = 10;
+        PointHistory pointHistory = PointHistory.builder()
+                .users(user)
+                .transactions(transactions)
+                .point(point)
+                .form(PointHistoryForm.PLUS)
+                .build();
+        user.updateTotalPoint(point);
+        userRepository.save(user);
+        pointHistoryRepository.save(pointHistory);
     }
 }
 
