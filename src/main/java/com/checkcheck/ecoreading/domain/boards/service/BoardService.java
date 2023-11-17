@@ -46,12 +46,12 @@ public class BoardService {
 
     // db에 글 업로드시 필요한 과정 (into IMAGES, BOOKS, BOARDS, DELIVERY
     @Transactional
-    public void uploadIntoDB(List<String> imgUrlList, InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO) {
+    public void uploadIntoDB(List<String> imgUrlList, InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO, Long id) {
         //todo: 로그인 정보 가져와서 아이디값 가져오기
-        Long userId = 1L;
+//        Long userId = 1L;
 
         // 유저 아이디 (로그인 받아온 정보 빌드) //todo: 고치기 (로그인 기능 완료후)
-        Users user = new Users();
+        Users user = userRepository.findAllByUsersId(id);
 
         // 1. boardDTO에서 받아온 정보 빌드
         Boards boards = Boards.builder()
@@ -72,7 +72,7 @@ public class BoardService {
                 .build();
 
         Transactions transactions = Transactions.builder()
-                .giverId(userId)
+                .giverId(id)
                 .status(TransactionStatus.신규등록).build();
 
         String place = String.valueOf(deliveryDTO.getPlace());
@@ -165,9 +165,9 @@ public class BoardService {
     }
 
     @Transactional
-    public void uploadBoard(List<MultipartFile> multipartFileList, InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO) {
+    public void uploadBoard(List<MultipartFile> multipartFileList, InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO, Long id) {
         List<String> imgUrlList = s3Service.uploadIntoS3(multipartFileList);
-        uploadIntoDB(imgUrlList, bookDTO, boardDTO, deliveryDTO);
+        uploadIntoDB(imgUrlList, bookDTO, boardDTO, deliveryDTO, id);
     }
     @Transactional
     public void updateBoard(List<MultipartFile> multipartFileList, UpdateBookDTO bookDTO, UpdateBoardDTO boardDTO, UpdateDeliveryDTO deliveryDTO, Boards boards) {
