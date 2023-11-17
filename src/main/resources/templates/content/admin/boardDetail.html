@@ -71,7 +71,7 @@
                                         <p class="card-text"><strong>거래 상태:</strong><span th:text="${book.transactions.status}" id="bookStatus"></span></p>
                                         <p class="card-text" style="display: none;" id="transactionsId" th:text="${book.transactions.transactionsId}"></p>
                                         <button class="custom-button btn btn-primary btn-lg btn-block" type="submit" id="inspectionButton">검수 하기</button>
-                                        <button class="custom-button btn btn-success btn-lg btn-block" type="submit" id="collectionButton">수거 완료</button>
+                                        <button class="custom-button btn btn-success btn-lg btn-block" type="submit" id="collectionButton">수거 시작</button>
                                     </div>
                                 </form>
                             </div>
@@ -118,11 +118,11 @@
     var bookStatus = $('#bookStatus').text();
 
     if (bookStatus === '신규등록') {
-    $('#collectionButton').hide();
+    $('#inspectionButton').hide();
 
 }
     else if (bookStatus === '수거중' || bookStatus === '검수중') {
-    $('#inspectionButton').hide();
+    $('#collectionButton').hide();
 
 } else if (bookStatus === '나눔중' || bookStatus === '나눔완료') {
         $('#inspectionButton').hide();

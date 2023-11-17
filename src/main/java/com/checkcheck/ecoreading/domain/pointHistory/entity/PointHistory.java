@@ -3,10 +3,7 @@ package com.checkcheck.ecoreading.domain.pointHistory.entity;
 import com.checkcheck.ecoreading.domain.BaseEntity;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Getter
+@Builder
 public class PointHistory extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

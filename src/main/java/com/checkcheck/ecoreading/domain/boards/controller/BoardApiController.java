@@ -11,7 +11,11 @@ import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.books.dto.NaverBookDTO;
 import com.checkcheck.ecoreading.domain.images.service.ImageService;
 import java.util.List;
+
+import com.checkcheck.ecoreading.domain.users.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,17 +26,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class BoardApiController {
 
     private final BoardService boardService;
     private final BookService bookService;
     private final ImageService imageService;
+    private final UserService userService;
     // 나눔글 등록 폼에서 input 가져와서 DB에 업로드
     @PostMapping(value = "/board/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadBoard(@RequestParam("image") List<MultipartFile> multipartFiles,
-                              InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO) {
+                              InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO, HttpServletRequest request, HttpSession session)
+    {
+        Long id2 = (Long) session.getAttribute("userId");
+        log.info("아이디2입니다 : " + id2);
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+        log.info("아이디입니다 : " + id);
         // 등록 폼의 전체 데이터 업로드하기
         boardService.uploadBoard(multipartFiles, bookDTO, boardDTO, deliveryDTO);
 
