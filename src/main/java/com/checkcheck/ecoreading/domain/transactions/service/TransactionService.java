@@ -66,4 +66,7 @@ public class TransactionService {
         transactionRepository.save(transactions);
     }
 
+    public Transactions saveTransaction(Transactions transactions) {
+        return transactionRepository.save(transactions);
+    }
 }

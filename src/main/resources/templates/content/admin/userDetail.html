@@ -3,6 +3,8 @@
 <head>
     <title>Detail</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/App.css">
+
     <style>
         hr {
             border: 2px solid #E2ECE2;
@@ -29,12 +31,13 @@
         <!-- Sidebar -->
         <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
         <!-- Main -->
-        <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
-            <br>
-            <h2 class="text-center">유저 상세</h2>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px;">
+            <div class="main-container border rounded p-3 mt-2">
+            <h2 class="titles mb-3 mt-4 text-center">User Detail</h2>
             <hr>
+
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="card mb-3">
                         <div class="card-body">
                             <h4 class="card-title">회원 정보</h4>
@@ -45,15 +48,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="text-right">
+                <div class="col-md-4 mb-3">
+                    <div class="text-left">
                         <button class="btn custom-button">회원 잠금</button>
                     </div>
                 </div>
             </div>
+
             <div class="card mb-3">
                 <div class="card-body">
-                    <h4 class="card-title">책 갈피 이용 내역</h4>
+                    <h4 class="card-title">책갈피 이용 내역</h4>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
@@ -74,6 +78,7 @@
                         </table>
                     </div>
                 </div>
+            </div>
             </div>
         </main>
     </div>

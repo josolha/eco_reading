@@ -1,8 +1,6 @@
 package com.checkcheck.ecoreading.domain.boards.service;
 
-import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
-import com.checkcheck.ecoreading.domain.boards.dto.InsertBookDTO;
-import com.checkcheck.ecoreading.domain.boards.dto.InsertDeliveryDTO;
+import com.checkcheck.ecoreading.domain.boards.dto.*;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
 import com.checkcheck.ecoreading.domain.books.entity.BookProcessingMethod;
@@ -23,11 +21,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 
 // S3 활용하여 이미지 업로드 과정 구현
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
     // amazonS3 불러오기
     private final S3Service s3Service;
@@ -106,10 +113,73 @@ public class BoardService {
     }
 
     @Transactional
+    public void updateIntoDB(List<String> imgUrlList, UpdateBookDTO bookDTO, UpdateBoardDTO boardDTO, UpdateDeliveryDTO deliveryDTO,  Boards board) {
+        //todo: 로그인 정보 가져와서 아이디값 가져오기
+//        Long userId = 1L;
+
+        // 유저 아이디 (로그인 받아온 정보 빌드) //todo: 고치기 (로그인 기능 완료후)
+        Books book = bookRepository.findByBooksId(board.getBooksList().get(0).getBooksId());
+        Delivery delivery = deliveryRepository.findByDeliveryId(board.getDelivery().getDeliveryId());
+
+        // 1. boardDTO에서 받아온 정보 빌드
+        board.changeBoards(boardDTO);
+        delivery.changeDelivery(deliveryDTO);
+        book.changeBook(bookDTO);
+
+        // 이미지 urlList에서 각 url을 db에 넣어주는 과정
+        for(String imgUrl : imgUrlList) {
+            Images image = Images.builder()
+                    .books(book)
+                    .imagesUrl(imgUrl).build();
+            // book에도 image 함께 저장해주기
+            book.addImages(image);
+        }
+
+        // book정보는 DB에 저장.
+        bookRepository.save(book);
+
+        // 5. boards를 DB에 저장
+        boardRepository.save(board);
+        deliveryRepository.save(delivery);
+    }
+
+    @Transactional
+    public void updateIntoDBWithOutImage(UpdateBookDTO bookDTO, UpdateBoardDTO boardDTO, UpdateDeliveryDTO deliveryDTO, Boards board) {
+        //todo: 로그인 정보 가져와서 아이디값 가져오기
+//        Long userId = 1L;
+
+        Books book = bookRepository.findByBooksId(board.getBooksList().get(0).getBooksId());
+        Delivery delivery = deliveryRepository.findByDeliveryId(board.getDelivery().getDeliveryId());
+
+        // 1. boardDTO에서 받아온 정보 빌드
+        board.changeBoards(boardDTO);
+        delivery.changeDelivery(deliveryDTO);
+        book.changeBook(bookDTO);
+
+        // book정보는 DB에 저장.
+        bookRepository.save(book);
+
+        // 5. boards를 DB에 저장
+        boardRepository.save(board);
+        deliveryRepository.save(delivery);
+    }
+
+    @Transactional
     public void uploadBoard(List<MultipartFile> multipartFileList, InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO) {
         List<String> imgUrlList = s3Service.uploadIntoS3(multipartFileList);
         uploadIntoDB(imgUrlList, bookDTO, boardDTO, deliveryDTO);
     }
+    @Transactional
+    public void updateBoard(List<MultipartFile> multipartFileList, UpdateBookDTO bookDTO, UpdateBoardDTO boardDTO, UpdateDeliveryDTO deliveryDTO, Boards boards) {
+        List<String> imgUrlList = s3Service.uploadIntoS3(multipartFileList);
+        updateIntoDB(imgUrlList, bookDTO, boardDTO, deliveryDTO, boards);
+    }
+
+    @Transactional
+    public void updateBoardWithoutImages(UpdateBookDTO bookDTO, UpdateBoardDTO boardDTO, UpdateDeliveryDTO deliveryDTO, Boards boards) {
+        updateIntoDBWithOutImage(bookDTO, boardDTO, deliveryDTO, boards);
+    }
+
 
     public List<Boards> findAll(){
         return boardRepository.findAll();

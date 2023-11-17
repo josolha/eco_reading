@@ -28,6 +28,4 @@ public class Images extends BaseEntity {
         this.books = book;
     }
 
-
-
 }

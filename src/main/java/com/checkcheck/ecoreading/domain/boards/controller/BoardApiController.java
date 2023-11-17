@@ -62,8 +62,8 @@ public class BoardApiController {
     }
 
     @GetMapping("/board/update/bookSearch")
-    public String updateSearch(@RequestParam String searchText, Model model, @RequestParam Long boardId) {
-        List<NaverBookDTO> books = bookService.searchBooks(searchText);
+    public String updateSearch(@RequestParam String text, Model model, @RequestParam Long boardId) {
+        List<NaverBookDTO> books = bookService.searchBooks(text);
         System.out.println("검색결과: "+ books);
         model.addAttribute("books", books);
         model.addAttribute("boardId", boardId);
@@ -76,11 +76,11 @@ public class BoardApiController {
         bookService.update(dto, boardId);
         Boards boards = boardService.findAllByBoardId(boardId);
         model.addAttribute("boards", boards);
-        return "/content/board/updateBoardSearchForm";
+        return "/content/board/boardUpdateForm";
     }
 
-    @PostMapping("/board/deleteimage/{imagesId}")
-    public String deleteImage(@PathVariable Long imagesId, @RequestParam("boardId") Long boardId, Model model){
+    @PostMapping("/board/deleteimage/{boardId}")
+    public String deleteImage(@PathVariable Long boardId, @RequestParam("imagesId") Long imagesId, Model model){
         imageService.deleteImage(imagesId);
         model.addAttribute(boardService.findAllByBoardId(boardId));
         return "/content/board/boardUpdateForm";

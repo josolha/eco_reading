@@ -3,6 +3,7 @@ package com.checkcheck.ecoreading.domain.boards.entity;
 import com.checkcheck.ecoreading.domain.BaseEntity;
 
 import com.checkcheck.ecoreading.domain.boards.dto.InsertBoardDTO;
+import com.checkcheck.ecoreading.domain.boards.dto.UpdateBoardDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
 import com.checkcheck.ecoreading.domain.images.entity.Images;
@@ -31,7 +32,7 @@ public class Boards extends BaseEntity {
             orphanRemoval = true)
     private List<Books> booksList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY) //users: boards = 1:n
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST) //users: boards = 1:n
     @JoinColumn(name = "users_id")
     // 기부어 아이디
     private Users users;
@@ -64,5 +65,9 @@ public class Boards extends BaseEntity {
     }
 
     public void setMessage(String message) {this.message = message;}
+
+    public void changeBoards(UpdateBoardDTO dto){
+        this.message = dto.getMessage();
+    }
 
 }

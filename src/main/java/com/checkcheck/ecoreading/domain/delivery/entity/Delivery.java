@@ -1,6 +1,7 @@
 package com.checkcheck.ecoreading.domain.delivery.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
+import com.checkcheck.ecoreading.domain.boards.dto.UpdateDeliveryDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
@@ -36,8 +37,18 @@ public class Delivery extends BaseEntity {
     @JoinColumn(name = "boards_id")
     private Boards boards;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "transactions_id")
     private Transactions transactions;
+
+    public void changeDelivery(UpdateDeliveryDTO dto){
+        this.detailAddress = dto.getDetailAddress();
+        this.postcode = dto.getPostcode();
+        this.name = dto.getName();
+        this.form = dto.getForm();
+        this.place = dto.getPlace();
+        this.phone = dto.getPhone();
+        this.roadAddress = dto.getRoadAddress();
+    }
 
 }

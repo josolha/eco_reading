@@ -81,7 +81,7 @@ public class MainViewController {
             @RequestParam(name = "size", defaultValue = "10") int size,
             Model model) {
 
-        Page<Books> booksPage = bookService.searchBooks(searchType, searchInput, page, size);
+        Page<Books> booksPage = bookService.searchBooks(TransactionStatus.나눔중, searchType, searchInput, page, size);
         List<BookMainDTO> searchBookDTOs = bookService.returnDTOs(booksPage.getContent());
 
         model.addAttribute("searchType", searchType);

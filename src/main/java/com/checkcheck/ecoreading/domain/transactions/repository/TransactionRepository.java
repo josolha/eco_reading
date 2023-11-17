@@ -13,11 +13,14 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transactions, Long> {
-    List<Transactions> findAllByTakerId(Long takerId);
+    //List<Transactions> findAllByTakerId(Long takerId);
     Transactions findByBooks(Books books);
 
     Transactions findByTransactionsId(Long transactionsId);
 
 //    List<Integer> findBook_idByTaker(Long taker);
     //List<Transactions> findByTaker(Long taker);
+
+    // takeList 페이징 처리
+    Page<Transactions> findAllByTakerId(Long takerId, Pageable pageable);
 }

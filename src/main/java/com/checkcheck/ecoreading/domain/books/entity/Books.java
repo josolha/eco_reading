@@ -1,6 +1,7 @@
 package com.checkcheck.ecoreading.domain.books.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
+import com.checkcheck.ecoreading.domain.boards.dto.UpdateBookDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
 import com.checkcheck.ecoreading.domain.images.entity.Images;
@@ -107,6 +108,16 @@ public class Books extends BaseEntity {
     }
 
     public void setGrade(String grade) {this.grade = grade;}
+
+    public void changeBook(UpdateBookDTO dto){
+        this.isbn = dto.getIsbn();
+        this.author = dto.getAuthor();
+        this.title = dto.getTitle();
+        this.description = dto.getDescription();
+        this.processing = dto.getProcess();
+        this.pubDate = dto.getPubdate();
+        this.publisher = dto.getPublisher();
+    }
 }
 
 
