@@ -26,15 +26,16 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -46,7 +47,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -262,16 +262,25 @@ public class UserService {
         return userRepository.findByUserNameAndPhone(name,phone);
     }
 
-    public List<Users> findAll(){
-        return userRepository.findAll();
+//    public Page<Users> findAllPaging(Pageable pageable){
+//        return userRepository.findAllPage(pageable);
+//    }
+
+    public Page<Users> pageList(Pageable pageable){
+        // todo: 페이징 처리로 변경해야 함
+        return userRepository.findAll(pageable);
+    }
+
+    public List<Users> makeUserList(List<Users> users){
+        return users;
     }
 
     public Users findAllById(Long usersId){
        return userRepository.findAllByUsersId(usersId);
     }
 
-    public List<Users> findAllByEnabled(boolean enabled){
-        return userRepository.findByEnabled(enabled);
+    public Page<Users> findAllByEnabled(boolean enabled, Pageable pageable){
+        return userRepository.findByEnabled(enabled, pageable);
     }
     public Integer findTotalPointByUsersId(Long usersId) {
         return userRepository.findTotalPointByUsersId(usersId);
