@@ -4,6 +4,7 @@ package com.checkcheck.ecoreading.domain.users.controller;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
+import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.users.dto.EmailVerificationRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserEmailVerificationRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserFindIdDTO;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,10 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -141,13 +140,13 @@ public class UserApiController {
         return "/content/mypage/giveList";
     }
 
-    @GetMapping("/mypage/takelist")
-    public String takeBoardList(Model model){
-        Long takerId = 1L; // todo: 토큰에서 id 가져와야 함
-        List<Books> books = bookService.takeList(takerId);
-        model.addAttribute("books",books);
-        return "/content/mypage/takeList";
-    }
+//    @GetMapping("/mypage/takelist")
+//    public String takeBoardList(Model model){
+//        Long takerId = 1L;
+//        List<Books> books = bookService.takeList(takerId);
+//        model.addAttribute("books",books);
+//        return "/content/mypage/takeList";
+//    }
 
     @GetMapping("/mypage/myinfor")
     public String myInformation(Model model){
@@ -156,6 +155,19 @@ public class UserApiController {
         System.out.println(user.getPointHistoryList());
         model.addAttribute("user", user);
         return "content/mypage/myInfor";
+    }
+
+    // takeList 페이징 처리
+    @GetMapping("/mypage/takelist")
+    public String takeBoardListPaging(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            Model model
+    ) {
+        Long takerId = 1L;
+        Page<Books> booksPage = bookService.findBooksByTakerId(takerId, page, size);
+        model.addAttribute("books", booksPage);
+        return "/content/mypage/takeList";
     }
 
 }

@@ -69,7 +69,7 @@
                     <label for="postcode" class="col-md-2 col-form-label text-nowrap">주소 :</label>
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="postcode" name="postcode" th:field="${delivery.postcode}" placeholder="우편번호">
+                            <input type="text" class="form-control" id="postcode" name="postcode" th:field="${delivery.postcode}" placeholder="우편번호" readonly>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button" onclick="sample4_execDaumPostcode()">우편번호 검색</button>
                             </div>

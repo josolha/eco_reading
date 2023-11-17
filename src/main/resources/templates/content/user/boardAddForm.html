@@ -10,6 +10,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/App.css">
 
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 40%;
+        }
+
+        .custom-button {
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 
@@ -26,14 +43,14 @@
             <div class="main-container border rounded p-3 mt-2"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
 
                 <h2 class="titles mb-3 mt-4 text-center">DONATION</h2>
-                <div class="border mt-2 mb-5"></div> <!--구분선 넣기 -->
+                <hr> <!--구분선 넣기 -->
                 <!-- 검색창 -->
                 <form action="/board/bookSearch" method="get" id="search">
                     <div class="col-md-5 mt-5 d-flex justify-content-center align-items-center mx-auto">
-                        <div class="bold-label col-auto"> 바코드 입력</div>
+                        <div class="bold-label col-auto"> 바코드 검색</div>
                         <input type="search" id="searchInput" name="text" class="form-control d-inline-block mx-1" maxlength="50"
-                               placeholder="ISBN을 입력하세요" th:value="${param.isbn}">
-                        <button type="submit" class="btn btn-dark mx-1" onclick="searchValidateForm()" style="width: 100px; white-space: nowrap; ">검색
+                               placeholder="제목을 입력하세요" th:value="${param.isbn}">
+                        <button type="submit" class="custom-button btn btn-dark mx-1" onclick="searchValidateForm()" style="width: 100px; white-space: nowrap; ">검색
                         </button>
                     </div>
                 </form>
@@ -122,7 +139,7 @@
                             <div class="col-md-3">
                                 <div class="input-group">
                                     <input type="text" pattern="[0-9]+" class="form-control mt-2" id="postcode" name="postcode" minlength="5" maxlength="5"
-                                           placeholder="우편번호" style="height: 38px;">
+                                           placeholder="우편번호" style="height: 38px;" readonly>
                                     <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="sample4_execDaumPostcode()" style="height: 38px;">우편번호 검색</button>
                                 </div>
                             </div>
@@ -231,7 +248,7 @@
                                     <label class="bold-label form-check-label" for="termsCheckbox">서비스 이용 약관에 동의합니다.</label>
                                 </div>
                                 <div class="text-center">
-                                    <input type="submit" class="btn btn-dark" value="제출" onclick="submitFormWithValidation()">
+                                    <input type="submit" class="custom-button btn btn-dark" value="제출" onclick="submitFormWithValidation()">
                                 </div>
                             </div>
                         </div>

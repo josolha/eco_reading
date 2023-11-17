@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.RequestEntity;
@@ -36,6 +37,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 // API 활용해 책 정보 검색 기능 구현
 @Service
@@ -155,14 +157,14 @@ public class BookService {
     public List<Boards> giveList(Users users){
         return boardRepository.findAllByUsers(users);
     }
-    public List<Books> takeList(Long takerId){
-        List<Transactions> transactions = transactionRepository.findAllByTakerId(takerId);
-        List<Books> books = new ArrayList<>();
-        for (Transactions transaction : transactions){
-            books.add(transaction.getBooks());
-        }
-        return books;
-    }
+//    public List<Books> takeList(Long takerId){
+//        List<Transactions> transactions = transactionRepository.findAllByTakerId(takerId);
+//        List<Books> books = new ArrayList<>();
+//        for (Transactions transaction : transactions){
+//            books.add(transaction.getBooks());
+//        }
+//        return books;
+//    }
 
     public void update(BookDTO bookDTO, Long boardId){
         Boards boards = boardRepository.findAllByBoardId(boardId);
@@ -213,18 +215,32 @@ public class BookService {
         return bookRepository.findAllByTransactions_Status(bookStatus, pageable);
     }
 
-    // 검색 기능 및 페이징
-    public Page<Books> searchBooks(String searchType, String keyword, int page, int size) {
+    // 나눔중인 글 검색 기능 및 페이징
+    public Page<Books> searchBooks(TransactionStatus bookStatus, String searchType, String keyword, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
+
         if ("title".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByTitleContaining(keyword, pageable);
+            return bookRepository.findByTitleContainingAndTransactions_Status(keyword, bookStatus, pageable);
         } else if ("author".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByAuthorContaining(keyword, pageable);
+            return bookRepository.findByAuthorContainingAndTransactions_Status(keyword, bookStatus, pageable);
         } else if ("publisher".equalsIgnoreCase(searchType)) {
-            return bookRepository.findByPublisherContaining(keyword, pageable);
+            return bookRepository.findByPublisherContainingAndTransactions_Status(keyword, bookStatus, pageable);
         } else {
-            // 기본은 통합검색
-            return bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(keyword, keyword, keyword, pageable);
+            // 기본은 통합검색, 상태가 "나눔중"인 것만 검색
+            return bookRepository.findAllByTransactions_Status(bookStatus, pageable);
         }
     }
+
+    // takeList 페이징 처리
+    public Page<Books> findBooksByTakerId(Long takerId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Transactions> transactionsPage = transactionRepository.findAllByTakerId(takerId, pageable);
+
+        List<Books> books = transactionsPage.getContent().stream()
+                .map(Transactions::getBooks)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(books, pageable, transactionsPage.getTotalElements());
+    }
+
 }

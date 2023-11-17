@@ -53,6 +53,13 @@ public class Transactions extends BaseEntity {
 
     public void setStatus(TransactionStatus transactionStatus) { this.status = transactionStatus; }
 
+    public void setTakerId(Long takerId) {
+        this.takerId = takerId;
+    }
+
+    public void setSuccessDate(LocalDateTime successDate) {
+        this.successDate = successDate;
+    }
 }
 
 
