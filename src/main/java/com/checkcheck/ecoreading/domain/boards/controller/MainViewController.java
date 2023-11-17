@@ -4,7 +4,10 @@ import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
+import com.checkcheck.ecoreading.domain.users.service.UserService;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -20,20 +23,29 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/main")
+@Slf4j
 public class MainViewController {
     private final BookService bookService;
+    private final UserService userService;
 
     // 메인 화면(상태 나눔중 인 나눔 글만 전체 조회) 및 페이징
     @GetMapping("/")
     public String getBoards(@RequestParam(name = "search", required = false) String keyword,
                             @RequestParam(name = "page", defaultValue = "0") int page,
                             @RequestParam(name = "size", defaultValue = "9") int size,
-                            Model model) {
+                            Model model, HttpServletRequest request) {
+
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+        System.out.println("id ============ " + id);
+
         Page<Books> bookPage = bookService.findAllBooksByStatus(TransactionStatus.나눔중, PageRequest.of(page, size));
         List<BookMainDTO> bookDTOs = bookService.returnDTOs(bookPage.getContent());
 
         model.addAttribute("bookPage", bookPage);
         model.addAttribute("Books", bookDTOs);
+
+        Long userId = (Long) request.getAttribute("userId");
+        System.out.println("userId = " + userId);
 
         return "content/user/main";
     }

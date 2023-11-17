@@ -2,6 +2,7 @@ package com.checkcheck.ecoreading.domain.users.service;
 
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 
+import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistory;
 import com.checkcheck.ecoreading.domain.users.dto.UserKakaoRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserLoginRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserOAuth2CustomDTO;
@@ -21,6 +22,8 @@ import java.util.Arrays;
 
 import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -35,6 +39,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
@@ -50,6 +55,8 @@ public class UserService {
 
     private static final String AUTH_CODE_PREFIX = "AuthCode:";
 
+    private static final String PASSWORD_CODE_PREFIX = "PassWordCode:";
+
     private final MailService mailService;
 
     private final RedisService redisService;
@@ -57,9 +64,7 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-
     private final JwtTokenProvider jwtTokenProvider;
-
 
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
@@ -106,27 +111,27 @@ public class UserService {
 
     @Transactional
     public void sendCodeToEmail(String toEmail) {
+
         this.checkDuplicatedEmail(toEmail);
+
         String title = "[eco-reading 이메일 인증 번호]";
 
-       String authCode = this.createCode();
+        String authCode = this.createCode();
 
-//        String authCode = "<p>eco-reading 인증 번호 입니다.<p>"
-//                + "<p> 인증 번호 : " + this.createCode() + "<p>";
+        String htmlContents = "<p>ECO-READING 인증 번호 입니다.<p>"
+                + "<p> 인증 번호 : " + authCode + "<p>";
 
-        mailService.sendEmail(toEmail, title, authCode);
+        mailService.sendEmail(toEmail, title, htmlContents);
         // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "Email" / value = AuthCode )
         redisService.setValues(AUTH_CODE_PREFIX+toEmail, authCode, Duration.ofMillis(this.authCodeExpirationMillis));
     }
-
     private void checkDuplicatedEmail(String email) {
-        Optional<Users> member = userRepository.findByEmailAndSocialAuthIsNull(email);
+        Optional<Users> member = userRepository.findByEmail(email);
         if (member.isPresent()) {
             log.debug("userservice exception occur email: {}", email);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이미 존재하는 회원입니다.");
         }
     }
-
     private String createCode()  {
         int lenth = 6;
         try {
@@ -154,12 +159,15 @@ public class UserService {
         // 사용자의 소셜 고유 ID를 기반으로 데이터베이스에서 사용자 조회
         Long socialAuthId = oauthUser.getSocialId();
         Optional<Users> userOpt = userRepository.findBySocialAuthId(socialAuthId);
-        Users user;
-        // 이미 존재하는 사용자
-        user = userOpt.get();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                user, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        Users user = userOpt.orElseThrow(() -> new UsernameNotFoundException("User not found with socialAuthId: " + socialAuthId));
+        CustomUserDetails userDetails = new CustomUserDetails(
+                user.getUsersId(),
+                user.getEmail(),
+                "", // 카카오 로그인에서는 비밀번호가 없으므로 빈 문자열 전달
+                List.of(new SimpleGrantedAuthority("ROLE_USER"))
+        );
 
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // JWT 토큰 생성
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
@@ -171,10 +179,8 @@ public class UserService {
 
     public TokenInfo login(UserLoginRequestDTO loginDto, HttpServletResponse response) {
         Authentication authentication = authenticateUser(loginDto);
-        // 바로 JwtTokenProvider를 사용하여 토큰을 생성합니다.
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
         addTokenCookiesToResponse(tokenInfo, response);
-        log.info("tokenInfo = {}", tokenInfo);
         return tokenInfo;
     }
 
@@ -229,6 +235,23 @@ public class UserService {
         });
     }
 
+    public String createPasswordResetToken(String email) {
+        System.out.println("email = " + email);
+        Users user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+        String token = UUID.randomUUID().toString();
+        System.out.println("token = " + token);
+        redisService.setValues(PASSWORD_CODE_PREFIX+token,email,Duration.ofMillis(this.authCodeExpirationMillis));
+        return token;
+    }
+    public String sendMailPasswordReset(String email, String token){
+        String resetUrl = "http://localhost:8099/user/reset-password?token=" + token;
+        String htmlContent = "<p>비밀번호를 재설정하려면 아래 링크를 클릭하세요</p>" +
+                "<a href='" + resetUrl + "'>비밀번호 재설정 링크</a>";
+        mailService.sendEmail(email, "[비밀번호 재설정 링크]", htmlContent);
+        return null;
+    }
+
     public Optional<Users> findByUserNameAndPhone(String name, String phone){
         return userRepository.findByUserNameAndPhone(name,phone);
     }
@@ -249,6 +272,29 @@ public class UserService {
     }
 
 
+    public boolean validatePasswordResetToken(String token) {
+        // 레디스에서 토큰을 이용해 사용자 이메일을 조회
+        String email = redisService.getValues(PASSWORD_CODE_PREFIX+token);
+        System.out.println("email = " + email);
+        if (email == null) {
+            return false;
+        }
+        // 데이터베이스에서 사용자 조회
+        Optional<Users> user = userRepository.findByEmail(email);
+        return user.isPresent();
+    }
+
+    public Long getUserIdFromAccessTokenCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("accessToken".equals(cookie.getName())) {
+                    return jwtTokenProvider.getUserIdFromToken(cookie.getValue());
+                }
+            }
+        }
+        return null;
+    }
 }
 
 

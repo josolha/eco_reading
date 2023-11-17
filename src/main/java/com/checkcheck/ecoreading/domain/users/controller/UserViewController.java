@@ -11,6 +11,7 @@ import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.checkcheck.ecoreading.domain.users.service.UserService;
+import com.checkcheck.ecoreading.security.jwt.JwtTokenProvider;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ import java.util.List;
 public class UserViewController {
 
     private final UserService userService;
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/login")
     public String login(){
@@ -54,7 +57,9 @@ public class UserViewController {
         return "findIdPw";
     }
     @GetMapping("/")
-    public String getBoards(Model model){
+    public String getBoards(Model model,HttpServletRequest request){
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+        System.out.println("id ============ " + id);
         return "content/user/main";
     }
 }

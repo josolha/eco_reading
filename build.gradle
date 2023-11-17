@@ -46,6 +46,8 @@ dependencies {
 	//타입리프 레이아웃
 	//implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
+	implementation 'mysql:mysql-connector-java:8.0.28'
+
 	//smtp 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
