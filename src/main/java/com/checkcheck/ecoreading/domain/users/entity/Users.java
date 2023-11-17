@@ -119,6 +119,9 @@ public class Users extends BaseEntity implements UserDetails {
         this.getBoardsList().add(boards);
     }
 
+    public void changePassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
     public void updateTotalPoint(int point){
         this.totalPoint += point;
     }

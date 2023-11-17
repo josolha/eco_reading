@@ -184,8 +184,11 @@ public class UserService {
     }
 
     public TokenInfo login(UserLoginRequestDTO loginDto, HttpServletResponse response) {
+        //1. dto를 통해 시큐리티 인증 등록
         Authentication authentication = authenticateUser(loginDto);
+        //2. 토큰 발급
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+        //3. 쿠키에 저장
         addTokenCookiesToResponse(tokenInfo, response);
         return tokenInfo;
     }
@@ -199,7 +202,7 @@ public class UserService {
         }
     }
     private void addTokenCookiesToResponse(TokenInfo tokenInfo, HttpServletResponse response) {
-        Cookie accessTokenCookie = createCookie("accessToken", tokenInfo.getAccessToken(), 10L);
+        Cookie accessTokenCookie = createCookie("accessToken", tokenInfo.getAccessToken(), 30 * 60 * 1000L);
         Cookie refreshTokenCookie = createCookie("refreshToken", tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime());
         response.addCookie(accessTokenCookie);
         response.addCookie(refreshTokenCookie);
@@ -245,6 +248,10 @@ public class UserService {
         System.out.println("email = " + email);
         Users user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        if ("kakao".equals(user.getSocialAuth())) {
+            throw new UnsupportedOperationException("카카오 계정은 비밀번호 재설정을 지원하지 않습니다.");
+        }
         String token = UUID.randomUUID().toString();
         System.out.println("token = " + token);
         redisService.setValues(PASSWORD_CODE_PREFIX+token,email,Duration.ofMillis(this.authCodeExpirationMillis));
@@ -292,15 +299,33 @@ public class UserService {
 
     public Long getUserIdFromAccessTokenCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("accessToken".equals(cookie.getName())) {
-                    return jwtTokenProvider.getUserIdFromToken(cookie.getValue());
-                }
+        for (Cookie cookie : cookies) {
+            if ("accessToken".equals(cookie.getName())) {
+                return jwtTokenProvider.getUserIdFromToken(cookie.getValue());
             }
         }
+
         return null;
     }
+
+    public void changePassword(String token, String newPassword) {
+        String email = redisService.getValues(PASSWORD_CODE_PREFIX + token);
+        if (email == null) {
+            throw new IllegalStateException("유효하지 않은 토큰입니다.");
+        }
+        // 이메일 주소로 사용자 검색
+        Users user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다."));
+
+        // 새 비밀번호를 암호화
+        String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+
+        user.changePassword(encodedPassword);
+        userRepository.save(user);
+
+        // 사용된 토큰을 Redis에서 제거
+        redisService.deleteValues("PASSWORD_CODE_PREFIX" + token);
+      }
 
     public void updatePoint(Books books, Long userId, Transactions transactions){
         Users user = findAllById(userId);

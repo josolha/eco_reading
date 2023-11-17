@@ -45,6 +45,7 @@ dependencies {
 
 	//타입리프 레이아웃
 	//implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
 	implementation 'mysql:mysql-connector-java:8.0.28'
 

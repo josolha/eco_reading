@@ -122,7 +122,7 @@
             })
             .catch(function(error) {
                 // 오류 처리
-                console.error('오류 발생', error);
+                document.getElementById('response').innerHTML = '<span style="color: red;">' + error.response.data + '</span>';
             });
     });
 
