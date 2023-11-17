@@ -228,9 +228,10 @@ public class UserApiController {
 //    }
 
     @GetMapping("/mypage/myinfor")
-    public String myInformation(Model model){
-        Long userId = 1L;  // todo: 토큰에서 id 가져와야 함
-        Users user = userService.findAllById(userId);
+    public String myInformation(Model model, HttpServletRequest request){
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+//        Long userId = 1L;  // todo: 토큰에서 id 가져와야 함
+        Users user = userService.findAllById(id);
         System.out.println(user.getPointHistoryList());
         model.addAttribute("user", user);
         return "content/mypage/myInfor";
@@ -241,10 +242,10 @@ public class UserApiController {
     public String takeBoardListPaging(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
-            Model model
+            Model model, HttpServletRequest request
     ) {
-        Long takerId = 1L;
-        Page<Books> booksPage = bookService.findBooksByTakerId(takerId, page, size);
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+        Page<Books> booksPage = bookService.findBooksByTakerId(id, page, size);
         model.addAttribute("books", booksPage);
         return "/content/mypage/takeList";
     }
@@ -253,11 +254,11 @@ public class UserApiController {
     @GetMapping("/mypage/givelist")
     public String giveBoardList(@RequestParam(name = "page", defaultValue = "0") int page,
                                 @RequestParam(name = "size", defaultValue = "10") int size,
-                                Model model) {
-        Users users = new Users();
-        users.setUsersId(1L);  // todo: 토큰에서 id 가져와야 함
+                                Model model, HttpServletRequest request) {
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+        Users user = userService.findAllById(id);
 
-        Page<Boards> boardsPage = bookService.giveListPaging(users, page, size);
+        Page<Boards> boardsPage = bookService.giveListPaging(user, page, size);
         model.addAttribute("boards", boardsPage);
         return "/content/mypage/giveList";
     }
