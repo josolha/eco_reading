@@ -28,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -76,11 +77,8 @@ public class UserApiController {
 
     @PostMapping("/login")
     public String login(Model model, UserLoginRequestDTO loginDto, HttpServletResponse response) {
-        // try 블록은 유지하되, catch 블록은 제거합니다.
         TokenInfo tokenInfo = userService.login(loginDto,response);
-       // model.addAttribute("token", tokenInfo);
         return "redirect:/main/"; // 성공 시 메인 페이지로 리다이렉트
-        // GlobalExceptionHandler가 예외를 처리함.
     }
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
@@ -155,10 +153,19 @@ public class UserApiController {
     }
     @PostMapping("/find-password")
     public ResponseEntity findPassword(@RequestBody UserPasswordResetEmail email){
-        System.out.println("email = " + email);
-        //userService.createPasswordResetToken(email.getEmail());
-        userService.sendMailPasswordReset(email.getEmail(),userService.createPasswordResetToken(email.getEmail()));
-        return ResponseEntity.ok().build();
+        try {
+            String token = userService.createPasswordResetToken(email.getEmail());
+            userService.sendMailPasswordReset(email.getEmail(), token);
+            return ResponseEntity.ok().build();
+        } catch (UnsupportedOperationException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("카카오 계정은 비밀번호 재설정을 지원하지 않습니다.");
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("사용자를 찾을 수 없습니다.");
+        }
     }
 
     @GetMapping("/reset-password")
@@ -168,14 +175,36 @@ public class UserApiController {
 //        if (!isTokenValid) {
 //            return ResponseEntity.badRequest().body("잘못된 토큰입니다.");
 //        }
-        /*
-         todo : 여기서는 예시로 OK 상태만 반환하며, 실제로는 비밀번호 재설정 페이지로 리디렉션할 수 있다.
-         이 페이지는 사용자가 로그인하지 않아도 접근할 수 있어야 하며, 이메일을 통해 받은 유효한 토큰을 기반으로 비밀번호를 재설정할 수 있도록 설계된다.
-         따라서 사용자가 로그인 상태가 아니어도, 재설정 링크에 포함된 토큰을 사용하여 접근하고 비밀번호를 변경할 수 있다.
-         이 토큰은 사용자를 인증하고 비밀번호 재설정 권한을 부여하는 역할을 한다.
-         */
-        // 이메일이랑, 토큰 보내야함.
+        model.addAttribute("token",token);
         return "changePw";
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam("token") String token,
+                                @RequestParam("newPassword") String newPassword,
+                                @RequestParam("confirmPassword") String confirmPassword,
+                                Model model) {
+
+        System.out.println("token = " + token);
+        System.out.println("newPassword = " + newPassword);
+        System.out.println("confirmPassword = " + confirmPassword);
+
+        // 여기서 토큰 유효성 검사 및 비밀번호 일치 여부 확인
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+            model.addAttribute("token",token);
+            return "changePw"; // 비밀번호 재설정 페이지로 리디렉션
+        }
+
+        if (!userService.validatePasswordResetToken(token)) {
+            model.addAttribute("error", "유효하지 않은 토큰입니다.");
+            model.addAttribute("token",token);
+            return "changePw"; // 비밀번호 재설정 페이지로 리디렉션
+        }
+
+        // 비밀번호 변경 로직 수행
+        userService.changePassword(token, newPassword);
+        return "redirect:/user/login"; // 로그인 페이지로 리디렉션
     }
 
 

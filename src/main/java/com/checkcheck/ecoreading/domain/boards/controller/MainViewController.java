@@ -36,17 +36,11 @@ public class MainViewController {
                             Model model, HttpServletRequest request) {
 
         Long id = userService.getUserIdFromAccessTokenCookie(request);
-        System.out.println("id ============ " + id);
-
+        log.info("id============="+id);
         Page<Books> bookPage = bookService.findAllBooksByStatus(TransactionStatus.나눔중, PageRequest.of(page, size));
         List<BookMainDTO> bookDTOs = bookService.returnDTOs(bookPage.getContent());
-
         model.addAttribute("bookPage", bookPage);
         model.addAttribute("Books", bookDTOs);
-
-        Long userId = (Long) request.getAttribute("userId");
-        System.out.println("userId = " + userId);
-
         return "content/user/main";
     }
 
