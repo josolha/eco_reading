@@ -59,20 +59,9 @@ public class BoardViewController {
     // 나눔받기
     @GetMapping("/detail/{booksId}/taker")
     public String takeBook(@PathVariable Long booksId, Model model) {
-        Books books = bookService.findBoardByBookId(booksId);
-        BookMainDTO booksDTO = bookService.convertToDTO(books);  // DTO로 변환
+        Books book = bookService.findBoardByBookId(booksId);
+        BookMainDTO booksDTO = bookService.convertToDTO(book);  // DTO로 변환
         DeliveryDTO deliveryDTO = deliveryService.convertToDeliveryDTO(new Delivery());
-
-        if (booksDTO == null) {
-            return "redirect:/error";
-        }
-
-        // 나눔완료시 status=나눔완료, taker_id=현재유저아이디, success_date=현재날짜로 값 삽임
-        Transactions transactions = books.getTransactions();
-        transactions.setStatus(TransactionStatus.나눔완료);  // status 나눔완료로 변경
-        transactions.setTakerId(booksDTO.getBoards().getUsers().getUsersId());  // takerId 현재 유저아이디 삽입
-        transactions.setSuccessDate(LocalDateTime.now());  // successDate 현재 날짜로 삽입
-        transactionService.saveTransaction(transactions);
 
         model.addAttribute("book", booksDTO);
         model.addAttribute("delivery", deliveryDTO);

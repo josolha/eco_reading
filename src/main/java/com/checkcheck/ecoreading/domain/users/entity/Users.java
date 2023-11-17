@@ -118,4 +118,8 @@ public class Users extends BaseEntity implements UserDetails {
         boards.setUsers(this);
         this.getBoardsList().add(boards);
     }
+
+    public void setTotalPoint(int totalPoint) {
+        this.totalPoint = totalPoint;
+    }
 }

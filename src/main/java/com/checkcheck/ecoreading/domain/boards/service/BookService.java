@@ -154,9 +154,9 @@ public class BookService {
 //        }
 //    }
 
-    public List<Boards> giveList(Users users){
-        return boardRepository.findAllByUsers(users);
-    }
+//    public List<Boards> giveList(Users users){
+//        return boardRepository.findAllByUsers(users);
+//    }
 //    public List<Books> takeList(Long takerId){
 //        List<Transactions> transactions = transactionRepository.findAllByTakerId(takerId);
 //        List<Books> books = new ArrayList<>();
@@ -241,6 +241,12 @@ public class BookService {
                 .collect(Collectors.toList());
 
         return new PageImpl<>(books, pageable, transactionsPage.getTotalElements());
+    }
+
+    // giveList 페이징 처리
+    public Page<Boards> giveListPaging(Users users, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return boardRepository.findAllByUsers(users, pageable);
     }
 
 }
