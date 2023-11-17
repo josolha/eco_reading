@@ -81,12 +81,14 @@ public class AdminViewController {
 
     @PostMapping("/checkList/{boardId}")
     public String checkListResult(@PathVariable Long boardId, @RequestParam("minScore") int minScore) {
-        System.out.println(minScore);
+//        System.out.println(minScore);
         Boards boards = boardService.findAllByBoardId(boardId);
         Books books = bookService.findBoardByBookId(boards.getBooksList().get(0).getBooksId());
         Transactions transactions = transactionService.findByBooks(books);
         transactionService.updateTransactionStatusFinishCheck(transactions);
-        bookService.updateGrade(books, minScore);
+        // 북의 등급을 업데이트 하고 값을 가져옴
+        Books updateGradeBook = bookService.updateGrade(books, minScore);
+        userService.updatePoint(updateGradeBook, boards.getUsers().getUsersId(), transactions);
         return "redirect:/admin/board"; // 리다이렉션
     }
 
