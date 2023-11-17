@@ -56,6 +56,7 @@ public class S3Service {
         return imgUrlList;
     }
 
+
     // 이미지 파일명 중복 방지 (랜덤UUID와 파일확장명 합치기)
     private String createFileName(String fileName) {
         return UUID.randomUUID().toString().concat(getFileExtension(fileName));

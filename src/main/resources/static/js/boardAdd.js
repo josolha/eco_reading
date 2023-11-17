@@ -65,6 +65,49 @@ function submitValidateForm() {
     return true;
 }
 
+function submitValidateFormForUpdate() {
+    // 책 등록했는지 검사
+    if (!$("#title").val()) {
+        alert("등록 도서를 검색 후 선택해주세요");
+        $("#title").focus();
+        return false;
+    }
+
+    // // 이미지 파일 검사
+    // if (!isImageAttached()) {
+    //     alert("도서상태를 나타내는 이미지를 첨부해주세요.");
+    //     return false;
+    // }
+
+    // 사용자 수거정보 검사
+    var username = $("#username").val();
+    var phone = $("#phone").val();
+    var postcode = $("#postcode").val();
+    var roadAddress = $("#roadAddress").val();
+    var detailAddress = $("#detailAddress").val();
+    if (!username||!phone||!postcode||!roadAddress||!detailAddress) {
+        alert("수거정보를 입력해주세요.");
+        return false;
+    }
+
+    // 수거장소 검사
+    if (!isPlaceSelected()) {
+        alert("정확한 수거 장소를 선택해주세요.");
+        $("place").focus();
+        return false;
+    }
+
+    var termsCheckbox = document.getElementById("termsCheckbox");
+    // 약관 동의 여부 확인
+    if (!termsCheckbox.checked) {
+        alert("서비스 이용 약관에 동의해야 합니다.");
+        return false;
+    }
+
+    // 모든 유효성 검사를 통과하면 폼 제출
+    return true;
+}
+
 
 function submitFormWithValidation() {
     event.preventDefault();
@@ -75,12 +118,41 @@ function submitFormWithValidation() {
     }
 }
 
+function submitFormWithValidationForUpdate() {
+    event.preventDefault();
+
+    if (submitValidateFormForUpdate()) {
+        // 유효성 검사 통과 시 모달 창 띄우기
+        $("#myModal").modal('show');
+    }
+}
+
 $(document).ready(function() {
+    //alert(111111)
     // 모달 창의 닫기 버튼 클릭 이벤트 처리
     $("#closeModalButton").on("click", function() {
         // 폼 수동으로 제출
         $("#form").submit();
     });
+    //#currentImages > div:nth-child(1) > button
+    /////삭제 클릭했을때 /////////////////////////////////
+    $("#currentImages > div > button").click(function(){
+       //   alert("this = " + $(this));
+
+       // alert("$(this).attr(\"name\") = "+$(this).attr("name"))
+
+        $("#imagesId").val($(this).attr("name"));
+
+        //전송
+        $("#delSubCheck").submit();
+    })
+
+
+
+
+    /////////////////////////////////////
+
+
 });
 
 function sample4_execDaumPostcode() {

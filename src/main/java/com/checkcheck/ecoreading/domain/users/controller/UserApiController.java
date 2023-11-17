@@ -134,7 +134,7 @@ public class UserApiController {
     @GetMapping("/mypage/givelist")
     public String giveBoardList(Model model){
         Users users = new Users();
-        users.setUsersId(1L);
+        users.setUsersId(1L);  // todo: 토큰에서 id 가져와야 함
         List<Boards> boards = bookService.giveList(users);
         model.addAttribute("boards",boards);
         return "/content/mypage/giveList";
@@ -150,7 +150,7 @@ public class UserApiController {
 
     @GetMapping("/mypage/myinfor")
     public String myInformation(Model model){
-        Long userId = 1L;
+        Long userId = 1L;  // todo: 토큰에서 id 가져와야 함
         Users user = userService.findAllById(userId);
         System.out.println(user.getPointHistoryList());
         model.addAttribute("user", user);
