@@ -4,6 +4,7 @@ import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 
+import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,4 +71,16 @@ public class TransactionService {
     public Transactions saveTransaction(Transactions transactions) {
         return transactionRepository.save(transactions);
     }
+
+    // 나눔완료 시 transactions 테이블 값 변경
+    public void updateTransactions(BookMainDTO booksDTO) {
+        Transactions transactions = booksDTO.getTransactions();
+
+        transactions.setStatus(TransactionStatus.나눔완료);  // status 나눔완료로 변경
+        transactions.setTakerId(booksDTO.getBoards().getUsers().getUsersId());  // takerId 현재 유저아이디 삽입
+        transactions.setSuccessDate(LocalDateTime.now());  // successDate 현재 날짜로 삽입
+
+        saveTransaction(transactions);
+    }
+
 }

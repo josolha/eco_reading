@@ -1,5 +1,6 @@
 package com.checkcheck.ecoreading.domain.users.service;
 
+import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 
 import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistory;
@@ -315,6 +316,19 @@ public class UserService {
         }
 
         return null;
+    }
+
+    public Users saveUsers(Users users) {
+        return userRepository.save(users);
+    }
+
+    // 나눔받기 완료 시 User 테이블의 total_point 5책갈피 차감
+    public void updateUserTotalPoint(BookMainDTO booksDTO) {
+        Users users = booksDTO.getBoards().getUsers();
+
+        users.setTotalPoint(users.getTotalPoint() - 5);  // 나눔받을 때 5 포인트 차감
+
+        saveUsers(users);
     }
 
     public void changePassword(String token, String newPassword) {

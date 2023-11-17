@@ -13,23 +13,10 @@
         </div>
 
         <h1 style="font-family: 'Chakra Petch', sans-serif;">eco-reading</h1>
-
-        <div>
-            <a class="navbar-brand" th:href="@{/main/}"><img th:src="@{/images/bookmark.png}" alt="Points" width="30px" height="30px"></a>
-            <a class="navbar-brand" th:href="@{/main/}"><img th:src="@{/images/alarm.png}" alt="Alarm" width="30px" height="30px"></a>
-
-            <!-- 로그인 상태일 때 -->
-            <div sec:authorize="isAuthenticated()">
-                <div class="dropdown">
-                    <a class="navbar-brand dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img th:src="@{/images/user.png}" alt="User" width="30px" height="30px">
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" th:href="@{/user/logout}">로그아웃</a>
-                        <!-- 추가 링크 -->
-                        <a class="dropdown-item" th:href="@{/profile}">프로필</a>
-                        <a class="dropdown-item" th:href="@{/settings}">설정</a>
-                    </div>
+                <div>
+                <a class="navbar-brand" th:href="@{/user/mypage/myinfor}"><img th:src="@{/images/bookmark.png}" alt="Points" width="30px" height="30px"></a>
+                <a class="navbar-brand" th:href="@{/main/}"><img th:src="@{/images/alarm.png}" alt="Alarm" width="30px" height="30px"></a>
+                <a class="navbar-brand" th:href="@{/user/mypage/myinfor}"><img th:src="@{/images/user.png}" alt="User" width="30px" height="30px"></a>
                 </div>
             </div>
 

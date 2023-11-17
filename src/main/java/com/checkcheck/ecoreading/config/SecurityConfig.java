@@ -57,7 +57,6 @@ public class SecurityConfig {
 //                                "/find-email",
 //                                "/find-password",
 //                                "/user/find/idPw",
-//                                "/user/find/idPw",
 //                                "/user/emails/**",
 //                                "/admin/**",
 //                                "/user/reset-password"

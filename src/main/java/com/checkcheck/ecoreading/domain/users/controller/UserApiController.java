@@ -25,6 +25,8 @@ import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -208,14 +210,14 @@ public class UserApiController {
     }
 
 
-    @GetMapping("/mypage/givelist")
-    public String giveBoardList(Model model){
-        Users users = new Users();
-        users.setUsersId(1L);  // todo: 토큰에서 id 가져와야 함
-        List<Boards> boards = bookService.giveList(users);
-        model.addAttribute("boards",boards);
-        return "/content/mypage/giveList";
-    }
+//    @GetMapping("/mypage/givelist")
+//    public String giveBoardList(Model model){
+//        Users users = new Users();
+//        users.setUsersId(1L);  // todo: 토큰에서 id 가져와야 함
+//        List<Boards> boards = bookService.giveList(users);
+//        model.addAttribute("boards",boards);
+//        return "/content/mypage/giveList";
+//    }
 
 //    @GetMapping("/mypage/takelist")
 //    public String takeBoardList(Model model){
@@ -245,6 +247,19 @@ public class UserApiController {
         Page<Books> booksPage = bookService.findBooksByTakerId(takerId, page, size);
         model.addAttribute("books", booksPage);
         return "/content/mypage/takeList";
+    }
+
+    // giveList 페이징 처리
+    @GetMapping("/mypage/givelist")
+    public String giveBoardList(@RequestParam(name = "page", defaultValue = "0") int page,
+                                @RequestParam(name = "size", defaultValue = "10") int size,
+                                Model model) {
+        Users users = new Users();
+        users.setUsersId(1L);  // todo: 토큰에서 id 가져와야 함
+
+        Page<Boards> boardsPage = bookService.giveListPaging(users, page, size);
+        model.addAttribute("boards", boardsPage);
+        return "/content/mypage/giveList";
     }
 
 }
