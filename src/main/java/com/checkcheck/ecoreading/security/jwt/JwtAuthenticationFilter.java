@@ -1,8 +1,11 @@
 package com.checkcheck.ecoreading.security.jwt;
 
 
+import com.checkcheck.ecoreading.domain.users.entity.Users;
+import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -23,103 +26,78 @@ import org.springframework.web.filter.GenericFilterBean;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
-
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate redisTemplate;
-
+    private final RedisTemplate<String, String> redisTemplate;
+    private final UserRepository userRepository;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        log.info("httpRequest"+httpRequest);
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        log.info("httpResponse"+httpResponse);
-        // 로그인, 회원가입, 로그아웃, 유저 페이지 등 인증이 필요없는 경로 무시
-        String requestURI = httpRequest.getRequestURI();
-        if (requestURI.startsWith("/user/login")
-                || requestURI.startsWith("/user/signup")
-                || requestURI.startsWith("/user/logout")
-                || requestURI.startsWith("/user/social/login")
-                ||requestURI.startsWith("/user/kakao/signup")
-                || requestURI.startsWith("/user/kakao/login")
-                || requestURI.startsWith("/user/emails/verification-requests")
-                || requestURI.startsWith("/user/emails/verifications")
-                || requestURI.startsWith("/user/find/idPw")
-                || requestURI.startsWith("/user/find-email")
-        ) {
-            chain.doFilter(request, response);
-            return;
-        }
 
-        String accessToken = resolveToken(httpRequest);
-        log.info("accessToken============" +accessToken);
-        if (StringUtils.hasText(accessToken) && jwtTokenProvider.validateToken(accessToken)) {
-            // Access 토큰이 유효한 경우, 인증 처리
-            Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(request, response);
-        } else {
-            // 액세스 토큰이 존재하지 않거나 유효하지 않은 경우
-            processInvalidAccessToken(httpRequest, httpResponse, chain);
+        String accessToken = resolveToken(httpRequest, "accessToken");
+        String refreshToken = resolveToken(httpRequest, "refreshToken");
+
+        if (isTokenValid(accessToken)) {
+            processValidAccessToken(accessToken, httpRequest);
+        } else if (StringUtils.hasText(refreshToken) && isRefreshTokenValid(refreshToken, httpRequest)) {
+            refreshTokenAndProcess(httpResponse, refreshToken, httpRequest);
+        }
+        chain.doFilter(request, response);
+    }
+
+    private boolean isTokenValid(String token) {
+        return StringUtils.hasText(token) && jwtTokenProvider.validateToken(token);
+    }
+
+    private boolean isRefreshTokenValid(String refreshToken, HttpServletRequest httpRequest) {
+        String userEmail = jwtTokenProvider.getSubject(refreshToken);
+        String storedRefreshToken = redisTemplate.opsForValue().get("RefreshToken:" + userEmail);
+        return refreshToken.equals(storedRefreshToken) && jwtTokenProvider.validateToken(refreshToken);
+    }
+
+    private void processValidAccessToken(String accessToken, HttpServletRequest httpRequest) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String userEmail = jwtTokenProvider.getSubject(accessToken);
+        Optional<Users> user = userRepository.findByEmail(userEmail);
+        user.ifPresent(u -> httpRequest.setAttribute("userId", u.getUsersId()));
+    }
+
+    private void refreshTokenAndProcess(HttpServletResponse httpResponse, String refreshToken, HttpServletRequest httpRequest) {
+        String userEmail = jwtTokenProvider.getSubject(refreshToken);
+        Optional<Users> user = userRepository.findByEmail(userEmail);
+        if (user.isPresent()) {
+            Long userId = user.get().getUsersId(); // userId 추출
+            Collection<GrantedAuthority> authorities = jwtTokenProvider.getRoles(refreshToken);
+            String newAccessToken = jwtTokenProvider.createAccessToken(userEmail, authorities, userId);
+            addTokenToCookie(httpResponse, "accessToken", newAccessToken);
+            processValidAccessToken(newAccessToken, httpRequest);
         }
     }
 
-    private void processInvalidAccessToken(HttpServletRequest httpRequest, HttpServletResponse httpResponse, FilterChain chain)
-            throws IOException, ServletException {
-        String refreshToken = findRefreshToken(httpRequest);
-        log.info("refreshToken============" +refreshToken);
-
-        if (StringUtils.hasText(refreshToken)) {
-            String userEmail = jwtTokenProvider.getSubject(refreshToken);
-            String storedRefreshToken = (String) redisTemplate.opsForValue().get("RefreshToken:" + userEmail);
-
-            if (refreshToken.equals(storedRefreshToken) && jwtTokenProvider.validateToken(refreshToken)) {
-                Collection<GrantedAuthority> authorities = jwtTokenProvider.getRoles(refreshToken);
-                String newAccessToken = jwtTokenProvider.createAccessToken(userEmail, authorities);
-                log.info("newAccessToken===="+newAccessToken);
-
-                Cookie newCookie = new Cookie("accessToken", newAccessToken);
-                newCookie.setHttpOnly(false);
-                newCookie.setPath("/");
-                newCookie.setSecure(false);
-                newCookie.setMaxAge(10); // 쿠키 수명을 10초로 설정
-                httpResponse.addCookie(newCookie);
-
-                Authentication newAuthentication = jwtTokenProvider.getAuthentication(newAccessToken);
-                SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-                chain.doFilter(httpRequest, httpResponse);
-            } else {
-                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Invalid Session");
-            }
-        } else {
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Invalid Session");
-        }
+    private void addTokenToCookie(HttpServletResponse response, String name, String token) {
+        Cookie cookie = new Cookie(name, token);
+        // 쿠키 설정
+        cookie.setHttpOnly(false);
+        cookie.setPath("/");
+        cookie.setSecure(false);
+        cookie.setMaxAge(10);
+        // 필요한 경우 쿠키의 보안 설정을 여기에 추가
+        response.addCookie(cookie);
     }
-    // 1.저장된 쿠키에서 토큰 정보 추출
-    private String resolveToken(HttpServletRequest request) {
+
+    private String resolveToken(HttpServletRequest request, String tokenName) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                log.info("===cookie==="+ cookie);
-                if ("accessToken".equals(cookie.getName())) {
+                if (tokenName.equals(cookie.getName())) {
                     return cookie.getValue();
                 }
             }
         }
         return null;
     }
-    private String findRefreshToken(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("refreshToken".equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
-
 }

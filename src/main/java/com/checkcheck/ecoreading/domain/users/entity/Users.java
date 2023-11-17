@@ -67,7 +67,6 @@ public class Users extends BaseEntity implements UserDetails {
         authorities.add(new SimpleGrantedAuthority(role.name()));
         return authorities;
     }
-
      /*
        스프링 시큐리티는 인증 과정에서 UserDetails 객체의 getUsername() 메서드를 호출하여 사용자의 고유 식별자를 얻는다.
        이 식별자는 보통 로그인에 사용되는 유저네임(username)이나 이메일 주소(email)일 수 있다.

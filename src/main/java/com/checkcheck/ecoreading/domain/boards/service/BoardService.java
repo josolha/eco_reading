@@ -6,7 +6,6 @@ import com.checkcheck.ecoreading.domain.boards.dto.InsertDeliveryDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
 import com.checkcheck.ecoreading.domain.books.entity.BookProcessingMethod;
-import com.checkcheck.ecoreading.domain.books.dto.BookDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
@@ -18,19 +17,12 @@ import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
+import java.util.List;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.transaction.Transactional;
-import java.io.IOException;
-import java.util.*;
-import java.io.InputStream;
-import java.util.List;
 
 
 // S3 활용하여 이미지 업로드 과정 구현

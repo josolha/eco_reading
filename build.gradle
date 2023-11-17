@@ -39,12 +39,13 @@ dependencies {
 	//s3 access
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-
 	// H2
 	runtimeOnly 'com.h2database:h2'
 
 	//타입리프 레이아웃
 	//implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+	implementation 'mysql:mysql-connector-java:8.0.28'
 
 	//smtp 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -59,11 +60,6 @@ dependencies {
 
 	//OAuth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
-
-
-
-
 }
 
 tasks.named('test') {

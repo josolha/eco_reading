@@ -10,14 +10,17 @@ import com.checkcheck.ecoreading.domain.users.dto.UserFindIdDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserKakaoRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserLoginRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserOAuth2CustomDTO;
+import com.checkcheck.ecoreading.domain.users.dto.UserPasswordResetEmail;
 import com.checkcheck.ecoreading.domain.users.dto.UserRegisterRequestDTO;
 import com.checkcheck.ecoreading.domain.users.dto.UserResponseDTO.TokenInfo;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
+import com.checkcheck.ecoreading.domain.users.exception.AuthenticationEmailException;
 import com.checkcheck.ecoreading.domain.users.service.UserService;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -58,9 +62,12 @@ public class UserApiController {
         return "redirect:/user/kakao/login";
     }
     @GetMapping("/kakao/login")
-    public String kakaoLogin(@AuthenticationPrincipal UserOAuth2CustomDTO oauthUser, HttpServletResponse response) {
+    public String kakaoLogin(HttpServletResponse response,HttpSession session) {
+        //System.out.println("oauthUser ============= " + oauthUser);
+        UserOAuth2CustomDTO oauthUser = (UserOAuth2CustomDTO) session.getAttribute("oauthUser");
+        //session.getAttribute("oauthUser");
         TokenInfo tokenInfo = userService.kakaoLogin(oauthUser,response);
-        return "redirect:/user/";
+        return "redirect:/main/";
     }
 
     @PostMapping("/login")
@@ -68,7 +75,7 @@ public class UserApiController {
         // try 블록은 유지하되, catch 블록은 제거합니다.
         TokenInfo tokenInfo = userService.login(loginDto,response);
        // model.addAttribute("token", tokenInfo);
-        return "redirect:/user/"; // 성공 시 메인 페이지로 리다이렉트
+        return "redirect:/main/"; // 성공 시 메인 페이지로 리다이렉트
         // GlobalExceptionHandler가 예외를 처리함.
     }
     @GetMapping("/logout")
@@ -105,17 +112,28 @@ public class UserApiController {
     }
   
     @GetMapping("/social/login")
-    public String postLoginProcessing(@AuthenticationPrincipal UserOAuth2CustomDTO oauthUser, RedirectAttributes attributes,HttpServletResponse response) {
-        if (oauthUser.isNewUser()) {
-            System.out.println("새로운 회원입니다.");
-            attributes.addFlashAttribute("email", oauthUser.getEmail());
-            attributes.addFlashAttribute("nickname", oauthUser.getNickname());
-            attributes.addFlashAttribute("socialAuthId", oauthUser.getSocialId());
-            return "redirect:/user/kakao/signup";
-        } else {
-            System.out.println("이미있는회원.");
-            userService.kakaoLogin(oauthUser, response);
-            return "redirect:/user/"; // 메인 페이지 또는 적절한 대시보드로 리디렉션
+    public String postLoginProcessing(@AuthenticationPrincipal UserOAuth2CustomDTO oauthUser, RedirectAttributes attributes,
+                                      HttpSession session, HttpServletResponse response) {
+        log.info("oauthUser" +oauthUser);
+
+        try {
+            if (oauthUser.isNewUser()) {
+                System.out.println("새로운 회원입니다.");
+                attributes.addFlashAttribute("email", oauthUser.getEmail());
+                attributes.addFlashAttribute("nickname", oauthUser.getNickname());
+                attributes.addFlashAttribute("socialAuthId", oauthUser.getSocialId());
+                session.setAttribute("oauthUser", oauthUser);
+                return "redirect:/user/kakao/signup";
+            } else {
+                System.out.println("이미있는회원.");
+                userService.kakaoLogin(oauthUser, response);
+                return "redirect:/main/";
+            }
+        } catch (AuthenticationEmailException e) {
+            // 예외 처리
+            log.info("controller"+ e.getMessage());
+            attributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/user/login";
         }
     }
     @PostMapping("/find-email")
@@ -131,6 +149,31 @@ public class UserApiController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
         }
     }
+    @PostMapping("/find-password")
+    public ResponseEntity findPassword(@RequestBody UserPasswordResetEmail email){
+        System.out.println("email = " + email);
+        //userService.createPasswordResetToken(email.getEmail());
+        userService.sendMailPasswordReset(email.getEmail(),userService.createPasswordResetToken(email.getEmail()));
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/reset-password")
+    public String showResetPasswordForm(@RequestParam("token") String token,Model model) {
+        // 토큰 유효성 검사
+        boolean isTokenValid = userService.validatePasswordResetToken(token);
+//        if (!isTokenValid) {
+//            return ResponseEntity.badRequest().body("잘못된 토큰입니다.");
+//        }
+        /*
+         todo : 여기서는 예시로 OK 상태만 반환하며, 실제로는 비밀번호 재설정 페이지로 리디렉션할 수 있다.
+         이 페이지는 사용자가 로그인하지 않아도 접근할 수 있어야 하며, 이메일을 통해 받은 유효한 토큰을 기반으로 비밀번호를 재설정할 수 있도록 설계된다.
+         따라서 사용자가 로그인 상태가 아니어도, 재설정 링크에 포함된 토큰을 사용하여 접근하고 비밀번호를 변경할 수 있다.
+         이 토큰은 사용자를 인증하고 비밀번호 재설정 권한을 부여하는 역할을 한다.
+         */
+        // 이메일이랑, 토큰 보내야함.
+        return "changePw";
+    }
+
 
     @GetMapping("/mypage/givelist")
     public String giveBoardList(Model model){

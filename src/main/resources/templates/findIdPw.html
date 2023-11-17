@@ -15,10 +15,9 @@
         <div class="card" style="border-radius: 1rem;">
             <div class="card-body p-5 text-center">
                 <h2>Find email/password</h2>
-                <p class="mt-2 mb-5"></p>
-
+                <div class="mt-3 bt-3" id="response"></div>
                 <!-- 탭 메뉴 -->
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="email-tab" data-toggle="tab" data-target="#emailTab" type="button" role="tab" aria-controls="emailTab" aria-selected="true">이메일 찾기</button>
                     </li>
@@ -44,13 +43,13 @@
                                     <input type="tel" class="form-control" id="phone" name="phone" placeholder="'-'를 제외하고 11자.">
                                 </div>
                             </div>
-                            <div id="response"></div>
+
                             <button type="submit" class="btn btn-secondary">이메일 찾기</button>
                         </form>
                     </div>
                     <!-- 비밀번호 찾기 탭 -->
                     <div class="tab-pane fade" id="passwordTab" role="tabpanel" aria-labelledby="password-tab">
-                        <form th:action="@{/user/find-password}" method="POST" class="mt-3">
+                        <form id="findPasswordForm" th:action="@{/user/find-password}" method="POST" class="mt-3">
 
                             <div class="form-group row">
                                 <label for="email" class="col-sm-3 col-form-label text-nowrap">이메일 :<span class="text-danger">*</span></label>
@@ -58,8 +57,8 @@
                                     <input type="email" class="form-control" id="email" name="email" placeholder="등록된 이메일 주소를 입력.">
                                 </div>
                             </div>
-
-                            <button type="submit" class="btn btn-secondary">비밀번호 찾기</button>
+<!--                           <div class="mt-3 bt-3" id="response2"></div>-->
+                            <button type="submit" class="btn btn-secondary mt-2">비밀번호 찾기</button>
                         </form>
                     </div>
                 </div>
@@ -68,6 +67,8 @@
         </div>
     </div>
 </section>
+
+
 </body>
 
 <script>
@@ -82,28 +83,51 @@
         })
             .then(function(response) {
                 // 응답 처리
-                document.getElementById('response').innerHTML = '결과: ' + JSON.stringify(response.data);
+                const maskedEmail = maskEmail(response.data.email);
+                document.getElementById('response').innerHTML = '이메일 : ' + maskedEmail;
             })
             .catch(function(error) {
-                document.getElementById('response').innerHTML = '오류: ' + error.response.data.message;
+                document.getElementById('response').innerHTML = '<span style="color: red;">' + error.response.data + '</span>';
             });
     });
-    //
-    // document.getElementById('findPasswordForm').addEventListener('submit', function(e) {
-    //     e.preventDefault();
-    //     const email = document.getElementById('email').value;
-    //
-    //     axios.post('/user/find-password', {
-    //         email: email
-    //     })
-    //         .then(function(response) {
-    //             // 응답 처리
-    //             document.getElementById('response').innerHTML = '응답: ' + JSON.stringify(response.data);
-    //         })
-    //         .catch(function(error) {
-    //             console.log(error);
-    //         });
-    // });
+    function maskEmail(email) {
+        const atIndex = email.indexOf('@');
+        if (atIndex === -1) return email; // '@'가 없는 경우 그대로 반환
+
+        const firstPart = email.slice(0, atIndex);
+        const maskedPart = firstPart.length > 2 ? firstPart.slice(0, 2) + '*'.repeat(firstPart.length - 2) : firstPart;
+        const secondPart = email.slice(atIndex);
+
+        return maskedPart + secondPart;
+    }
+
+    // 폼 제출 핸들러
+    document.getElementById('findPasswordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        console.log(email)
+
+        // Axios 요청
+        axios.post('/user/find-password', {
+            email: email
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function(response) {
+                // 성공적인 응답 처리
+                document.getElementById('response').innerHTML = '해당 이메일로 재설정 링크 보내드렸습니다.';
+                console.log('비밀번호 재설정 이메일 전송됨');
+            })
+            .catch(function(error) {
+                // 오류 처리
+                console.error('오류 발생', error);
+            });
+    });
+
+
+
 </script>
 
 </html>
