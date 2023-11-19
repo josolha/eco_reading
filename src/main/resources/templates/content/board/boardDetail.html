@@ -15,7 +15,7 @@
             font-size: 18px;
             color: black;
             border: 2px solid #E2ECE2;
-            width: 40%;
+            width: 30%;
         }
 
         .custom-button {
@@ -100,7 +100,7 @@
 
             <div class="d-flex justify-content-center mt-4" th:if="${book.transactions.giverId != user.usersId}">
                 <button class="custom-button btn btn-primary btn-lg btn-block"
-                        style="white-space: nowrap; width: 100%;"
+                        style="white-space: nowrap;"
                         th:onclick="|return checkAndAlert(${book.booksId}, ${user.totalPoint})|">
                     나눔 받기
                 </button>
