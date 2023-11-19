@@ -41,7 +41,7 @@ public class BoardApiController {
     // 나눔글 등록 폼에서 input 가져와서 DB에 업로드
     @PostMapping(value = "/board/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadBoard(@RequestParam("image") List<MultipartFile> multipartFiles,
-                              InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO, HttpServletRequest request, HttpSession session) {
+                              InsertBookDTO bookDTO, InsertBoardDTO boardDTO, InsertDeliveryDTO deliveryDTO, HttpServletRequest request) {
 
         Long id = userService.getUserIdFromAccessTokenCookie(request);
         log.info("아이디입니다 : " + id);

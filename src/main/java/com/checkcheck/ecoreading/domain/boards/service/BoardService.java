@@ -89,6 +89,7 @@ public class BoardService {
                 .place(DeliveryPlace.valueOf(place))
                 .name(deliveryDTO.getName())
                 .phone(deliveryDTO.getPhone())
+                .boards(boards)
                 .build();
 
         user.addBoard(boards);
@@ -121,7 +122,7 @@ public class BoardService {
 
         // 유저 아이디 (로그인 받아온 정보 빌드) //todo: 고치기 (로그인 기능 완료후)
         Books book = bookRepository.findByBooksId(board.getBooksList().get(0).getBooksId());
-        Delivery delivery = deliveryRepository.findByDeliveryId(board.getDelivery().getDeliveryId());
+        Delivery delivery = deliveryRepository.findByDeliveryId(board.getDeliveryList().get(0).getDeliveryId());
 
         // 1. boardDTO에서 받아온 정보 빌드
         board.changeBoards(boardDTO);
@@ -151,7 +152,7 @@ public class BoardService {
 //        Long userId = 1L;
 
         Books book = bookRepository.findByBooksId(board.getBooksList().get(0).getBooksId());
-        Delivery delivery = deliveryRepository.findByDeliveryId(board.getDelivery().getDeliveryId());
+        Delivery delivery = deliveryRepository.findByDeliveryId(board.getDeliveryList().get(0).getDeliveryId());
 
         // 1. boardDTO에서 받아온 정보 빌드
         board.changeBoards(boardDTO);
@@ -184,6 +185,7 @@ public class BoardService {
 
 
     public Page<Boards> findAll(Pageable pageable){
+//        List<Boards> boards = boardRepository.findAll();
         Page<Boards> boards = boardRepository.findAll(pageable);
         return boards;
     }
@@ -204,7 +206,7 @@ public class BoardService {
         List<Books> bookList = boards.getBooksList();
         Long bookId = bookList.get(0).getBooksId();
         Books books = bookRepository.findByBooksId(bookId);
-        Delivery delivery = boards.getDelivery();
+        Delivery delivery = boards.getDeliveryList().get(0);
         delivery.setPostcode(deliveryDTO.getPostcode());
         delivery.setDetailAddress(deliveryDTO.getDetailAddress());
         delivery.setRoadAddress(deliveryDTO.getRoadAddress());
