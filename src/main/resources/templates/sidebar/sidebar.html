@@ -1,23 +1,23 @@
-
-<nav id="sidebar" class="sidebar col-md-3 col-lg-2 bg-light d-md-block" th:fragment="sidebarFragment" style="width: 150px; font-family: 'Chakra Petch', sans-serif;">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="sidebarFragment">
+<nav>
     <div style="padding-top: 20px;">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="/board/new" style="color: black; font-weight: bold; font-size: 18px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">book donation</a>
+                <a class="nav-link active" href="/board/new">book donation</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/user/mypage/myinfor" style="color: black; font-weight: bold; font-size: 18px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">mypage</a>
+            <li class="nav-item" th:onclick="|toggleSubMenu();|">
+                <a class="nav-link">▿ mypage</a>
                 <!-- Wrap the sub-menu items in a container with an id -->
-                <div id="myPageSubMenu">
+                <div id="myPageSubMenu" style="display: none;">
                     <ul class="nav flex-column ml-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/mypage/myinfor" style="color: black; font-weight: bold; font-size: 15px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">▶ myinfo</a>
+                            <a class="nav-link" href="/user/mypage/myinfor">myinfo</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/mypage/givelist" style="color: black; font-weight: bold; font-size: 15px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">▶ give</a>
+                            <a class="nav-link" href="/user/mypage/givelist">give</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/mypage/takelist" style="color: black; font-weight: bold; font-size: 15px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">▶ take</a>
+                            <a class="nav-link" href="/user/mypage/takelist">take</a>
                         </li>
                     </ul>
                 </div>
@@ -25,4 +25,4 @@
         </ul>
     </div>
 </nav>
-
+</html>
