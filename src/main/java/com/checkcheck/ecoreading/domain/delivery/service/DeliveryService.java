@@ -1,11 +1,9 @@
 package com.checkcheck.ecoreading.domain.delivery.service;
 
-import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.delivery.dto.DeliveryDTO;
 import com.checkcheck.ecoreading.domain.delivery.entity.Delivery;
 import com.checkcheck.ecoreading.domain.delivery.entity.DeliveryForm;
 import com.checkcheck.ecoreading.domain.delivery.repository.DeliveryRepository;
-import com.checkcheck.ecoreading.domain.transactions.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DeliveryService {
     private final DeliveryRepository deliveryRepository;
-    private final TransactionService transactionService;
-    private final BookService bookService;
 
     // Delivery 엔티티를 DeliveryDTO로 변환 메서드
     public DeliveryDTO convertToDeliveryDTO(Delivery delivery) {
