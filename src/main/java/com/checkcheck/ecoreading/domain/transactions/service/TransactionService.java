@@ -52,6 +52,8 @@ public class TransactionService {
     }
 
     public void updateTransactionStatusFinishCheck(Transactions transactions){
+        // todo: 검수가 끝났고 나눔글이 등록 되었으며, 검수한 책의 등급에 대한 알림
+
         transactions.setStatus(TransactionStatus.나눔중);
         transactionRepository.save(transactions);
     }
@@ -61,7 +63,11 @@ public class TransactionService {
     }
 
     public void updateTransactionsStatus(Transactions transactions){
+        // todo: 수거를 시작했다는 알림
+        // 매니저가 수거 시작 버튼을 누를 경우에 아래의 코드 동작, 유저는 글 수정 불가, 그리고 유저한테 수거를 시작했다는 알림 전송
         if (transactions.getStatus() == TransactionStatus.신규등록) transactions.setStatus(TransactionStatus.수거중);
+
+        
         else if (transactions.getStatus() == TransactionStatus.수거중 || transactions.getStatus() == TransactionStatus.검수중) {
             transactions.setStatus(TransactionStatus.나눔중);
         }
@@ -81,6 +87,10 @@ public class TransactionService {
         transactions.setSuccessDate(LocalDateTime.now());  // successDate 현재 날짜로 삽입
 
         saveTransaction(transactions);
+    }
+
+    public List<Transactions> findAllByTakerId(Long id){
+        return transactionRepository.findByTakerId(id);
     }
 
 }

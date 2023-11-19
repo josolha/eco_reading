@@ -70,9 +70,14 @@ public class AdminViewController {
     }
 
     @GetMapping("/board")
-    public String board(Model model) {
-        List<Boards> boardsList = boardService.findAll();
+    public String board(Model model,
+                        @RequestParam(name = "page", defaultValue = "0") int page,
+                        @RequestParam(name = "size", defaultValue = "9") int size) {
+
+        Page<Boards> boardsPage = boardService.findAll(PageRequest.of(page,size));
+        List<Boards> boardsList = boardsPage.getContent();
         model.addAttribute("boardsList", boardsList);
+        model.addAttribute("boardsPage", boardsPage);
         return "/content/admin/boardList";
     }
 
@@ -112,24 +117,44 @@ public class AdminViewController {
         return "content/admin/checkList";
     }
 
+    /**
+     * 매니저가 검수 하기 버튼을 클릭 후에, 체크리스트로 부터 미니멈 스코어가 나오면 이 컨트롤러로 이동
+     * @param boardId
+     * @param minScore
+     * @return
+     */
     @PostMapping("/checkList/{boardId}")
     public String checkListResult(@PathVariable Long boardId, @RequestParam("minScore") int minScore) {
-//        System.out.println(minScore);
+        // todo: 알림 전송
         Boards boards = boardService.findAllByBoardId(boardId);
         Books books = bookService.findBoardByBookId(boards.getBooksList().get(0).getBooksId());
         Transactions transactions = transactionService.findByBooks(books);
+
+        // 매니저가 검수 하기 버튼을 눌러서 체크리스트 작성을 완료 하여서 거래에 대한 상태를 변경하는 메소드
         transactionService.updateTransactionStatusFinishCheck(transactions);
+
         // 북의 등급을 업데이트 하고 값을 가져옴
         Books updateGradeBook = bookService.updateGrade(books, minScore);
         userService.updatePoint(updateGradeBook, boards.getUsers().getUsersId(), transactions);
         return "redirect:/admin/board"; // 리다이렉션
     }
 
+    /**
+     * 매니저가 boardList에서 수거 시작 버튼을 누를 경우에 이 컨트롤러로 이동
+     * @param transactionsId
+     * @return
+     */
     @GetMapping("/update/status/{transactionsId}")
     public String updateTransactionsStatus(@PathVariable String transactionsId) {
+        // todo: 알림 전송
+        // content/admin/boardDetail에서 bookList로 부터 transactionsId를 뽑아서 여기로 전달
         Long id = Long.parseLong(transactionsId);
+
+        // transactionsId로 transactions를 찾아옴
         Transactions transactions = transactionService.findByTransactionsId(id);
+        // transactions를 넘겨줘서 거래 상태를 검사하고, 거래 상태를 업데이트 해줌
         transactionService.updateTransactionsStatus(transactions);
+
         return "redirect:/admin/board";
     }
 

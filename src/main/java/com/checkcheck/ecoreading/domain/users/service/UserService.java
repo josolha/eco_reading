@@ -353,19 +353,38 @@ public class UserService {
     public void updatePoint(Books books, Long userId, Transactions transactions){
         Users user = findAllById(userId);
         int point = 0;
-        if (books.getGrade().equals("똥휴지")) point = 0;
-        if (books.getGrade().equals("쓸만하네")) point = 5;
-        if (books.getGrade().equals("헌책 감사")) point = 7;
-        if (books.getGrade().equals("우와 새책")) point = 10;
-        PointHistory pointHistory = PointHistory.builder()
-                .users(user)
-                .transactions(transactions)
-                .point(point)
-                .form(PointHistoryForm.PLUS)
-                .build();
-        user.updateTotalPoint(point);
-        userRepository.save(user);
-        pointHistoryRepository.save(pointHistory);
+        // 만약 유저의 보드리스트의 사이즈가 1이면 즉 한 개의 보드만을 넣었고 그 보드가 처음 값이면
+        if (user.getBoardsList().size() == 1){
+            if (books.getGrade().equals("똥휴지")) point = 0;
+            if (books.getGrade().equals("쓸만하네")) point = 10;
+            if (books.getGrade().equals("헌책 감사")) point = 14;
+            if (books.getGrade().equals("우와 새책")) point = 20;
+            PointHistory pointHistory = PointHistory.builder()
+                    .users(user)
+                    .transactions(transactions)
+                    .point(point)
+                    .form(PointHistoryForm.PLUS)
+                    .build();
+            user.updateTotalPoint(point);
+            userRepository.save(user);
+            pointHistoryRepository.save(pointHistory);
+            // 리턴 값으로 1같은 숫자를 넘겨서 이 유저가 처음 글을 올리는 유저임을 명시하고 프론트쪽에서 환영 인사 같은거 띄워줘도 좋을 듯
+        }
+        else{
+            if (books.getGrade().equals("똥휴지")) point = 0;
+            if (books.getGrade().equals("쓸만하네")) point = 5;
+            if (books.getGrade().equals("헌책 감사")) point = 7;
+            if (books.getGrade().equals("우와 새책")) point = 10;
+            PointHistory pointHistory = PointHistory.builder()
+                    .users(user)
+                    .transactions(transactions)
+                    .point(point)
+                    .form(PointHistoryForm.PLUS)
+                    .build();
+            user.updateTotalPoint(point);
+            userRepository.save(user);
+            pointHistoryRepository.save(pointHistory);
+        }
     }
 }
 
