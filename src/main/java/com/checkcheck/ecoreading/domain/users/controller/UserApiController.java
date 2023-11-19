@@ -78,21 +78,21 @@ public class UserApiController {
     }
 
     @PostMapping("/login")
-    public String login(Model model, UserLoginRequestDTO loginDto, HttpServletResponse response) {
+    public String login(Model model, UserLoginRequestDTO loginDto, HttpServletResponse response,HttpServletRequest request) {
         TokenInfo tokenInfo = userService.login(loginDto,response);
         return "redirect:/main/"; // 성공 시 메인 페이지로 리다이렉트
     }
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
         userService.logout(request, response);
-       // new SecurityContextLogoutHandler().logout(request,response, SecurityContextHolder.getContext().getAuthentication());
+        // new SecurityContextLogoutHandler().logout(request,response, SecurityContextHolder.getContext().getAuthentication());
         return "redirect:/user/login";
     }
     @PostMapping("/emails/verification-requests")
     public ResponseEntity sendMessage(@RequestBody @Validated UserEmailVerificationRequestDTO request, BindingResult bindingResult) {
         //todo : 아래 에러 처리 필요
         if (bindingResult.hasErrors()) {
-           return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         userService.sendCodeToEmail(request.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
@@ -114,7 +114,7 @@ public class UserApiController {
         model.addAttribute("totalPoint", totalPoint);
         return "/header/header";
     }
-  
+
     @GetMapping("/social/login")
     public String postLoginProcessing(@AuthenticationPrincipal UserOAuth2CustomDTO oauthUser, RedirectAttributes attributes,
                                       HttpSession session, HttpServletResponse response) {

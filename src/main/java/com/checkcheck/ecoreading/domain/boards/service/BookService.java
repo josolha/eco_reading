@@ -200,7 +200,7 @@ public class BookService {
         if (minScore == 3) books.setGrade("우와 새책");
         return bookRepository.save(books);
     }
-  
+
     // 페이징된 도서 목록 조회
     public Page<Books> findPagedBooks(Pageable pageable) {
         return bookRepository.findAll(pageable);

@@ -1,6 +1,7 @@
 package com.checkcheck.ecoreading.domain.users.entity;
 
 import com.checkcheck.ecoreading.domain.BaseEntity;
+import com.checkcheck.ecoreading.domain.loginHistory.entitiy.LoginHistory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,6 +54,10 @@ public class Users extends BaseEntity implements UserDetails {
             mappedBy = "users",
             cascade = CascadeType.ALL)
     private List<PointHistory> pointHistoryList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<LoginHistory> loginHistoryList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -129,5 +134,10 @@ public class Users extends BaseEntity implements UserDetails {
   
     public void updateTotalPoint(int point){
         this.totalPoint += point;
+    }
+
+
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
     }
 }

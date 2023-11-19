@@ -23,4 +23,5 @@ public interface TransactionRepository extends JpaRepository<Transactions, Long>
 
     // takeList 페이징 처리
     Page<Transactions> findAllByTakerId(Long takerId, Pageable pageable);
+    List<Transactions> findByTakerId(Long takerId);
 }

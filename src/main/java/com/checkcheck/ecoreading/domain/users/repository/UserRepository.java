@@ -5,18 +5,24 @@ package com.checkcheck.ecoreading.domain.users.repository;
 import com.checkcheck.ecoreading.domain.users.entity.Users;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 
 public interface UserRepository extends JpaRepository<Users,Long> {
     Optional<Users> findByEmailAndSocialAuthIsNull(String email);
     Optional<Users> findByEmailAndSocialAuthId(String email, Long socialAuthId);
     Optional<Users> findByUserNameAndPhone(String name,String phone);
+
+    @Query("SELECT u FROM Users u WHERE u.id NOT IN (SELECT lh.user.id FROM LoginHistory lh WHERE lh.loginTime > :oneYearAgo)")
+    List<Users> findUsersWithNoLoginSince(LocalDateTime oneYearAgo);
+
 
 
     Users findAllByUsersId(Long userId);

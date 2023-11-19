@@ -18,6 +18,8 @@ import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
 import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -181,8 +183,9 @@ public class BoardService {
     }
 
 
-    public List<Boards> findAll(){
-        return boardRepository.findAll();
+    public Page<Boards> findAll(Pageable pageable){
+        Page<Boards> boards = boardRepository.findAll(pageable);
+        return boards;
     }
 
     public Boards findAllByBoardId(Long boardId){

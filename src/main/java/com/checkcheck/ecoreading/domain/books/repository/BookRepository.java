@@ -39,4 +39,5 @@ public interface BookRepository extends JpaRepository<Books, Long> {
     Page<Books> findByAuthorContainingAndTransactions_Status(String author, TransactionStatus status, Pageable pageable);
     Page<Books> findByPublisherContainingAndTransactions_Status(String publisher, TransactionStatus status, Pageable pageable);
 
+
 }

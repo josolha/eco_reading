@@ -68,6 +68,7 @@ public class BoardViewController {
         BookMainDTO booksDTO = bookService.convertToDTO(book);  // DTO로 변환
         DeliveryDTO deliveryDTO = deliveryService.convertToDeliveryDTO(new Delivery());
 
+
         model.addAttribute("book", booksDTO);
         model.addAttribute("delivery", deliveryDTO);
 
