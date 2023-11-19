@@ -3,6 +3,9 @@ package com.checkcheck.ecoreading.domain.users.service;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
 
+import com.checkcheck.ecoreading.domain.loginHistory.entitiy.LoginHistory;
+import com.checkcheck.ecoreading.domain.loginHistory.repository.LoginHistoryRepository;
+import com.checkcheck.ecoreading.domain.loginHistory.service.LoginHistoryService;
 import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistory;
 import com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistoryForm;
 import com.checkcheck.ecoreading.domain.pointHistory.repository.PointHistoryRepository;
@@ -20,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import java.util.Arrays;
@@ -72,6 +76,8 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final LoginHistoryService loginHistoryService;
 
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
@@ -162,6 +168,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public TokenInfo kakaoLogin(UserOAuth2CustomDTO oauthUser, HttpServletResponse response) {
         // 사용자의 소셜 고유 ID를 기반으로 데이터베이스에서 사용자 조회
         Long socialAuthId = oauthUser.getSocialId();
@@ -180,10 +187,12 @@ public class UserService {
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
         // 응답에 토큰 쿠키 추가
         addTokenCookiesToResponse(tokenInfo, response);
+        loginHistoryService.saveLoginHistory(authentication);
         log.info("Kakao user logged in: {}", user.getEmail());
         return tokenInfo;
     }
 
+    @Transactional
     public TokenInfo login(UserLoginRequestDTO loginDto, HttpServletResponse response) {
         //1. dto를 통해 시큐리티 인증 등록
         Authentication authentication = authenticateUser(loginDto);
@@ -191,6 +200,8 @@ public class UserService {
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
         //3. 쿠키에 저장
         addTokenCookiesToResponse(tokenInfo, response);
+        //4.로그인 히토리 저장
+        loginHistoryService.saveLoginHistory(authentication);
         return tokenInfo;
     }
 
@@ -204,9 +215,9 @@ public class UserService {
     }
     private void addTokenCookiesToResponse(TokenInfo tokenInfo, HttpServletResponse response) {
         Cookie accessTokenCookie = createCookie("accessToken", tokenInfo.getAccessToken(), 30 * 60 * 1000L);
-        Cookie refreshTokenCookie = createCookie("refreshToken", tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime());
+       // Cookie refreshTokenCookie = createCookie("refreshToken", tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime());
         response.addCookie(accessTokenCookie);
-        response.addCookie(refreshTokenCookie);
+        //response.addCookie(refreshTokenCookie);
     }
     private Cookie createCookie(String name, String value, Long maxAge) {
         Cookie cookie = new Cookie(name, value);
@@ -220,8 +231,12 @@ public class UserService {
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
+
+            updateLogoutTime(authentication);
             new SecurityContextLogoutHandler().logout(request, response, authentication);
+
             deleteCookies(request, response, "accessToken", "refreshToken");
+
             if (authentication.getPrincipal() instanceof UserDetails) {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                 String userEmail = userDetails.getUsername();
@@ -234,6 +249,26 @@ public class UserService {
             }
         }
     }
+    private void updateLogoutTime(Authentication authentication) {
+        // Authentication 객체에서 사용자 정보 추출
+        String userEmail;
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
+        } else if (authentication.getPrincipal() instanceof String) {
+            userEmail = (String) authentication.getPrincipal();
+        } else {
+            throw new IllegalStateException("Unexpected type of principal object");
+        }
+
+        // 이메일 주소를 사용하여 Users 엔티티 조회
+        Users user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userEmail));
+
+        // 로그아웃 시간 업데이트
+        loginHistoryService.updateLogoutTime(user);
+    }
+
     private void deleteCookies(HttpServletRequest request, HttpServletResponse response, String... cookieNames) {
         Arrays.asList(cookieNames).forEach(cookieName -> {
             Cookie cookie = new Cookie(cookieName, null);

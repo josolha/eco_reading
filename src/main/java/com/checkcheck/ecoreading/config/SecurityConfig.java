@@ -2,12 +2,14 @@ package com.checkcheck.ecoreading.config;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
+import com.checkcheck.ecoreading.domain.loginHistory.service.LoginHistoryService;
 import com.checkcheck.ecoreading.domain.users.exception.AuthenticationEmailException;
 import com.checkcheck.ecoreading.domain.users.exception.CustomAuthenticationFailureHandler;
 import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
 import com.checkcheck.ecoreading.domain.users.service.RedisService;
 import com.checkcheck.ecoreading.domain.users.service.UserCustomDetailService;
 import com.checkcheck.ecoreading.domain.users.service.UserOAuthCustomService;
+import com.checkcheck.ecoreading.domain.users.service.UserService;
 import com.checkcheck.ecoreading.security.jwt.JwtAuthenticationFilter;
 import com.checkcheck.ecoreading.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,8 @@ public class SecurityConfig {
     private final RedisService redisTemplate;
 
     private final UserRepository repository;
+    private final LoginHistoryService loginHistoryService;
+
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -46,6 +50,11 @@ public class SecurityConfig {
                 "/images/**"
         );
     }
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate, repository, loginHistoryService);
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -80,11 +89,12 @@ public class SecurityConfig {
 
                 .headers(headers -> headers.frameOptions().disable()) // H2 콘솔은 iframe을 사용하기 때문에 이를 허용해야 함
                //.userDetailsService(userDetailsService) // UserDetailsService 설정
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate, repository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 }
