@@ -358,11 +358,9 @@ public class UserService {
     }
 
     // 나눔받기 완료 시 User 테이블의 total_point 5책갈피 차감
-    public void updateUserTotalPoint(BookMainDTO booksDTO) {
-        Users users = booksDTO.getBoards().getUsers();
-
+    public void updateUserTotalPoint(Long id) {
+        Users users = userRepository.findAllByUsersId(id);
         users.setTotalPoint(users.getTotalPoint() - 5);  // 나눔받을 때 5 포인트 차감
-
         saveUsers(users);
     }
 

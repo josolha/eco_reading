@@ -73,11 +73,11 @@ public class TransactionService {
     }
 
     // 나눔완료 시 transactions 테이블 값 변경
-    public void updateTransactions(BookMainDTO booksDTO) {
+    public void updateTransactions(BookMainDTO booksDTO, Long id) {
         Transactions transactions = booksDTO.getTransactions();
 
         transactions.setStatus(TransactionStatus.나눔완료);  // status 나눔완료로 변경
-        transactions.setTakerId(booksDTO.getBoards().getUsers().getUsersId());  // takerId 현재 유저아이디 삽입
+        transactions.setTakerId(id);  // takerId 현재 유저아이디 삽입
         transactions.setSuccessDate(LocalDateTime.now());  // successDate 현재 날짜로 삽입
 
         saveTransaction(transactions);
