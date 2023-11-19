@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}"
+      layout:fragment="content"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>유저관리</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/App.css">
     <style>
         .pagination-container {
             display: flex;
@@ -29,14 +32,9 @@
     </style>
 </head>
 <body>
-<header th:replace="~{/header/header :: headerFragment}"></header>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
-
-        <!-- Main Content -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px;">
+<!-- Main -->
+<main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
             <div class="main-container border rounded p-3 mt-2">
                 <h2 class="titles mb-3 mt-4 text-center">user list</h2>
 
@@ -91,13 +89,12 @@
                         <a class="page-link" th:href="@{'/admin/?page=' + ${usersPage.number + 1} + '&size=' + ${usersPage.size} + '&enabled=' + ${#strings.defaultString(enabled, 'null')} }">다음</a>
                     </li>
                 </nav>
-
+            </div>
             </div>
         </main>
     </div>
 </div>
 
-<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 
 <script>
     function searchUsers(searchType) {

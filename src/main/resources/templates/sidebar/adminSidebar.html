@@ -1,11 +1,13 @@
-<nav id="sidebar" class="sidebar col-md-3 col-lg-2 bg-light d-md-block" th:fragment="sidebarFragment" style="width: 150px; font-family: 'Chakra Petch', sans-serif;">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="sidebarFragment">
+
+<nav>
 <div style="padding-top: 20px;">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="/admin/" style="color: black; font-weight: bold; font-size: 18px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">userlist</a>
+                <a class="nav-link active" href="/admin/">userlist</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="/admin/board" style="color: black; font-weight: bold; font-size: 18px; text-decoration: none;" onmouseover="this.style.color='#82BA82'" onmouseout="this.style.color='black'">board manager</a>
+                <a class="nav-link active" href="/admin/board">board manager</a>
             </li>
         </ul>
     </div>

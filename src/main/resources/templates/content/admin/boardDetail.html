@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}"
+      layout:fragment="content">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>나눔글 관리</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/App.css">
     <style>
         .carousel-item img {
             display: inline-block;
@@ -15,20 +16,14 @@
             background-position: center; /* 이미지를 가운데 정렬 */
             border: 1px solid #ccc; /* 테두리 추가 */
         }
-
     </style>
 </head>
 <body>
-<header th:replace="~{/header/header :: headerFragment}"></header>
 <!-- Assuming bookList is an array of book objects -->
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
 
-        <!-- Main Content -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px;">
-            <div class="container mt-5">
+<!-- Main -->
+<main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->            <div class="container mt-5">
                 <div class="row">
                     <!-- Loop through the bookList to display each book -->
                     <th:block th:each="book : ${bookList}">
@@ -99,15 +94,12 @@
                     </th:block>
                 </div>
             </div>
+    </div>
         </main>
     </div>
 </div>
 <footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 
-<!-- Initialize Bootstrap and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Initialize Bootstrap Carousel -->
 <script>
     $(document).ready(function () {
