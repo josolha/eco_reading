@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}"
+      layout:fragment="content">
 <head>
     <title>Detail</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/App.css">
 
     <style>
         hr {
@@ -25,14 +27,8 @@
     </style>
 </head>
 <body>
-<header th:replace="~{/header/header :: headerFragment}"></header>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
-        <!-- Main -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px" >
-            <br>
+        <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+            <div class="main-container border rounded p-3 mt-2" style="flex: 1;">             <br>
             <h2 class="titles text-center">My Info</h2>
             <hr>
             <div class="row">
@@ -80,6 +76,5 @@
         </main>
     </div>
 </div>
-<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 </body>
 </html>

@@ -1,25 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}"
+      layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <title>book::search:result</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/App.css">
-
 </head>
 <body>
-<!-- header -->
-<header th:replace="~{/header/header :: headerFragment}"></header>
-
-<div class="container-fluid">
-    <div class="row">
-        <!-- sidebar -->
-        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- main 검색 결과 표시 -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 40px;">
+    <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+        <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
 
-        <div class="container">
             <h2 class="mb-3 mt-3 text-center">검색결과</h2>
             <!-- 검색 결과 표 -->
             <div class="table-responsive">
@@ -59,9 +53,5 @@
         </main>
     </div>
 </div>
-
-
-<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
-
 </body>
 </html>

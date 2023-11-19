@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="UTF-8">
   <title>회원 가입</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/App.css">
+  <script th:src="@{/js/App.js}"></script>
 </head>
 <body class="gradient-custom" style="background-color: #E2ECE2;">
+<header class="sticky-top" th:replace="~{/header/header :: headerFragment}"></header>
+
 <section class="d-flex vh-100">
-  <div class="container-fluid row justify-content-center align-content-center">
+  <div class="container-fluid row justify-content-center align-content-center" style="margin-bottom: 50px;">
     <div class="card " style="border-radius: 1rem;">
       <div class="card-body p-5 text-center">
         <h2>SIGN UP</h2>
@@ -109,6 +114,8 @@
     </div>
   </div>
 </section>
+<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+
 </body>
 </html>
 
