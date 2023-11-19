@@ -135,4 +135,9 @@ public class Users extends BaseEntity implements UserDetails {
     public void updateTotalPoint(int point){
         this.totalPoint += point;
     }
+
+
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
+    }
 }

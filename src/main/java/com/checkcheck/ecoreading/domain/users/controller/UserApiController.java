@@ -78,7 +78,7 @@ public class UserApiController {
     }
 
     @PostMapping("/login")
-    public String login(Model model, UserLoginRequestDTO loginDto, HttpServletResponse response) {
+    public String login(Model model, UserLoginRequestDTO loginDto, HttpServletResponse response,HttpServletRequest request) {
         TokenInfo tokenInfo = userService.login(loginDto,response);
         return "redirect:/main/"; // 성공 시 메인 페이지로 리다이렉트
     }
