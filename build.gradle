@@ -43,8 +43,8 @@ dependencies {
 //	// H2
 //	runtimeOnly 'com.h2database:h2'
 
-	//타입리프 레이아웃
-	//implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	//타임리프 레이아웃
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
 	implementation 'mysql:mysql-connector-java:8.0.28'
