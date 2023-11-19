@@ -12,6 +12,7 @@ import com.checkcheck.ecoreading.domain.delivery.service.DeliveryService;
 import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import com.checkcheck.ecoreading.domain.transactions.entity.Transactions;
 import com.checkcheck.ecoreading.domain.transactions.service.TransactionService;
+import com.checkcheck.ecoreading.domain.users.entity.Users;
 import com.checkcheck.ecoreading.domain.users.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -48,15 +49,18 @@ public class BoardViewController {
 
     // 나눔 글 상세
     @GetMapping("/detail/{booksId}")
-    public String boardDetail(@PathVariable Long booksId, Model model) {
+    public String boardDetail(@PathVariable Long booksId, Model model, HttpServletRequest request) {
         Books books = bookService.findBoardByBookId(booksId);
         BookMainDTO booksDTO = bookService.convertToDTO(books);  // DTO로 변환
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+        Users user = userService.findAllById(id);
 
         if (booksDTO == null) {
             return "redirect:/error";
         }
 
         model.addAttribute("book", booksDTO);
+        model.addAttribute("user", user);
 
         return "/content/board/boardDetail";
     }
