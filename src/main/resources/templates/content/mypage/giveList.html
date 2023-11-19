@@ -90,7 +90,9 @@
                                                     <a th:href="@{/board/delete/{boardId}(boardId=${board.boardId})}" onclick="deleteBoard(${board.boardId})">삭제 하기</a>
                                                 </div>
                                             </div>
-                                            <p th:unless="${book.transactions.status.toString() == '신규등록'}" th:text="'상태: ' + ${book.transactions.status}">상태: 상태</p>
+                                            <div style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px; pointer-events: none; display: inline-block;">
+                                                <span th:unless="${book.transactions.status.toString() == '신규등록'}" th:text="${book.transactions.status}"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
