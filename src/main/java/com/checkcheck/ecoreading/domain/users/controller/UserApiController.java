@@ -1,6 +1,7 @@
 package com.checkcheck.ecoreading.domain.users.controller;
 
 
+import com.checkcheck.ecoreading.domain.alert.repository.EmitterRepository;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
@@ -42,6 +43,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -54,6 +56,8 @@ public class UserApiController {
     private final BookService bookService;
 
     private final UserService userService;
+
+    private final EmitterRepository emitterRepository;
 
     @PostMapping("/signup")
     public String signup(UserRegisterRequestDTO request) {
@@ -78,13 +82,22 @@ public class UserApiController {
     }
 
     @PostMapping("/login")
-    public String login(Model model, UserLoginRequestDTO loginDto, HttpServletResponse response,HttpServletRequest request) {
+    public String login(UserLoginRequestDTO loginDto, HttpServletResponse response,HttpServletRequest request) {
         TokenInfo tokenInfo = userService.login(loginDto,response);
         return "redirect:/main/"; // 성공 시 메인 페이지로 리다이렉트
     }
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
         userService.logout(request, response);
+
+        Long id = userService.getUserIdFromAccessTokenCookie(request);
+
+        SseEmitter emitter = emitterRepository.get(id);
+        if (emitter != null) {
+            emitter.complete();
+            emitterRepository.removeEmitter(id);
+        }
+
         // new SecurityContextLogoutHandler().logout(request,response, SecurityContextHolder.getContext().getAuthentication());
         return "redirect:/user/login";
     }
@@ -106,13 +119,24 @@ public class UserApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/point")
-    public String getTotalPoint(Model model) {
-        Long userId = 1L;
-        Users user = userService.findAllById(userId);
-        int totalPoint = user.getTotalPoint();
-        model.addAttribute("totalPoint", totalPoint);
-        return "/header/header";
+//
+//    @GetMapping("/point")
+//    public String getTotalPoint(Model model) {
+//        Long userId = 1L;
+//        Users user = userService.findAllById(userId);
+//        int totalPoint = user.getTotalPoint();
+//        model.addAttribute("totalPoint", totalPoint);
+//        return "/header/header";
+//    }
+
+    // header에 TotalPoint 보여주기 메서드
+    @GetMapping("/getTotalPoint")
+    @ResponseBody
+    public int getTotalPoint(HttpServletRequest request) {
+        Long id = userService.getUserIdFromAccessTokenCookie(request); //토큰에서 id값 가져와서
+        int totalPoint = userService.findTotalPointByUsersId(id); // id로 totalPoint 가져와서 반환
+        System.out.println("포인트 가져옵니다"+ totalPoint);
+        return totalPoint;
     }
 
     @GetMapping("/social/login")

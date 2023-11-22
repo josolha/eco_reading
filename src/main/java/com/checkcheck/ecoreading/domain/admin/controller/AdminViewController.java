@@ -1,5 +1,7 @@
 package com.checkcheck.ecoreading.domain.admin.controller;
 
+import com.checkcheck.ecoreading.domain.admin.dto.CheckListBookInfoDTO;
+import com.checkcheck.ecoreading.domain.alert.service.NotificationService;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
@@ -34,6 +36,9 @@ public class AdminViewController {
     private final BoardService boardService;
     private final BookService bookService;
     private final TransactionService transactionService;
+
+    private final NotificationService notificationService;
+
 
     @GetMapping()
     public String admin(Model model,
@@ -114,7 +119,9 @@ public class AdminViewController {
 
     @GetMapping("/checkList/{boardId}")
     public String checkList(@PathVariable Long boardId, Model model) {
+        //CheckListBookInfoDTO checkListBookInfoDTO = bookService.getBookNameAndUserName(boardId);
         model.addAttribute(boardId);
+        //model.addAttribute(checkListBookInfoDTO);
         return "content/admin/checkList";
     }
 
@@ -126,17 +133,23 @@ public class AdminViewController {
      */
     @PostMapping("/checkList/{boardId}")
     public String checkListResult(@PathVariable Long boardId, @RequestParam("minScore") int minScore) {
+
         // todo: 알림 전송
         Boards boards = boardService.findAllByBoardId(boardId);
         Books books = bookService.findBoardByBookId(boards.getBooksList().get(0).getBooksId());
         Transactions transactions = transactionService.findByBooks(books);
-
         // 매니저가 검수 하기 버튼을 눌러서 체크리스트 작성을 완료 하여서 거래에 대한 상태를 변경하는 메소드
         transactionService.updateTransactionStatusFinishCheck(transactions);
-
         // 북의 등급을 업데이트 하고 값을 가져옴
         Books updateGradeBook = bookService.updateGrade(books, minScore);
         userService.updatePoint(updateGradeBook, boards.getUsers().getUsersId(), transactions);
+        //===================================================
+        // 알림 전송 로직 추가
+        String bookName = transactions.getBooks().getTitle();
+        Long userId = transactions.getGiverId(); // 거래와 관련된 사용자 ID 추출
+        String grade = updateGradeBook.getGrade();
+        notificationService.sendNotification(userId, "\"" + bookName+ "\"" + "의 등급은 "+ "\""+grade+ "\"" +"로 나왔습니다.");
+        //===================================================
         return "redirect:/admin/board"; // 리다이렉션
     }
 
@@ -156,6 +169,13 @@ public class AdminViewController {
         // transactions를 넘겨줘서 거래 상태를 검사하고, 거래 상태를 업데이트 해줌
         transactionService.updateTransactionsStatus(transactions);
 
+        //===================================================
+        // 알림 전송 로직 추가
+        // 예시: 거래와 관련된 사용자 ID를 추출하고, 해당 사용자에게 알림을 전송
+        Long userId = transactions.getGiverId(); // 거래와 관련된 사용자 ID 추출
+        String bookName = transactions.getBooks().getTitle();
+        notificationService.sendNotification(userId, "\"" + bookName+ "\"" + " 수거 완료");
+        //===================================================
         return "redirect:/admin/board";
     }
 
