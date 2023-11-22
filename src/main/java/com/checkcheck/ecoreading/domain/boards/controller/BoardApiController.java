@@ -57,20 +57,20 @@ public class BoardApiController {
         List<NaverBookDTO> books = bookService.searchBooks(text);
         System.out.println("검색결과: "+ books);
         model.addAttribute("books", books);
-        return "/content/user/bookSearch";
+        return "content/user/bookSearch";
     }
 
     // 나눔글 등록시 책 검색 결과 갖고오기
     @PostMapping("/board/bookSearch")
     public String fillBook(NaverBookDTO naverBookDTO){
         System.out.println("북디티오: "+ naverBookDTO);
-        return "/content/user/boardAddForm";
+        return "content/user/boardAddForm";
     }
 
     @GetMapping("/board/delete/{boardId}")
     public String deleteBoard(@PathVariable Long boardId){
-        if (boardService.deleteBoardByBoardId(boardId)) return "/content/board/deleteComplete";
-        return "/content/mypage/giveList";
+        if (boardService.deleteBoardByBoardId(boardId)) return "content/board/deleteComplete";
+        return "content/mypage/giveList";
     }
 
     @GetMapping("/board/update/bookSearch")
@@ -80,7 +80,7 @@ public class BoardApiController {
         model.addAttribute("books", books);
         model.addAttribute("boardId", boardId);
         model.addAttribute("BookDTO", new BookDTO());
-        return "/content/board/updateBoardSearch";
+        return "content/board/updateBoardSearch";
     }
 
     @PostMapping("/board/update/bookSearch")
@@ -88,14 +88,14 @@ public class BoardApiController {
         bookService.update(dto, boardId);
         Boards boards = boardService.findAllByBoardId(boardId);
         model.addAttribute("boards", boards);
-        return "/content/board/boardUpdateForm";
+        return "content/board/boardUpdateForm";
     }
 
     @PostMapping("/board/deleteimage/{boardId}")
     public String deleteImage(@PathVariable Long boardId, @RequestParam("imagesId") Long imagesId, Model model){
         imageService.deleteImage(imagesId);
         model.addAttribute(boardService.findAllByBoardId(boardId));
-        return "/content/board/boardUpdateForm";
+        return "content/board/boardUpdateForm";
     }
 
 

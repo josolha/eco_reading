@@ -11,6 +11,14 @@ java {
 	sourceCompatibility = '11'
 }
 
+bootJar {
+	archiveFileName = 'app.jar'
+}
+
+jar {
+	enabled = false
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -47,6 +55,7 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
+	// mySQl 설정
 	implementation 'mysql:mysql-connector-java:8.0.28'
 
 	//smtp 의존성 추가
@@ -67,7 +76,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	//mysql
-	implementation 'mysql:mysql-connector-java:8.0.29'
+	//implementation 'mysql:mysql-connector-java:8.0.29'
 
 
 
@@ -76,3 +85,5 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+

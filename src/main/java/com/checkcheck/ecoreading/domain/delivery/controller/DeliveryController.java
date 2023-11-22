@@ -40,7 +40,7 @@ public class DeliveryController {
         userService.updateUserTotalPoint(id);  // User 테이블 5 책갈피 차감
         pointHistoryService.insertPointHistory(id, booksDTO.getTransactions());  // PointHistory 테이블 값 추가
 
-        return "/content/board/completeTakeBook";
+        return "content/board/completeTakeBook";
     }
 
 }

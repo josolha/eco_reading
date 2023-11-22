@@ -5,13 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<header th:replace="~{/header/header :: headerFragment}"></header>
+<header th:replace="~{header/header :: headerFragment}"></header>
 
 <div class="container-fluid">
   <div class="row">
 
     <!-- Sidebar -->
-    <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
+    <header th:replace="~{sidebar/sidebar :: sidebarFragment}"></header>
 
     <!-- Main -->
     <main role="main" class="col-md-9 col-lg-10 px-md-4" style="margin-left: 200px">
@@ -35,6 +35,6 @@
   </div>
 </div>
 
-<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
+<footer th:replace="~{footer/footer :: footerFragment}"></footer>
 </body>
 </html>
