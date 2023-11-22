@@ -58,7 +58,7 @@ public class AdminViewController {
             model.addAttribute("usersList", usersList);
             model.addAttribute("usersPage", usersPage);
             model.addAttribute("enabled", enabledValue);
-            return "/content/admin/main";
+            return "content/admin/main";
         }
 
         Page<Users> usersPage = userService.pageList(PageRequest.of(page, size));
@@ -66,7 +66,7 @@ public class AdminViewController {
         model.addAttribute("usersList", usersList);
         model.addAttribute("usersPage", usersPage);
 
-        return "/content/admin/main";
+        return "content/admin/main";
     }
 
     @GetMapping("/board")
@@ -79,11 +79,11 @@ public class AdminViewController {
 
         model.addAttribute("boardsList", boardsList);
         model.addAttribute("boardsPage", boardsPage);
-        return "/content/admin/boardList";
+        return "content/admin/boardList";
     }
 
 //    @GetMapping("/{boards-id}/boardDetail/checkList")
-//    public String checkList(){ return "/content/admin/checkList"; }
+//    public String checkList(){ return "content/admin/checkList"; }
 
     @GetMapping("/board/detail/{boardId}")
     public String boardDetail(@PathVariable Long boardId, Model model) {
@@ -171,7 +171,7 @@ public class AdminViewController {
 //        usersList.forEach(i -> log.info("유저 리스트 : " + i. getUsersId()));
 //        model.addAttribute("usersList", usersList);
 //        model.addAttribute("usersPage", usersPage);
-//        return "/content/admin/main";
+//        return "content/admin/main";
 //    }
 
 }

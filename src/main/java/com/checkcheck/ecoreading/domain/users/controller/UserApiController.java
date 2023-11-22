@@ -216,7 +216,7 @@ public class UserApiController {
 //        users.setUsersId(1L);  // todo: 토큰에서 id 가져와야 함
 //        List<Boards> boards = bookService.giveList(users);
 //        model.addAttribute("boards",boards);
-//        return "/content/mypage/giveList";
+//        return "content/mypage/giveList";
 //    }
 
 //    @GetMapping("/mypage/takelist")
@@ -224,7 +224,7 @@ public class UserApiController {
 //        Long takerId = 1L;
 //        List<Books> books = bookService.takeList(takerId);
 //        model.addAttribute("books",books);
-//        return "/content/mypage/takeList";
+//        return "content/mypage/takeList";
 //    }
 
     @GetMapping("/mypage/myinfor")
@@ -247,7 +247,7 @@ public class UserApiController {
         Long id = userService.getUserIdFromAccessTokenCookie(request);
         Page<Books> booksPage = bookService.findBooksByTakerId(id, page, size);
         model.addAttribute("books", booksPage);
-        return "/content/mypage/takeList";
+        return "content/mypage/takeList";
     }
 
     // giveList 페이징 처리
@@ -260,7 +260,7 @@ public class UserApiController {
 
         Page<Boards> boardsPage = bookService.giveListPaging(user, page, size);
         model.addAttribute("boards", boardsPage);
-        return "/content/mypage/giveList";
+        return "content/mypage/giveList";
     }
 
 }

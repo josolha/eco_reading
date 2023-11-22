@@ -44,7 +44,7 @@ public class BoardViewController {
     public String addBoard(HttpServletRequest request) {
         Long id = userService.getUserIdFromAccessTokenCookie(request);
         System.out.println("시이잉이이이이이잉이ㅣㅇ이"+id);
-        return "/content/user/boardAddForm";
+        return "content/user/boardAddForm";
     }
 
     // 나눔 글 상세
@@ -62,7 +62,7 @@ public class BoardViewController {
         model.addAttribute("book", booksDTO);
         model.addAttribute("user", user);
 
-        return "/content/board/boardDetail";
+        return "content/board/boardDetail";
     }
 
     // 나눔받기
@@ -76,7 +76,7 @@ public class BoardViewController {
         model.addAttribute("book", booksDTO);
         model.addAttribute("delivery", deliveryDTO);
 
-        return "/content/board/takeBook";
+        return "content/board/takeBook";
     }
 
     @GetMapping("/update/{boardId}")

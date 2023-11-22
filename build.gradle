@@ -11,13 +11,13 @@ java {
 	sourceCompatibility = '11'
 }
 
-//bootJar {
-//	archiveFileName = 'app.jar'
-//}
-//
-//jar {
-//	enabled = false
-//}
+bootJar {
+	archiveFileName = 'app.jar'
+}
+
+jar {
+	enabled = false
+}
 
 configurations {
 	compileOnly {
