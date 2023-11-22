@@ -1,5 +1,6 @@
 package com.checkcheck.ecoreading.domain.boards.service;
 
+import com.checkcheck.ecoreading.domain.admin.dto.CheckListBookInfoDTO;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.repository.BoardRepository;
 import com.checkcheck.ecoreading.domain.books.repository.BookRepository;
@@ -244,5 +245,10 @@ public class BookService {
         Pageable pageable = PageRequest.of(page, size);
         return boardRepository.findAllByUsers(users, pageable);
     }
+
+//    public CheckListBookInfoDTO getBookNameAndUserName(Long bookId){
+//
+//        return
+//    }
 
 }

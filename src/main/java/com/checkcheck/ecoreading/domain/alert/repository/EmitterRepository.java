@@ -19,10 +19,6 @@ public class EmitterRepository {
         emitters.put(id, emitter);
     }
 
-    public void deleteById(Long id) {
-        emitters.remove(id);
-    }
-
     public SseEmitter get(Long id) {
         return emitters.get(id);
     }

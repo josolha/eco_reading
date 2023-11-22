@@ -1,5 +1,6 @@
 package com.checkcheck.ecoreading.domain.admin.controller;
 
+import com.checkcheck.ecoreading.domain.admin.dto.CheckListBookInfoDTO;
 import com.checkcheck.ecoreading.domain.alert.service.NotificationService;
 import com.checkcheck.ecoreading.domain.boards.entity.Boards;
 import com.checkcheck.ecoreading.domain.boards.service.BoardService;
@@ -118,7 +119,9 @@ public class AdminViewController {
 
     @GetMapping("/checkList/{boardId}")
     public String checkList(@PathVariable Long boardId, Model model) {
+        //CheckListBookInfoDTO checkListBookInfoDTO = bookService.getBookNameAndUserName(boardId);
         model.addAttribute(boardId);
+        //model.addAttribute(checkListBookInfoDTO);
         return "content/admin/checkList";
     }
 

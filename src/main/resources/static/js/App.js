@@ -113,7 +113,6 @@ eventSource.onerror = error => {
 // 책갈피 total point 갖고오기
 function getTotalPoint() {
     var xhr = new XMLHttpRequest();
-
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             // 세션 값 가져와서 화면에 표시
@@ -125,10 +124,9 @@ function getTotalPoint() {
     xhr.open("GET", "/user/getTotalPoint", true);
     xhr.send();
 }
-
 // 페이지 로드 시 세션 값 초기화
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
     getTotalPoint();
-};
+});
 
 
