@@ -19,9 +19,16 @@
         <div>
             <a class="navbar-brand" th:href="@{/user/mypage/myinfor}">
                 <img th:src="@{/images/bookmark.png}" alt="Points" width="30px" height="30px">
-                <div id="totalPointContainer" style="display: inline-block;"></div></a>
-            <a class="navbar-brand" th:href="@{/main/}">
-                <img th:src="@{/images/alarm.png}" alt="Alarm" width="30px" height="30px"></a>
+                <div id="totalPointContainer" style="display: inline-block;"></div>
+            </a>
+            <div class="navbar-brand">
+                <img th:src="@{/images/alarm.png}" alt="Alarm" width="30px" height="30px" onclick="toggleDropdown('notificationDropdownMenu')">
+                <span id="notificationCount" class="badge badge-danger">0</span>
+                <div id="notificationDropdownMenu" class="dropdownContent">
+                    <!--여기에 알림 내용 넣어야함-->
+                </div>
+            </div>
+         </div>
 
         <!--로그인 했을 때 -->
         <div th:if="${#authorization.expression('isAuthenticated()')}" class="dropdown" >
