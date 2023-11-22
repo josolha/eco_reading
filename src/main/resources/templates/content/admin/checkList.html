@@ -41,7 +41,7 @@
 <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
     <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->        <!-- Main -->
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2" th:text="'도서 체크 리스트 (boardId = ' + ${boardId} + ')'"></h1>
+                <h1 class="h2" th:text="${userName} + '님의 [' + ${bookTitle} + '] 도서 체크 리스트'"></h1>
             </div>
             <div class="container">
                 <div class="card">

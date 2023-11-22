@@ -107,6 +107,8 @@ public class Users extends BaseEntity implements UserDetails {
         return enabled;
     }
 
+    public String realUserName(){return userName;}
+
 
     /**
      * 잠깐 데이터 넣을 용도로 사용합니다! 나중에 삭제 할 예정이에여 -락윤-

@@ -120,7 +120,13 @@ public class AdminViewController {
     @GetMapping("/checkList/{boardId}")
     public String checkList(@PathVariable Long boardId, Model model) {
         //CheckListBookInfoDTO checkListBookInfoDTO = bookService.getBookNameAndUserName(boardId);
-        model.addAttribute(boardId);
+        Boards boards = boardService.findAllByBoardId(boardId);
+        String userName = boards.getUsers().realUserName();
+        Books books = boards.getBooksList().get(0);
+        String bookTitle = books.getTitle();
+        model.addAttribute("boardId",boardId);
+        model.addAttribute("userName",userName);
+        model.addAttribute("bookTitle", bookTitle);
         //model.addAttribute(checkListBookInfoDTO);
         return "content/admin/checkList";
     }
