@@ -5,7 +5,6 @@
 
 <head>
     <script th:src="@{/js/App.js}" defer></script>
-
 </head>
 
 <div class="header">
@@ -21,31 +20,26 @@
                 <img th:src="@{/images/bookmark.png}" alt="Points" width="30px" height="30px">
                 <div id="totalPointContainer" style="display: inline-block;"></div>
             </a>
-            <div class="navbar-brand">
+            <a class="navbar-brand">
                 <img th:src="@{/images/alarm.png}" alt="Alarm" width="30px" height="30px" onclick="toggleDropdown('notificationDropdownMenu')">
-                <span id="notificationCount" class="badge badge-danger">0</span>
-                <div id="notificationDropdownMenu" class="dropdownContent">
-                    <!--여기에 알림 내용 넣어야함-->
+                <span th:if="${#authorization.expression('isAuthenticated()')}" id="notificationCount" class="badge badge-danger">0</span>
+                <div th:if="${#authorization.expression('isAuthenticated()')}" id="notificationDropdownMenu" class="dropdownContent"></div>
+            </a>
+            <!--로그인 했을 때 -->
+            <div th:if="${#authorization.expression('isAuthenticated()')}" class="dropdown" >
+                <img th:src="@{/images/user.png}" alt="Login" width="30px" height="30px" onclick="toggleDropdown('authenticatedDropdownContent')">
+                <div id="authenticatedDropdownContent" class="dropdownContent">
+                    <a href="/user/mypage/myinfor">mypage</a>
+                    <a href="/user/logout/">logout</a>
                 </div>
             </div>
-         </div>
-
-        <!--로그인 했을 때 -->
-        <div th:if="${#authorization.expression('isAuthenticated()')}" class="dropdown" >
-            <img th:src="@{/images/user.png}" alt="Login" width="30px" height="30px" onclick="toggleDropdown('authenticatedDropdownContent')">
-            <div id="authenticatedDropdownContent" class="dropdownContent">
-                <a href="/user/mypage/myinfor">mypage</a>
-                <a href="/user/logout/">logout</a>
+            <!-- Spring Security로 인증되지 않은 경우에만 보이는 드롭다운 메뉴 -->
+            <div th:if="${#authorization.expression('not isAuthenticated()')}" class="dropdown" >
+                <img th:src="@{/images/user.png}" alt="Login" width="30px" height="30px" onclick="toggleDropdown('unauthenticatedDropdownContent')">
+                <div id="unauthenticatedDropdownContent" class="dropdownContent">
+                    <a href="/user/login">login</a>
+                </div>
             </div>
-        </div>
-
-        <!-- Spring Security로 인증되지 않은 경우에만 보이는 드롭다운 메뉴 -->
-        <div th:if="${#authorization.expression('not isAuthenticated()')}" class="dropdown" >
-            <img th:src="@{/images/user.png}" alt="Login" width="30px" height="30px" onclick="toggleDropdown('unauthenticatedDropdownContent')">
-            <div id="unauthenticatedDropdownContent" class="dropdownContent">
-                <a href="/user/login">login</a>
-            </div>
-        </div>
         </div>
     </nav>
 </div>

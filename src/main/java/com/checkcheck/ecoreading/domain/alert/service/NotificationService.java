@@ -27,7 +27,6 @@ public class NotificationService {
         //로그인 중
         if (emitter != null) {
             sendRealtimeNotification(emitter, userId, message);
-
         //로그아웃 상태
         } else {
             saveOfflineNotification(userId, message);
