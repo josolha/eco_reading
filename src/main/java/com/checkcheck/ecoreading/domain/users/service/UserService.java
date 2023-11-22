@@ -200,7 +200,7 @@ public class UserService {
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
         //3. 쿠키에 저장
         addTokenCookiesToResponse(tokenInfo, response);
-        //4.로그인 히토리 저장
+        //4.로그인 히스토리 저장
         loginHistoryService.saveLoginHistory(authentication);
         return tokenInfo;
     }
@@ -305,6 +305,10 @@ public class UserService {
         return userRepository.findByUserNameAndPhone(name,phone);
     }
 
+    public Optional<Users> findByUserName (String email){
+        return userRepository.findByEmail(email);
+    }
+
 //    public Page<Users> findAllPaging(Pageable pageable){
 //        return userRepository.findAllPage(pageable);
 //    }
@@ -325,10 +329,10 @@ public class UserService {
     public Page<Users> findAllByEnabled(boolean enabled, Pageable pageable){
         return userRepository.findByEnabled(enabled, pageable);
     }
-    public Integer findTotalPointByUsersId(Long usersId) {
-        return userRepository.findTotalPointByUsersId(usersId);
+    public int findTotalPointByUsersId(Long usersId) {
+        Users user = this.findAllById(usersId);
+        return user.getTotalPoint();
     }
-
 
     public boolean validatePasswordResetToken(String token) {
         // 레디스에서 토큰을 이용해 사용자 이메일을 조회
@@ -349,7 +353,6 @@ public class UserService {
                 return jwtTokenProvider.getUserIdFromToken(cookie.getValue());
             }
         }
-
         return null;
     }
 

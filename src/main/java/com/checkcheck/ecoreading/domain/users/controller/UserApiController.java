@@ -78,7 +78,7 @@ public class UserApiController {
     }
 
     @PostMapping("/login")
-    public String login(Model model, UserLoginRequestDTO loginDto, HttpServletResponse response,HttpServletRequest request) {
+    public String login(UserLoginRequestDTO loginDto, HttpServletResponse response,HttpServletRequest request) {
         TokenInfo tokenInfo = userService.login(loginDto,response);
         return "redirect:/main/"; // 성공 시 메인 페이지로 리다이렉트
     }
@@ -113,6 +113,15 @@ public class UserApiController {
         int totalPoint = user.getTotalPoint();
         model.addAttribute("totalPoint", totalPoint);
         return "/header/header";
+    }
+
+    // header에 TotalPoint 보여주기 메서드
+    @GetMapping("/getTotalPoint")
+    @ResponseBody
+    public int getTotalPoint(Model model, HttpServletRequest request) {
+        Long id = userService.getUserIdFromAccessTokenCookie(request); //토큰에서 id값 가져와서
+        int totalPoint = userService.findTotalPointByUsersId(id); // id로 totalPoint 가져와서 반환
+        return totalPoint;
     }
 
     @GetMapping("/social/login")

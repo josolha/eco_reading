@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}"
+      layout:fragment="content">
 <head>
     <title>completeTakeBook</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/App.css">
 
     <style>
         .custom-button {
@@ -39,16 +41,10 @@
 
 <body onload="createFireworks()">
 
-<header th:replace="~{/header/header :: headerFragment}"></header>
-
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
-
         <!-- Main -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 40px;">
-            <div style="text-align: center; margin-top: 100px;">
+        <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+            <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
+                <div style="text-align: center; margin-top: 100px;">
                 <h1>주문이 완료되었습니다!</h1>
                 <br>
                 <a class="custom-button btn btn-primary" th:href="@{/main/}">메인으로 돌아가기</a>
@@ -88,7 +84,6 @@
     }
 </script>
 
-<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 
 </body>
 </html>

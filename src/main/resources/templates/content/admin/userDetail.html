@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}"
+      layout:fragment="content">
 <head>
     <title>Detail</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/App.css">
 
     <style>
         hr {
@@ -25,16 +27,11 @@
     </style>
 </head>
 <body>
-<header th:replace="~{/header/header :: headerFragment}"></header>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <header th:replace="~{/sidebar/adminSidebar :: sidebarFragment}"></header>
-        <!-- Main -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 50px;">
-            <div class="main-container border rounded p-3 mt-2">
-            <h2 class="titles mb-3 mt-4 text-center">User Detail</h2>
-            <hr>
+<!-- Main -->
+<main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
+        <h2 class="titles mb-3 mt-4 text-center">User Detail</h2>
+        <hr>
 
             <div class="row">
                 <div class="col-md-8">
@@ -44,7 +41,7 @@
                             <p class="card-text"><strong>아이디:</strong> <span th:text="${user.usersId}"></span></p>
                             <p class="card-text"><strong>핸드폰 번호:</strong> <span th:text="${user.getPhone()}"></span></p>
                             <p class="card-text"><strong>이메일:</strong> <span th:text="${user.email}"></span></p>
-                            <p class="card-text"><strong>주소:</strong> <span th:text="${user.detailAddress}"></span></p>
+                            <p class="card-text"><strong>도로명 주소:</strong> <span th:text="${user.roadAddress}"></span></p>
                         </div>
                     </div>
                 </div>
@@ -71,7 +68,11 @@
                             <!-- user.pointHistoryList를 반복하여 데이터 표시 -->
                             <tr th:each="pointHistory : ${user.pointHistoryList}">
                                 <td th:text="${pointHistory.transactions.books.title}"></td>
-                                <td th:text="${pointHistory.form} + ${pointHistory.point}"></td>
+                                <td>
+                                    <span th:if="${pointHistory.form == T(com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistoryForm).PLUS}">+</span>
+                                    <span th:if="${pointHistory.form == T(com.checkcheck.ecoreading.domain.pointHistory.entity.PointHistoryForm).MINUS}">-</span>
+                                    <span th:text="${pointHistory.point}"></span>
+                                </td>
                                 <td th:text="${pointHistory.createdDate}"></td>
                             </tr>
                             </tbody>
@@ -83,6 +84,5 @@
         </main>
     </div>
 </div>
-<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 </body>
 </html>

@@ -80,6 +80,7 @@ public class AdminViewController {
 
         Page<Boards> boardsPage = boardService.findAll(PageRequest.of(page,size));
         List<Boards> boardsList = boardsPage.getContent();
+
         model.addAttribute("boardsList", boardsList);
         model.addAttribute("boardsPage", boardsPage);
         return "/content/admin/boardList";

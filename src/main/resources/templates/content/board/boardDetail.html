@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}"
+      layout:fragment="content">
 <head>
     <title>detail</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/App.css">
-
     <style>
         hr {
             border: 2px solid #E2ECE2;
@@ -14,7 +15,7 @@
             font-size: 18px;
             color: black;
             border: 2px solid #E2ECE2;
-            width: 40%;
+            width: 30%;
         }
 
         .custom-button {
@@ -45,7 +46,7 @@
             display: none;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+
         }
 
         .prev, .next {
@@ -69,18 +70,11 @@
         }
     </style>
 </head>
-
 <body>
-<header th:replace="~{/header/header :: headerFragment}"></header>
-
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <header th:replace="~{/sidebar/sidebar :: sidebarFragment}"></header>
 
         <!-- Main -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: auto; min-height: 100%; margin-left: 200px; margin-bottom: 40px;">
-            <br>
+        <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+            <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
             <h3 class="text-center" style="font-weight: bold;"><span th:text="${book.title}"></span></h3>
             <hr>
 
@@ -104,10 +98,12 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center mt-4">
-                <a th:href="@{/board/detail/{bookId}/taker(bookId=${book.booksId})}">
-                    <button class="custom-button btn btn-primary btn-lg btn-block" style="white-space: nowrap; width: 100%;">나눔 받기</button>
-                </a>
+            <div class="d-flex justify-content-center mt-4" th:if="${book.transactions.giverId != user.usersId}">
+                <button class="custom-button btn btn-primary btn-lg btn-block"
+                        style="white-space: nowrap;"
+                        th:onclick="|return checkAndAlert(${book.booksId}, ${user.totalPoint})|">
+                    나눔 받기
+                </button>
             </div>
 
             <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
@@ -125,11 +121,11 @@
                     </div>
                 </div>
             </div>
+            </div>
         </main>
     </div>
 </div>
 
-<footer th:replace="~{/footer/footer :: footerFragment}"></footer>
 
 <script>
     var slideIndex = 1;
@@ -150,6 +146,17 @@
             slides[i].style.height = "350px";
         }
         slides[slideIndex - 1].style.display = "block";
+    }
+
+    function checkAndAlert(bookId, totalPoint) {
+        if (totalPoint < 5) {
+            alert("포인트가 부족합니다!");
+            return false;
+        } else {
+            // 5 이상인경우 나눔받기 페이지로 이동
+            window.location.href = "/board/detail/" + bookId + "/taker";
+            return true;
+        }
     }
 </script>
 
