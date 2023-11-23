@@ -246,9 +246,17 @@ public class BookService {
         return boardRepository.findAllByUsers(users, pageable);
     }
 
-//    public CheckListBookInfoDTO getBookNameAndUserName(Long bookId){
-//
-//        return
-//    }
+    //책아이디로 책이름, 유저닉네임 가져오기
+    public CheckListBookInfoDTO getBookNameAndUserName(Long bookId){
+        Books book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+        Users user = book.getBoards().getUsers();
+
+        return  CheckListBookInfoDTO.builder()
+                .boardId(book.getBoards().getBoardId())
+                .userName(user.getNickName())
+                .bookName(book.getTitle())
+                .build();
+    }
 
 }

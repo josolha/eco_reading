@@ -43,8 +43,6 @@ public class BoardViewController {
     @GetMapping("/new")
     public String addBoard(HttpServletRequest request) {
         Long id = userService.getUserIdFromAccessTokenCookie(request);
-
-        System.out.println("시이잉이이이이이잉이ㅣㅇ이"+id);
         return "content/user/boardAddForm";
 
     }
@@ -73,12 +71,9 @@ public class BoardViewController {
         Books book = bookService.findBoardByBookId(booksId);
         BookMainDTO booksDTO = bookService.convertToDTO(book);  // DTO로 변환
         DeliveryDTO deliveryDTO = deliveryService.convertToDeliveryDTO(new Delivery());
-
         model.addAttribute("book", booksDTO);
         model.addAttribute("delivery", deliveryDTO);
-
         return "content/board/takeBook";
-
     }
 
     @GetMapping("/update/{boardId}")

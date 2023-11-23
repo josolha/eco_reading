@@ -11,6 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 public class DeliveryDTO {
+    private String bookTitle;
     private Long deliveryId;
     private Transactions transactions;
     private Boards boards;

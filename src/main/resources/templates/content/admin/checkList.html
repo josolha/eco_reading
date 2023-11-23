@@ -39,14 +39,18 @@
 
 <!-- Main -->
 <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
-    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->        <!-- Main -->
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2" th:text="'도서 체크 리스트 (boardId = ' + ${boardId} + ')'"></h1>
-            </div>
+    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->          <!-- Main -->
+
+        <div class="d-flex flex-column align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2 mb-3" th:text="'Book Check List'"></h1>
+            <p><strong>닉네임:</strong> <span th:text="${checkListBookInfoDTO.userName}"></span></p>
+            <p><strong>도서이름:</strong> <span th:text="${checkListBookInfoDTO.bookName}"></span></p>
+        </div>
+
             <div class="container">
                 <div class="card">
                     <div class="card-body">
-                        <form th:action="@{/admin/checkList/{boardId}(boardId=${boardId})}" method="post" id="bookForm">
+                        <form th:action="@{/admin/checkList/{boardId}(boardId=${checkListBookInfoDTO.boardId})}" method="post" id="bookForm">
                         <table class="table mt-2">
                             <thead>
                             <tr>
@@ -90,7 +94,9 @@
                         </table>
                             <div class="col-sm-3 col-form-label text-nowrap"></div>
                             <input type="hidden" name="minScore" id="minScore" value="">
-                            <input type="submit" class="btn btn-primary" value="제출" onclick="submitForm()">
+                            <div style="text-align: center; margin: 0 auto; width: 15%;">
+                                <input type="submit" class="btn" value="제출" onclick="submitForm()" style="background-color: #82BA82; color: #fff; width: 100%; padding: 10px;">
+                            </div>
                         </form>
                 </div>
             </div>

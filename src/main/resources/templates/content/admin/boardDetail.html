@@ -65,8 +65,8 @@
                                         <p class="card-text"><strong>책 등급:</strong><span th:text="${book.grade}"></span></p>
                                         <p class="card-text"><strong>거래 상태:</strong><span th:text="${book.transactions.status}" id="bookStatus"></span></p>
                                         <p class="card-text" style="display: none;" id="transactionsId" th:text="${book.transactions.transactionsId}"></p>
-                                        <button class="custom-button btn btn-primary btn-lg btn-block" type="submit" id="inspectionButton">검수 하기</button>
-                                        <button class="custom-button btn btn-success btn-lg btn-block" type="submit" id="collectionButton">수거 시작</button>
+                                        <button class="custom-button btn" type="submit" id="inspectionButton" style="background-color: #82BA82; color: #fff; width: 100%; padding: 10px;">검수 하기</button>
+                                        <button class="custom-button btn" type="submit" id="collectionButton" style="background-color: #82BA82; color: #fff; width: 100%; padding: 10px;">수거 시작</button>
                                     </div>
                                 </form>
                             </div>
