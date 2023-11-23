@@ -9,6 +9,7 @@ import com.checkcheck.ecoreading.domain.users.repository.UserRepository;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,11 @@ public class NotificationService {
     private final AlertRepository alertRepository;
     private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
     public void sendNotification(Long userId, String message) {
-        SseEmitter emitter = emitterRepository.get(userId);
-        //로그인 중
-        if (emitter != null) {
-            sendRealtimeNotification(emitter, userId, message);
-        //로그아웃 상태
+        Optional<SseEmitter> emitter = emitterRepository.get(userId);
+        // 로그인 중
+        if (emitter.isPresent()) {
+            sendRealtimeNotification(emitter.get(), userId, message); // emitter.get()만 전달
+            // 로그아웃 상태
         } else {
             saveOfflineNotification(userId, message);
         }
@@ -73,26 +74,27 @@ public class NotificationService {
                 .build();
         alertRepository.save(alert);
     }
-public SseEmitter init(Long userId) {
-    // 기존 연결 제거 (있을 경우)
-    SseEmitter existingEmitter = emitterRepository.get(userId);
-    if (existingEmitter != null) {
-        existingEmitter.complete();
-        emitterRepository.removeEmitter(userId);
+    public SseEmitter init(Long userId) {
+        System.out.println("userId =================== " + userId);
+        // 기존 연결 확인
+        Optional<SseEmitter> existingEmitter = emitterRepository.get(userId);
+        System.out.println("existingEmitter = " + existingEmitter);
+        if (existingEmitter.isPresent()) {
+            existingEmitter.get().complete();
+            emitterRepository.removeEmitter(userId);
+        }
+        // 새 연결 생성
+        SseEmitter newEmitter = new SseEmitter(DEFAULT_TIMEOUT);
+        emitterRepository.addEmitter(userId, newEmitter);
+        // 새 연결에 대한 이벤트 핸들러 설정
+        newEmitter.onCompletion(() -> emitterRepository.removeEmitter(userId));
+        newEmitter.onTimeout(() -> emitterRepository.removeEmitter(userId));
+        newEmitter.onError(e -> emitterRepository.removeEmitter(userId));
+
+        // 사용자의 읽지 않은 알림 목록을 조회 및 전송
+        sendUnreadNotifications(newEmitter, userId);
+        return newEmitter;
     }
-
-    // 새 연결 생성
-    SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
-    emitterRepository.addEmitter(userId, emitter);
-
-    emitter.onCompletion(() -> emitterRepository.removeEmitter(userId));
-    emitter.onTimeout(() -> emitterRepository.removeEmitter(userId));
-    emitter.onError(e -> emitterRepository.removeEmitter(userId));
-
-    // 사용자의 읽지 않은 알림 목록을 조회 및 전송
-    sendUnreadNotifications(emitter, userId);
-    return emitter;
-}
     private void sendUnreadNotifications(SseEmitter emitter, Long userId) {
         List<Alert> unreadAlerts = alertRepository.findByUser_UsersId(userId);
         List<AlertSendDTO> unreadAlertsDto = unreadAlerts.stream()

@@ -36,7 +36,6 @@ public class MainViewController {
                             Model model, HttpServletRequest request) {
 
         Long id = userService.getUserIdFromAccessTokenCookie(request);
-        log.info("id============="+id);
         Page<Books> bookPage = bookService.findAllBooksByStatus(TransactionStatus.나눔중, PageRequest.of(page, size));
         List<BookMainDTO> bookDTOs = bookService.returnDTOs(bookPage.getContent());
         model.addAttribute("bookPage", bookPage);

@@ -215,9 +215,9 @@ public class UserService {
     }
     private void addTokenCookiesToResponse(TokenInfo tokenInfo, HttpServletResponse response) {
         Cookie accessTokenCookie = createCookie("accessToken", tokenInfo.getAccessToken(), 30 * 60 * 1000L);
-       // Cookie refreshTokenCookie = createCookie("refreshToken", tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime());
+        Cookie refreshTokenCookie = createCookie("refreshToken", tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime());
         response.addCookie(accessTokenCookie);
-        //response.addCookie(refreshTokenCookie);
+        response.addCookie(refreshTokenCookie);
     }
     private Cookie createCookie(String name, String value, Long maxAge) {
         Cookie cookie = new Cookie(name, value);
@@ -280,6 +280,7 @@ public class UserService {
         });
     }
 
+
     public String createPasswordResetToken(String email) {
         System.out.println("email = " + email);
         Users user = userRepository.findByEmail(email)
@@ -331,7 +332,12 @@ public class UserService {
     }
     public int findTotalPointByUsersId(Long usersId) {
         Users user = this.findAllById(usersId);
-        return user.getTotalPoint();
+        if (user != null) {
+            return user.getTotalPoint();
+        } else {
+            //todo : 사용자가 존재하지 않을 때 적절한 처리를 해야 함. 예를 들어, 기본값을 반환하거나 예외를 던질 수 있다.
+            return 0; // 또는 적절한 예외 처리 필요
+        }
     }
 
     public boolean validatePasswordResetToken(String token) {

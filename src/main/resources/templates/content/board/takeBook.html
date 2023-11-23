@@ -48,6 +48,7 @@
                 <div class="form-group row mt-3">
                     <label for="recipientName" class="col-md-2 col-form-label text-nowrap">받으시는 분 :</label>
                     <div class="col-md-6">
+                        <input type="hidden" name="bookTitle" th:value="${book.title}" />
                         <input type="text" class="form-control" id="recipientName" name="recipientName" th:field="${delivery.name}" placeholder="이름을 입력하세요">
                         <input type="hidden" class="form-control" id="transactions" name="transactions" th:field="${book.transactions}">
                         <input type="hidden" class="form-control" id="boards" name="boards" th:field="${book.boards}">

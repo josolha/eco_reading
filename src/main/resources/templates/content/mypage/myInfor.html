@@ -36,7 +36,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <h4 class="card-title">회원 정보</h4>
-                            <p class="card-text"><strong>아이디:</strong> <span th:text="${user.usersId}"></span></p>
+                            <p class="card-text"><strong>이름:</strong> <span th:text="${user.realUserName()}"></span></p>
                             <p class="card-text"><strong>핸드폰 번호:</strong> <span th:text="${user.getPhone()}"></span></p>
                             <p class="card-text"><strong>닉네임:</strong> <span th:text="${user.nickName}"></span></p>
                             <p class="card-text"><strong>집 주소:</strong> <span th:text="${user.roadAddress + ', ' + user.detailAddress}"></span></p>
@@ -73,8 +73,6 @@
                                 </td>
                                 <td th:text="${pointHistory.createdDate}"></td>
                             </tr>
-
-
                             </tbody>
                         </table>
                     </div>

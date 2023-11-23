@@ -13,8 +13,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 
-//체크리스트에 넘겨줄 책 제목, 사용자 이름
+//체크리스트에 넘겨줄 책 아이디, 책 제목, 사용자 이름
 public class CheckListBookInfoDTO {
+    Long boardId;
     String bookName;
     String userName;
 }
