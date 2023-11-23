@@ -30,12 +30,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Grant execute permission for gradlew
-        working-directory: ./server-app
+        working-directory: ./eco_reading
         run: chmod +x ./gradlew
         shell: bash
 
       - name: Build with Gradle
-        working-directory: ./server-app
+        working-directory: ./eco_reading
         run: ./gradlew clean build
         shell: bash
 
