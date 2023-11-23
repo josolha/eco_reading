@@ -9,9 +9,9 @@ name: Deploy-to-AWS-Elastic-Beanstalk
 
 on:
   push:
-    branches:
-      - master
-  workflow_dispatch:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -25,10 +25,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
-        shell: bash
+          distribution: 'temurin'
 
       - name: Build with Gradle
         run: ./gradlew clean build
