@@ -30,7 +30,7 @@ jobs:
       - name: Grant execute permission for gradlew  # gradle 실행 권한 설정
         run: chmod +x ./gradlew
 
-      - name: Build with Gradle
+      - name: Build with Gradle  # gradle 설치
         uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
         with:
           arguments: build
@@ -45,7 +45,7 @@ jobs:
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
 
-      - name: Deploy to EB
+      - name: Deploy to EB  # 자동배포
         uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
