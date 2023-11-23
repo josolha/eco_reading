@@ -27,7 +27,7 @@ jobs:
           distribution: 'temurin'
 
       - name: make application yml
-        run: |
+        run:
           cd ./src/main/resources
           touch ./application.yml
           echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
