@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}"
+      layout:fragment="content">
+<head>
+    <title>My Page</title>
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 40%;
+        }
+
+        .custom-text-box {
+            border: 1px solid #E2ECE2;
+            padding: 20px;
+            margin: 20px;
+            background-color: #F7F7F7;
+        }
+
+        .status-box {
+            background-color: #E2ECE2;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .pagination-container {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            justify-content: center; /* 중앙 정렬 */
+        }
+
+        .pagination-container .page-item {
+            margin: 0 5px; /* 각 페이지 버튼 사이의 간격 조절 */
+        }
+
+        .pagination-container .page-link {
+            line-height: 30px; /* 버튼 내에서 텍스트 수직 중앙 정렬 */
+        }
+
+        .pagination-container .page-item.active .page-link {
+            background-color: #E2ECE2; /* 연두색 배경색 */
+            color: #000000; /* 글자색 (검정색 등) */
+        }
+    </style>
+</head>
+<body>
+<!-- Main -->
+<main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
+            <h2 class="titles text-center">Take List</h2>
+            <hr>
+            <div class="row" th:each="book : ${books.getContent()}">
+                <div class="col-12">
+                    <div class="custom-text-box">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <img class="card-img-top" th:if="${not #lists.isEmpty(book.imagesList)}" th:src="${book.imagesList[0].imagesUrl}" alt="책 이미지" width="200" height="300">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5 class="card-title" th:text="${book.title}">책 제목</h5>
+                                            <p th:text="'출판사: ' + ${book.publisher}">출판사: 출판사명</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p th:text="'글 올린 날짜: ' + ${book.pubDate}">글 올린 날짜: 날짜</p>
+                                            <p th:text="'책 등급: ' + ${book.grade}">책 등급: 등급</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div style="background-color: #E2ECE2; border: 1px solid #E2ECE2; border-radius: 20px; color: black; font-size: 14px; padding: 5px 10px; pointer-events: none; display: inline-block;">
+                                                <span th:text="${book.transactions.status}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이징 처리 -->
+            <nav aria-label="Page navigation" class="pagination-container">
+                <ul class="pagination">
+                    <!-- 이전 페이지로 가는 링크 -->
+                    <li th:if="${books.hasPrevious()}" class="page-item">
+                        <a class="page-link" th:href="@{'/user/mypage/takelist/?page=' + ${books.number - 1} + '&size=' + ${books.size} }">이전</a>
+                    </li>
+
+                    <!-- 페이지 번호들 -->
+                    <li th:each="i : ${#numbers.sequence(0, books.totalPages - 1)}" class="page-item" th:classappend="${i == books.number} ? 'active' : ''">
+                        <a class="page-link" th:href="@{'/user/mypage/takelist/?page=' + ${i} + '&size=' + ${books.size} }" th:text="${i + 1}"></a>
+                    </li>
+
+                    <!-- 다음 페이지로 가는 링크 -->
+                    <li th:if="${books.hasNext()}" class="page-item">
+                        <a class="page-link" th:href="@{'/user/mypage/takelist/?page=' + ${books.number + 1} + '&size=' + ${books.size} }">다음</a>
+                    </li>
+                </ul>
+            </nav>
+    </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}"
+      layout:fragment="content">
+<head>
+    <title>My Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        main {
+            margin-left: 200px;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .btn-primary {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Main -->
+<main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->          <!-- Main -->
+
+        <div class="d-flex flex-column align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2 mb-3" th:text="'Book Check List'"></h1>
+            <p><strong>닉네임:</strong> <span th:text="${checkListBookInfoDTO.userName}"></span></p>
+            <p><strong>도서이름:</strong> <span th:text="${checkListBookInfoDTO.bookName}"></span></p>
+        </div>
+
+            <div class="container">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/admin/checkList/{boardId}(boardId=${checkListBookInfoDTO.boardId})}" method="post" id="bookForm">
+                        <table class="table mt-2">
+                            <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>우와 새책~!</th>
+                                <th>헌책 감사</th>
+                                <th>쓸만하네</th>
+                                <th>똥휴지(기부불가)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><b>헌 상태</b></td>
+                                <td>새 것에 가까운 책<input type="checkbox" class="single-checkbox" value="3"></td>
+                                <td>약간의 사용감은 있으나 깨끗한 책<input type="checkbox" class="single-checkbox" value="2"></td>
+                                <td>사용감이 많으며 헌 느낌이 나는 책<input type="checkbox" class="single-checkbox" value="1"></td>
+                                <td>독서 및 이용에 지장이 있는 책<input type="checkbox" class="single-checkbox" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td><b>표지</b></td>
+                                <td>변색/찢어짐/낙서 없음<input type="checkbox" class="single-checkbox" value="3"></td>
+                                <td>희미한 변색/얼룩 있음, 약간의 모서리 해짐, 낙서 없음<input type="checkbox" class="single-checkbox" value="2"></td>
+                                <td>전체적인 변색/모서리 해짐/오염 있음, 2cm 이하의 찢어짐 있음, 낙서 있음<input type="checkbox" class="single-checkbox" value="1"></td>
+                                <td>4cm 초과한 찢어짐 혹은 얼룩 있음<input type="checkbox" class="single-checkbox" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td><b>책등/책배</b></td>
+                                <td>변색/찢어짐/낙서 없음<input type="checkbox" class="single-checkbox" value="3"></td>
+                                <td>희미한 변색/얼룩 있음, 약간의 닳은 흔적 있음, 낙서 없음<input type="checkbox" class="single-checkbox" value="2"></td>
+                                <td>전체적인 변색/모서리 해짐/오염 있음, 낙서 있음 (이름포함)<input type="checkbox" class="single-checkbox" value="1"></td>
+                                <td>2cm 초과한 크기의 얼룩 있음<input type="checkbox" class="single-checkbox" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td><b>내부/제본상태</b></td>
+                                <td>변색/찢어짐/낙서/얼룩 없음, 제본 탈착 없음<input type="checkbox" class="single-checkbox" value="3"></td>
+                                <td>변색/낙서/얼룩 없음, 약간의 접힌 흔적 있음, 제본 탈착 없음<input type="checkbox" class="single-checkbox" value="2"></td>
+                                <td>변색/얼룩/오염 있음, 10쪽 이하의 필기 및 밑줄 있음, 2cm 이하의 찢어짐 있음, 본문 읽기에 지장 없는 부록 없음<input type="checkbox" class="single-checkbox" value="1"></td>
+                                <td>2cm 초과한 찢어짐 혹은 얼룩 있음, 제본 불량, 분책 된 경우<input type="checkbox" class="single-checkbox" value="0"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                            <div class="col-sm-3 col-form-label text-nowrap"></div>
+                            <input type="hidden" name="minScore" id="minScore" value="">
+                            <div style="text-align: center; margin: 0 auto; width: 15%;">
+                                <input type="submit" class="btn" value="제출" onclick="submitForm()" style="background-color: #82BA82; color: #fff; width: 100%; padding: 10px;">
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.single-checkbox').on('change', function () {
+            // 같은 행에 있는 모든 체크박스를 선택 해제합니다.
+            $(this).closest('tr').find('.single-checkbox').not(this).prop('checked', false);
+        });
+    });
+
+function submitForm() {
+    var checkboxes = document.querySelectorAll('.single-checkbox');
+    var minScore = Math.min.apply(null, Array.from(checkboxes).map(function (checkbox) {
+    return checkbox.checked ? parseInt(checkbox.value) : Infinity; }));
+    // minScore 변수를 사용하여 서버로 전송 또는 다른 작업 수행
+    document.getElementById('minScore').value = minScore;
+    document.getElementById('bookForm').submit();
+}
+
+</script>
+</body>
+</html>
+

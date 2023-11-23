@@ -1,12 +1,28 @@
-<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar" th:fragment="sidebarFragment" style="background-color: #E2ECE2">
-    <div class="position-sticky">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="sidebarFragment">
+<nav>
+    <div style="padding-top: 20px;">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">나눔하기</a>
+                <a class="nav-link active" href="/board/new">Book Donation</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">마이페이지</a>
+            <li class="nav-item" th:onclick="|toggleSubMenu();|">
+                <a class="nav-link">▿ My Page</a>
+                <!-- Wrap the sub-menu items in a container with an id -->
+                <div id="myPageSubMenu" style="display: none;">
+                    <ul class="nav flex-column ml-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/mypage/myinfor">My Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/mypage/givelist">Give</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/mypage/takelist">Take</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         </ul>
     </div>
 </nav>
+</html>

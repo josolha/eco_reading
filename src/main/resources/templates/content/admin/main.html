@@ -1,10 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}"
+      layout:fragment="content"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>유저관리</title>
+    <style>
+        .pagination-container {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            justify-content: center; /* 중앙 정렬 */
+        }
+
+        .pagination-container .page-item {
+            margin: 0 5px; /* 각 페이지 버튼 사이의 간격 조절 */
+        }
+
+        .pagination-container .page-link {
+            line-height: 30px; /* 버튼 내에서 텍스트 수직 중앙 정렬 */
+        }
+
+        .pagination-container .page-item.active .page-link {
+            background-color: #E2ECE2; /* 연두색 배경색 */
+            color: #000000; /* 글자색 (검정색 등) */
+        }
+    </style>
 </head>
 <body>
+<!-- Main -->
+<main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
+            <div class="main-container border rounded p-3 mt-2">
+                <h2 class="titles mb-3 mt-4 text-center">user list</h2>
 
+                <div class="border mt-2 mb-4"></div> <!--구분선 넣기 -->
+
+                <div class="input-group mb-2">
+                    <button type="button" class="btn btn-outline-primary rounded-pill mr-2" style="color: black; border-color: #E2ECE2; background-color: #E2ECE2;" onclick="searchUsers('enabled')">활성화 계정 보기</button>
+                    <button type="button" class="btn btn-outline-primary rounded-pill" style="color: black; border-color: #E2ECE2; background-color: #E2ECE2;" onclick="searchUsers('disabled')">비활성화 계정 보기</button>
+                </div>
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>사용자 ID</th>
+                            <th>사용자 이메일</th>
+                            <th>책갈피</th>
+                            <th>사용자 상태</th>
+                            <th>자세히 보기</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- usersList 반복 -->
+                        <tr th:each="user : ${usersList}">
+                            <td th:text="${user.usersId}"></td>
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.totalPoint}"></td>
+                            <td>
+                                <span th:text="${user.enabled} ? '활성화 계정' : '비활성화 계정'"></span>
+                            </td>
+                            <td>
+                                <a th:href="@{/admin/user/details/{userId}(userId=${user.usersId})}" class="btn" style="background-color: #82BA82; color: #fff;">자세히 보기</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <nav aria-label="Page navigation" class="pagination-container">
+                    <!-- 이전 페이지로 가는 링크 -->
+                    <li th:if="${usersPage.hasPrevious()}" class="page-item">
+                        <a class="page-link" th:href="@{'/admin/?page=' + ${usersPage.number - 1} + '&size=' + ${usersPage.size} + '&enabled=' + ${#strings.defaultString(enabled, 'null')} }">이전</a>
+                    </li>
+
+                    <!-- 페이지 번호들 -->
+                    <li th:each="i : ${#numbers.sequence(0, usersPage.totalPages - 1)}" class="page-item" th:classappend="${i == usersPage.number} ? 'active' : ''">
+                        <a class="page-link" th:href="@{'/admin/?page=' + ${i} + '&size=' + ${usersPage.size} + '&enabled=' + ${#strings.defaultString(enabled, 'null')} }" th:text="${i + 1}"></a>
+                    </li>
+
+                    <!-- 다음 페이지로 가는 링크 -->
+                    <li th:if="${usersPage.hasNext()}" class="page-item">
+                        <a class="page-link" th:href="@{'/admin/?page=' + ${usersPage.number + 1} + '&size=' + ${usersPage.size} + '&enabled=' + ${#strings.defaultString(enabled, 'null')} }">다음</a>
+                    </li>
+                </nav>
+            </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<script>
+    function searchUsers(searchType) {
+        // Set the URL based on the selected search type
+        var url;
+        if (searchType === 'enabled') {
+            url = '/admin?enabled=true';
+        } else if (searchType === 'disabled') {
+            url = '/admin?enabled=false';
+        }
+
+        // Redirect to the constructed URL
+        window.location.href = url;
+    }
+</script>
 </body>
 </html>

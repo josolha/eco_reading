@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>접근 권한 없음</title>
+  <!-- Bootstrap CSS 추가 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+    }
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      border-radius: 10px;
+    }
+    .card-header {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .btn-dark:hover {
+      background-color: #343a40;
+      border-color: #343a40;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-danger text-white">
+          경고
+        </div>
+        <div class="card-body">
+          <p class="card-text">해당 페이지에 접근할 권한이 없습니다.</p>
+          <a href="/main/" class="btn btn-dark d-block mx-auto">메인으로 돌아가기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap JS와 의존성 추가 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

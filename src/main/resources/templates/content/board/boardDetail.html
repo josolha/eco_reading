@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}"
+      layout:fragment="content">
+<head>
+    <title>detail</title>
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 30%;
+        }
+
+        .custom-button {
+            font-weight: bold;
+        }
+
+        .custom-box p {
+            font-weight: bold;
+        }
+
+        .custom-text-box {
+            border: 1px solid black;
+            padding: 10px;
+        }
+
+        .image-slider {
+            display: block;
+            position: relative;
+            width: 450px;
+            height: 350px;
+        }
+
+        .image-container {
+            display: block;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #E2ECE2;
+            font-size: 24px;
+            color: black;
+            padding: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+
+        <!-- Main -->
+        <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+            <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
+            <h3 class="text-center" style="font-weight: bold;"><span th:text="${book.title}"></span></h3>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="image-slider">
+                        <div class="image-container">
+                            <img class="slide" th:each="image : ${book.images}" th:src="${image.imagesUrl}" th:alt="${book.title}">
+                        </div>
+                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
+                        <p th:text="'저자: ' + ${book.author}"></p>
+                        <p th:text="'출판사: ' + ${book.publisher}"></p>
+                        <p th:text="'발행일자: ' + ${book.pubDate}"></p>
+                        <p th:text="'기부어: ' + ${book.transactions.giverId}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center mt-4" th:if="${book.transactions.giverId != user.usersId}">
+                <button class="custom-button btn btn-primary btn-lg btn-block"
+                        style="white-space: nowrap;"
+                        th:onclick="|return checkAndAlert(${book.booksId}, ${user.totalPoint})|">
+                    나눔 받기
+                </button>
+            </div>
+
+            <div class="card-body" style="padding-top: 50px; padding-bottom: 50px;">
+                <div class="custom-box">
+                    <p style="font-size: 20px;">기부어의 한마디</p>
+                    <div class="custom-text-box">
+                        <span th:text="${book.boards.message}"></span>
+                    </div>
+                </div>
+                <br>
+                <div class="custom-box">
+                    <p style="font-size: 20px;">책 소개</p>
+                    <div class="custom-text-box">
+                        <span th:text="${book.description}"></span>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("slide");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+            slides[i].style.width = "450px";
+            slides[i].style.height = "350px";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+
+    function checkAndAlert(bookId, totalPoint) {
+        if (totalPoint < 5) {
+            alert("포인트가 부족합니다!");
+            return false;
+        } else {
+            // 5 이상인경우 나눔받기 페이지로 이동
+            window.location.href = "/board/detail/" + bookId + "/taker";
+            return true;
+        }
+    }
+</script>
+
+</body>
+</html>

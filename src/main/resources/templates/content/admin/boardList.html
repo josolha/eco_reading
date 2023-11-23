@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}"
+      layout:fragment="content">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>나눔글 관리</title>
+    <style>
+        .pagination-container {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            justify-content: center; /* 중앙 정렬 */
+        }
+
+        .pagination-container .page-item {
+            margin: 0 5px; /* 각 페이지 버튼 사이의 간격 조절 */
+        }
+
+        .pagination-container .page-link {
+            line-height: 30px; /* 버튼 내에서 텍스트 수직 중앙 정렬 */
+        }
+
+        .pagination-container .page-item.active .page-link {
+            background-color: #E2ECE2; /* 연두색 배경색 */
+            color: #000000; /* 글자색 (검정색 등) */
+        }
+    </style>
+</head>
+
+<body>
+        <!-- Main Content -->
+        <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+            <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h2 class="text-center">나눔글 관리</h2>
+            </div>
+            <div>
+                <!-- 검색창 -->
+                <br>
+                <form action="/admin/search" method="get">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <select class="custom-select rounded-pill" name="searchType">
+                                <option value="search">유저 아이디 검색</option>
+                                <option value="isbn">책 바코드 검색</option>
+                                <option value="status">거래 상태</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control rounded-pill" name="search" placeholder=" " aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" class="btn btn-outline-primary rounded-pill" style="color: black; border-color: #E2ECE2; background-color: #E2ECE2;">검색</button>
+                    </div>
+                </form>
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>등록 유저 아이디</th>
+                            <th>등록 일자</th>
+                            <th>책 바코드</th>
+                            <th>거래 상태</th>
+                            <th>자세히 보기</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- boardsList 반복 -->
+                        <tr th:each="board : ${boardsList}">
+                            <td th:text="${board.users.usersId}"></td>
+                            <td th:text="${board.createdDate}"></td>
+                            <td>
+                                <!-- booksList 반복 -->
+                                <span th:each="book : ${board.booksList}" th:text="${book.isbn}"></span>
+                            </td>
+                            <td>
+                                <!-- booksList 반복 -->
+                                <span th:each="book : ${board.booksList}" th:text="${book.transactions.status}"></span>
+                            </td>
+                            <td>
+                                <a th:href="@{/admin/board/detail/{boardId}(boardId=${board.boardId})}" class="btn" style="background-color: #82BA82; color: #fff;">자세히 보기</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <nav aria-label="Page navigation" class="pagination-container">
+                    <!-- 이전 페이지로 가는 링크 -->
+                    <li th:if="${boardsPage.hasPrevious()}" class="page-item">
+                        <a class="page-link" th:href="@{'/admin/board/?page=' + ${boardsPage.number - 1} + '&size=' + ${boardsPage.size}}">이전</a>
+                    </li>
+
+                    <!-- 페이지 번호들 -->
+                    <li th:each="i : ${#numbers.sequence(0, boardsPage.totalPages - 1)}" class="page-item" th:classappend="${i == boardsPage.number} ? 'active' : ''">
+                        <a class="page-link" th:href="@{'/admin/board/?page=' + ${i} + '&size=' + ${boardsPage.size}}" th:text="${i + 1}"></a>
+                    </li>
+
+                    <!-- 다음 페이지로 가는 링크 -->
+                    <li th:if="${boardsPage.hasNext()}" class="page-item">
+                        <a class="page-link" th:href="@{'/admin/board/?page=' + ${boardsPage.number + 1} + '&size=' + ${boardsPage.size}}">다음</a>
+                    </li>
+                </nav>
+
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}"
+      layout:fragment="content">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>나눔글 관리</title>
+    <style>
+        .carousel-item img {
+            display: inline-block;
+            width: 100%; /* 가로 폭 설정 */
+            height: 350px; /* 세로 높이 설정 */
+            background-size: cover; /* 이미지를 div에 맞게 조정 */
+            background-position: center; /* 이미지를 가운데 정렬 */
+            border: 1px solid #ccc; /* 테두리 추가 */
+        }
+    </style>
+</head>
+<body>
+<!-- Assuming bookList is an array of book objects -->
+
+<!-- Main -->
+<main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->            <div class="container mt-5">
+                <div class="row">
+                    <!-- Loop through the bookList to display each book -->
+                    <th:block th:each="book : ${bookList}">
+                        <div class="col-md-6">
+                            <h2 class="text-center mb-3" th:text="${book.title}"></h2>
+
+                            <!-- Bootstrap Carousel for Image Slider -->
+                            <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <!-- Loop through book.imagesList to display images -->
+                                    <th:block th:each="image, iterStat : ${book.imagesList}">
+                                        <div th:classappend="${iterStat.first} ? 'carousel-item active' : 'carousel-item'">
+                                            <img th:src="${image.imagesUrl}" th:alt="${book.title}" class="img-fluid">
+                                        </div>
+                                    </th:block>
+                                </div>
+                                <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">이전</span>
+                                </a>
+                                <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">다음</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Book Details -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    Book Details
+                                </div>
+                                <form th:action="@{/admin/checkList/{boardId}(boardId=${book.boards.boardId})}" th:object="${book}" method="get">
+                                    <div class="card-body">
+                                        <p class="card-text"><strong>저자:</strong> <span th:text="${book.author}"></span></p>
+                                        <p class="card-text"><strong>출판사:</strong> <span th:text="${book.publisher}"></span></p>
+                                        <p class="card-text"><strong>발행 일자:</strong> <span th:text="${book.pubDate}"></span></p>
+                                        <p class="card-text"><strong>기부어 아이디:</strong> <span th:text="${book.transactions.giverId}"></span></p>
+                                        <p class="card-text"><strong>책 등급:</strong><span th:text="${book.grade}"></span></p>
+                                        <p class="card-text"><strong>거래 상태:</strong><span th:text="${book.transactions.status}" id="bookStatus"></span></p>
+                                        <p class="card-text" style="display: none;" id="transactionsId" th:text="${book.transactions.transactionsId}"></p>
+                                        <button class="custom-button btn" type="submit" id="inspectionButton" style="background-color: #82BA82; color: #fff; width: 100%; padding: 10px;">검수 하기</button>
+                                        <button class="custom-button btn" type="submit" id="collectionButton" style="background-color: #82BA82; color: #fff; width: 100%; padding: 10px;">수거 시작</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- 기부어의 한마디 -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    기부어의 한마디
+                                </div>
+                                <div class="card-body">
+                                    <span th:text="${book.boards.message}"></span>
+                                </div>
+                            </div>
+
+                            <!-- 책 소개 -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    책 소개
+                                </div>
+                                <div class="card-body">
+                                    <span th:text="${book.description}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+    </div>
+        </main>
+    </div>
+</div>
+<footer th:replace="~{footer/footer :: footerFragment}"></footer>
+
+<!-- Initialize Bootstrap Carousel -->
+<script>
+    $(document).ready(function () {
+        $('#imageCarousel').carousel();
+    });
+
+    $(document).ready(function () {
+    var bookStatus = $('#bookStatus').text();
+
+    if (bookStatus === '신규등록') {
+    $('#inspectionButton').hide();
+
+}
+    else if (bookStatus === '수거중' || bookStatus === '검수중') {
+    $('#collectionButton').hide();
+
+} else if (bookStatus === '나눔중' || bookStatus === '나눔완료') {
+        $('#inspectionButton').hide();
+        $('#collectionButton').hide();
+    }
+    $('#imageCarousel').carousel();
+});
+
+    $('#collectionButton').click(function (event) {
+        event.preventDefault();
+        var transactionsId = $('#transactionsId').text();
+        window.location.href = '/admin/update/status/' + encodeURIComponent(transactionsId);
+    });
+</script>
+</body>
+</html>

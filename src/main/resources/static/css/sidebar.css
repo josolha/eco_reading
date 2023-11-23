@@ -1,0 +1,39 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500&display=swap');*/
+
+/*!*!* Add CSS for the sub-menu container *!*!*/
+/*!*#myPageSubMenu {*!*/
+/*!*    display: none; !* Initially hidden *!*!*/
+/*!*}*!*/
+
+/*!*!* Show the sub-menu when hovering over the 마이페이지 link *!*!*/
+/*!*.nav-item:hover #myPageSubMenu {*!*/
+/*!*    display: block;*!*/
+/*!*}*!*/
+
+
+/*!*#sidebar {*!*/
+/*!*    position: relative;*!*/
+/*!*    top: auto;*!*/
+/*!*    left: 0;*!*/
+/*!*    bottom: 0;*!*/
+/*!*    z-index: 1000;*!*/
+/*!*    height: max-content;*!*/
+/*!*}*!*/
+
+/*.nav-item {*/
+/*    font-family: 'Chakra Petch', sans-serif;*/
+/*    font-size: 15px;*/
+/*}*/
+
+/*.nav-link {*/
+/*    color: black;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.nav-link:hover {*/
+/*    color: blue; !* Change to the color you want on hover *!*/
+/*}*/
+
+/*#sidebar {*/
+/*    width: 150px;*/
+/*}*/

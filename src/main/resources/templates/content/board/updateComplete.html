@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}"
+      layout:fragment="content">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>나눔글 관리</title>
+</head>
+<body>
+    <!-- Main -->
+    <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+        <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->
+            <div class="mt-3">
+                <h3>게시글 수정 완료</h3>
+                <p>수정이 완료된 게시글의 ID: <strong th:text="${boardId}"></strong></p>
+            </div>
+
+            <div class="mt-3">
+                <a href="/user/mypage/givelist" class="btn btn-primary">기부 목록으로 돌아가기</a>
+                <a th:href="@{'/board/detail/' + ${boardId}}" class="btn btn-success">나눔글 자세히 보기</a>
+            </div>
+        </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

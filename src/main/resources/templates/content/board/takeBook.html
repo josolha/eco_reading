@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}"
+      layout:fragment="content">
+
+<head>
+    <title>takeBook</title>
+
+    <style>
+        hr {
+            border: 2px solid #E2ECE2;
+        }
+
+        .custom-button {
+            background-color: #E2ECE2;
+            font-size: 18px;
+            color: black;
+            border: 2px solid #E2ECE2;
+            width: 40%;
+        }
+
+        .custom-button {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+ <!-- Main -->
+        <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+            <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->            <br>
+            <h3 style="font-weight: bold;">주문 도서 정보</h3>
+            <hr>
+
+            <div class="form-group row">
+                <label for="bookTitle" class="col-md-2 col-form-label">도서명 :</label>
+                <div class="col-md-6">
+                    <input type="text" id="bookTitle" name="bookTitle" class="form-control" th:value="${book.title}" readonly>
+                </div>
+            </div>
+
+            <br>
+            <h5 style="font-weight: bold;">배송지 정보 입력</h5>
+
+            <form th:action="@{/board/detail/complete}" th:object="${delivery}" method="post" onsubmit="return checkFormValidation();">
+                <div class="form-group row mt-3">
+                    <label for="recipientName" class="col-md-2 col-form-label text-nowrap">받으시는 분 :</label>
+                    <div class="col-md-6">
+                        <input type="hidden" name="bookTitle" th:value="${book.title}" />
+                        <input type="text" class="form-control" id="recipientName" name="recipientName" th:field="${delivery.name}" placeholder="이름을 입력하세요">
+                        <input type="hidden" class="form-control" id="transactions" name="transactions" th:field="${book.transactions}">
+                        <input type="hidden" class="form-control" id="boards" name="boards" th:field="${book.boards}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3">
+                    <label for="recipientPhoneNumber" class="col-md-2 col-form-label text-nowrap">전화번호 :</label>
+                    <div class="col-md-6">
+                        <input type="tel" class="form-control" id="recipientPhoneNumber" name="recipientPhoneNumber" th:field="${delivery.phone}" placeholder="- 제외하고 입력하세요" pattern="[0-9]*" maxlength="11">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3">
+                    <label for="postcode" class="col-md-2 col-form-label text-nowrap">주소 :</label>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="postcode" name="postcode" th:field="${delivery.postcode}" placeholder="우편번호" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" onclick="sample4_execDaumPostcode()">우편번호 검색</button>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control mt-2" id="roadAddress" name="roadAddress" th:field="${delivery.roadAddress}" placeholder="도로명주소">
+                        <input type="text" class="form-control mt-2" id="detailAddress" name="detailAddress" th:field="${delivery.detailAddress}" placeholder="상세주소">
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-group" style="text-align: center; border: 2px solid black;">
+                    <br>
+                    <h5 style="font-size: 25px; font-weight: bold;" >- 약관동의 -</h5>
+                    <br>
+                    <p>중고 도서 특성 상의 컨디션을 이해하고, 환불은 불가함에 동의합니다. </p>
+                    <br>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <input type="radio" id="termsAgreement" name="termsAgreement" class="form-check-input" value="동의">
+                        <label class="form-check-label" for="termsAgreement" style="margin-left: 35px;">동의</label>
+                    </div>
+                    <br>
+                </div>
+
+                <br>
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="custom-button btn btn-primary" style="width: auto;">나눔 받기</button>
+                </div>
+            </form>
+            </div>
+        </main>
+    </div>
+</div>
+
+<footer th:replace="~{footer/footer :: footerFragment}"></footer>
+
+</body>
+</html>
+<script th:src="@{/js/member.js}"></script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script>
+    // 전화번호 숫자만 입력 가능하도록
+    document.getElementById('recipientPhoneNumber').addEventListener('input', function() {
+        var phoneNumberValue = this.value;
+        if (!/^[0-9]*$/.test(phoneNumberValue)) {
+            alert('숫자만 입력 가능합니다.');
+            this.value = '';
+        }
+    });
+
+    // 모든 필드를 채우도록
+    function checkFormValidation() {
+        var recipientName = document.getElementById('recipientName').value;
+        var recipientPhoneNumber = document.getElementById('recipientPhoneNumber').value;
+        var postcode = document.getElementById('postcode').value;
+        var roadAddress = document.getElementById('roadAddress').value;
+        var detailAddress = document.getElementById('detailAddress').value;
+
+        if (recipientName === "" || recipientPhoneNumber === "" || postcode === "" || roadAddress === "" || detailAddress === "") {
+            alert('모든 필드를 채워주세요!');
+            return false;
+        }
+
+        return checkTermsAgreement();
+    }
+
+    // 이용약관에 동의하도록
+    function checkTermsAgreement() {
+        var termsAgreement = document.getElementById('termsAgreement');
+        if (!termsAgreement.checked) {
+            alert('이용 약관에 동의해 주시기 바랍니다.');
+            return false;
+        }
+    }
+</script>
