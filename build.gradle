@@ -86,4 +86,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-
+// jar 파일 만들 때 MANIFEST.MF 파일 중복되어서 코드 추가
+bootJar {
+	duplicatesStrategy = 'exclude'
+}
