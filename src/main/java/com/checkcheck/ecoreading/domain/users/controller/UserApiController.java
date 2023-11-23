@@ -92,9 +92,9 @@ public class UserApiController {
 
         Long id = userService.getUserIdFromAccessTokenCookie(request);
 
-        SseEmitter emitter = emitterRepository.get(id);
-        if (emitter != null) {
-            emitter.complete();
+        Optional<SseEmitter> emitter = emitterRepository.get(id);
+        if (emitter.isPresent()) {
+            emitter.get().complete();
             emitterRepository.removeEmitter(id);
         }
 

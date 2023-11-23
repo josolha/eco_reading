@@ -14,6 +14,8 @@ import com.checkcheck.ecoreading.domain.users.service.UserService;
 import com.checkcheck.ecoreading.security.jwt.JwtTokenProvider;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,34 +34,29 @@ public class UserViewController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/login")
-    public String login(){
+    public String login(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails != null) {
+            // 사용자가 이미 로그인된 경우
+            return "redirect:/main/";
+        }
         return "login";
     }
+
     @GetMapping("/signup")
     public String signup(){
         return "signup";
     }
-    @GetMapping("/test")
-    public String showTestPage() {
-        return "test";
-    }
     @GetMapping("/403error")
     public String errorAccessDenied(){
+        System.out.println("권한페이지 이동합니다.");
         return "error/403error";
     }
     @GetMapping("/kakao/signup")
     public String signupKakao() {
-        //System.out.println(" 여기 도착함");
     return "signupKakao";
     }
     @GetMapping("/find/idPw")
     public String findIdPw(){
         return "findIdPw";
-    }
-    @GetMapping("/")
-    public String getBoards(Model model,HttpServletRequest request){
-        Long id = userService.getUserIdFromAccessTokenCookie(request);
-        System.out.println("id ============ " + id);
-        return "content/user/main";
     }
 }

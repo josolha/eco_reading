@@ -129,4 +129,8 @@ document.addEventListener('DOMContentLoaded', function() {
     getTotalPoint();
 });
 
+document.addEventListener('unload', function(e) {
+    eventSource.close(); // 페이지를 떠나기 전에 EventSource 연결 닫기
+});
+
 

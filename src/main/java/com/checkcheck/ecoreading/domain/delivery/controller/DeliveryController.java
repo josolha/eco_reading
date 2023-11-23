@@ -1,5 +1,6 @@
 package com.checkcheck.ecoreading.domain.delivery.controller;
 
+import com.checkcheck.ecoreading.domain.alert.service.NotificationService;
 import com.checkcheck.ecoreading.domain.boards.service.BookService;
 import com.checkcheck.ecoreading.domain.books.dto.BookMainDTO;
 import com.checkcheck.ecoreading.domain.books.entity.Books;
@@ -29,17 +30,23 @@ public class DeliveryController {
     private final TransactionService transactionService;
     private final UserService userService;
     private final PointHistoryService pointHistoryService;
+    private final NotificationService notificationService;
 
     // 나눔받기 완료
     @PostMapping("/board/detail/complete")
     public String completeTakeBook(@ModelAttribute DeliveryDTO deliveryDTO, @ModelAttribute BookMainDTO booksDTO, HttpServletRequest request) {
         Long id = userService.getUserIdFromAccessTokenCookie(request);
-
         transactionService.updateTransactions(booksDTO, id);  // Transaction 테이블 값 변경
         deliveryService.insertDelivery(deliveryDTO);  // Delivery 테이블 값 추가
         userService.updateUserTotalPoint(id);  // User 테이블 5 책갈피 차감
         pointHistoryService.insertPointHistory(id, booksDTO.getTransactions());  // PointHistory 테이블 값 추가
 
+        //===================================================
+        // 알림 전송 로직 추가
+        // 예시: 사용자가 나눔 받기 클릭시 배송 시작 알림
+
+        notificationService.sendNotification(id, "\"" + deliveryDTO.getBookTitle()+ "\"" + " 배송이 시작");
+        //===================================================
         return "content/board/completeTakeBook";
     }
 
