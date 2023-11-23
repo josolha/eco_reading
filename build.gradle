@@ -56,7 +56,7 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
 	// mySQl 설정
-	implementation 'mysql:mysql-connector-java:8.0.28'
+	//implementation 'mysql:mysql-connector-java:8.0.28'
 
 	//smtp 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
