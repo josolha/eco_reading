@@ -224,7 +224,7 @@ public class BookService {
             return bookRepository.findByPublisherContainingAndTransactions_Status(keyword, bookStatus, pageable);
         } else {
             // 기본은 통합검색, 상태가 "나눔중"인 것만 검색
-            return bookRepository.findAllByTransactions_Status(bookStatus, pageable);
+            return bookRepository.searchBooksTransactions_Status(keyword, bookStatus, pageable);
         }
     }
 
