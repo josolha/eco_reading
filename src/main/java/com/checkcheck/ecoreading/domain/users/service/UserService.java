@@ -295,7 +295,7 @@ public class UserService {
         return token;
     }
     public String sendMailPasswordReset(String email, String token){
-        String resetUrl = "http://localhost:8099/user/reset-password?token=" + token;
+        String resetUrl = "http://ecoreading.ap-northeast-2.elasticbeanstalk.com/user/reset-password?token=" + token;
         String htmlContent = "<p>비밀번호를 재설정하려면 아래 링크를 클릭하세요</p>" +
                 "<a href='" + resetUrl + "'>비밀번호 재설정 링크</a>";
         mailService.sendEmail(email, "[비밀번호 재설정 링크]", htmlContent);
