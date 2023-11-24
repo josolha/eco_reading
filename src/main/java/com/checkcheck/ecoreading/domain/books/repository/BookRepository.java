@@ -7,6 +7,8 @@ import com.checkcheck.ecoreading.domain.transactions.entity.TransactionStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -35,9 +37,13 @@ public interface BookRepository extends JpaRepository<Books, Long> {
     Page<Books> findByTitleContainingOrAuthorContainingOrPublisherContaining(String keyword, String keyword1, String keyword2, Pageable pageable);
 
     // 검색 및 페이징 및 상태 나눔중인것만
-    Page<Books> findByTitleContainingAndTransactions_Status(String title, TransactionStatus status, Pageable pageable);
-    Page<Books> findByAuthorContainingAndTransactions_Status(String author, TransactionStatus status, Pageable pageable);
-    Page<Books> findByPublisherContainingAndTransactions_Status(String publisher, TransactionStatus status, Pageable pageable);
-
+    Page<Books> findByTitleContainingAndTransactions_Status(String keyword, TransactionStatus bookStatus, Pageable pageable);
+    Page<Books> findByAuthorContainingAndTransactions_Status(String keyword, TransactionStatus bookStatus, Pageable pageable);
+    Page<Books> findByPublisherContainingAndTransactions_Status(String keyword, TransactionStatus bookStatus, Pageable pageable);
+    @Query("SELECT b FROM Books b " +
+            "INNER JOIN Transactions t ON b.booksId = t.books.booksId " +
+            "WHERE (b.title LIKE %:keyword% OR b.author LIKE %:keyword% OR b.publisher LIKE %:keyword%) " +
+            "AND t.status = :bookStatus")
+    Page<Books> searchBooksTransactions_Status(@Param("keyword") String keyword, @Param("bookStatus") TransactionStatus bookStatus, Pageable pageable);
 
 }
