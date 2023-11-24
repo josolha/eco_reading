@@ -93,7 +93,7 @@ function removeNotification(notificationElement, alertId) {
     updateNotificationCount(-1); // 알림 카운터 감소
 }
 function deleteNotificationFromServer(alertId) {
-    fetch(`http://localhost:8099/alert/delete/${alertId}`, {
+    fetch(`http://ecoreading.ap-northeast-2.elasticbeanstalk.com/alert/delete/${alertId}`, {
         method: 'DELETE'
     })
         .then(response => {
