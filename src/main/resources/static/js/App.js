@@ -29,7 +29,7 @@ function toggleSubMenu() {
 }
 
 //==============================알림================================
-const eventSource = new EventSource('http://localhost:8099/alert/init');
+const eventSource = new EventSource('http://ecoreading.ap-northeast-2.elasticbeanstalk.com/alert/init');
 
 // 알림을 드롭다운 메뉴에 추가하는 함수
 function addNotificationToMenu(message, id) {
