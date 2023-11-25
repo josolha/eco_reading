@@ -51,11 +51,15 @@ public class TransactionService {
         return transactionRepository.findByBooks(books);
     }
 
-    public void updateTransactionStatusFinishCheck(Transactions transactions){
+    public void updateTransactionStatusFinishCheck(Transactions transactions, Books books){
         // todo: 검수가 끝났고 나눔글이 등록 되었으며, 검수한 책의 등급에 대한 알림
-
-        transactions.setStatus(TransactionStatus.나눔중);
-        transactionRepository.save(transactions);
+        if (books.getGrade().equals("똥휴지")) {
+            transactions.setStatus(TransactionStatus.나눔완료);
+            transactionRepository.save(transactions);
+        } else {
+            transactions.setStatus(TransactionStatus.나눔중);
+            transactionRepository.save(transactions);
+        }
     }
 
     public Transactions findByTransactionsId(Long transactionsId){

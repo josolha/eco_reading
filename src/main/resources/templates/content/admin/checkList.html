@@ -36,16 +36,15 @@
     </style>
 </head>
 <body>
+    <!-- Main -->
+    <main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
+        <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->          <!-- Main -->
 
-<!-- Main -->
-<main role="main" class="ml-sm-auto px-md-4" style="height: auto; min-height: 100%; margin-bottom: 50px; display: flex; flex-direction: column;">
-    <div class="main-container border rounded p-3 mt-2" style="flex: 1;"> <!-- 메인컨텐츠 주변 보더라인 잡기-->          <!-- Main -->
-
-        <div class="d-flex flex-column align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2 mb-3" th:text="'Book Check List'"></h1>
-            <p><strong>닉네임:</strong> <span th:text="${checkListBookInfoDTO.userName}"></span></p>
-            <p><strong>도서이름:</strong> <span th:text="${checkListBookInfoDTO.bookName}"></span></p>
-        </div>
+            <div class="d-flex flex-column align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2 mb-3" th:text="'Book Check List'"></h1>
+                <p><strong>닉네임:</strong> <span th:text="${checkListBookInfoDTO.userName}"></span></p>
+                <p><strong>도서이름:</strong> <span th:text="${checkListBookInfoDTO.bookName}"></span></p>
+            </div>
 
             <div class="container">
                 <div class="card">
@@ -98,11 +97,12 @@
                                 <input type="submit" class="btn" value="제출" onclick="submitForm()" style="background-color: #82BA82; color: #fff; width: 100%; padding: 10px;">
                             </div>
                         </form>
+                    </div>
                 </div>
             </div>
-        </main>
-    </div>
-</div>
+        </div>
+    </main>
+</body>
 <script>
     $(document).ready(function () {
         $('.single-checkbox').on('change', function () {
