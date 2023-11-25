@@ -60,6 +60,10 @@ public class Transactions extends BaseEntity {
     public void setSuccessDate(LocalDateTime successDate) {
         this.successDate = successDate;
     }
+
+    public void changeStatus(TransactionStatus status){
+        this.status = status;
+    }
 }
 
 

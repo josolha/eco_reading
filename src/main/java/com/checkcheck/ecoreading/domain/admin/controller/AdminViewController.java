@@ -138,9 +138,9 @@ public class AdminViewController {
         Books books = bookService.findBoardByBookId(boards.getBooksList().get(0).getBooksId());
         Transactions transactions = transactionService.findByBooks(books);
         // 매니저가 검수 하기 버튼을 눌러서 체크리스트 작성을 완료 하여서 거래에 대한 상태를 변경하는 메소드
-        transactionService.updateTransactionStatusFinishCheck(transactions);
         // 북의 등급을 업데이트 하고 값을 가져옴
         Books updateGradeBook = bookService.updateGrade(books, minScore);
+        transactionService.updateTransactionStatusFinishCheck(transactions, updateGradeBook);
         userService.updatePoint(updateGradeBook, boards.getUsers().getUsersId(), transactions);
         //===================================================
         // 알림 전송 로직 추가
