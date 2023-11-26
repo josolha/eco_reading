@@ -41,7 +41,7 @@ jobs:
         with:
           arguments: build
 
-      - name: Get current time
+      - name: Get current time  # 배포 버전 설정 
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:
