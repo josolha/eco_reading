@@ -1,5 +1,7 @@
 #  🍳Overview
 
+ ![ezgif com-resize (1)](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/37aab975-6afe-48ab-b9f9-079981c37fd2)
+
 ![logo](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/0e157e21-c028-4ac6-9e3e-f5fd7b2c54db)
 
 
@@ -11,7 +13,8 @@
   환경 보호에 기여합니다. ~❤
 
 
-  
+ 
+
 
 
 #  🚩Project
