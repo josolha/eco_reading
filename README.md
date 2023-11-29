@@ -170,6 +170,8 @@
 
 |<img src="https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/c5259aff-07fe-4837-81a1-be5226d184b1" width="120" height="160"/><br/>BE 조솔하 <a href="https://github.com/josolha">GitHub</a>|<img src="https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/4ddcd83d-4c48-4575-a5e6-ad30735fa1e8" width="120" height="160"/><br/>BE 임유빈 <a href="https://github.com/yubin-im">GitHub</a>|<img src="https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/5ad2d7ab-16af-485d-a650-44cb5f833b6f" width="120" height="160"/><br/>BE 강유신 <a href="https://github.com/simidot">GitHub</a>|<img src="https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/366dd0fa-6e4e-4064-94d6-c17ded5662e2" width="120" height="160"/><br/>BE 김락윤 <a href="https://github.com/rakyun1">GitHub</a>|
 |:---:|:---:|:---:|:---:|
+| <strong>주요 역할</strong> <br> &middot; 회원가입 및 로그인 <br> &middot; 실시간 알림|<strong>주요 역할</strong> <br> &middot; 메인 서비스 기능 <br> &middot; CI/CD | <strong>주요 역할</strong> <br> &middot; 메인 서비스 기능 <br> &middot; 프론트 디자인 | <strong>주요 역할</strong> <br> &middot; 마이 페이지 기능 <br> &middot; 관리자 기능|
+
 
 
 
