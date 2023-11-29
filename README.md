@@ -43,9 +43,12 @@
 
 <details>
 <summary>WIRE FRAME</summary>
-<div markdown="1">       
+<div markdown="1">  
+  
+![image](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/0fe1bab7-0319-4ceb-ad37-411c3f078ba0)
 
-😎숨겨진 내용😎
+
+[피그마 링크 입니다.](https://www.figma.com/file/rxLKOIfFVjn3o0MMHGPFzD/checkcheck?type=design&node-id=0-1&mode=design)
 
 </div>
 </details>
