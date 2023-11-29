@@ -1,6 +1,10 @@
 #  🍳Overview
 
-> 💚GIVE & TAKE💚로 헌책 나눔을 통한 환경 살리기 플랫폼
+![logo](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/0e157e21-c028-4ac6-9e3e-f5fd7b2c54db)
+
+
+> 💚ECO-READING(에코리딩)💚 프로젝트
+
 
   개개인의 헌책들을 자유롭게 올리고 무료로 기부 & TAKE 할 수 있는 플랫폼을 제공함으로써👀
   
