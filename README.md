@@ -1,11 +1,16 @@
 #  🍳Overview
 
- ![ezgif com-resize (1)](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/37aab975-6afe-48ab-b9f9-079981c37fd2)
+ 
+| 소개 영상 |
+| :--------: |
+| ![로그인 GIF](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/37aab975-6afe-48ab-b9f9-079981c37fd2)|
 
-![logo](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/0e157e21-c028-4ac6-9e3e-f5fd7b2c54db)
 
 
-> 💚ECO-READING(에코리딩)💚 프로젝트
+
+
+
+> <img src="https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/0e157e21-c028-4ac6-9e3e-f5fd7b2c54db" width="30"> ECO-READING(에코리딩) <img src="https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/0e157e21-c028-4ac6-9e3e-f5fd7b2c54db" width="30">
 
 
   개개인의 헌책들을 자유롭게 올리고 무료로 기부 & TAKE 할 수 있는 플랫폼을 제공함으로써👀
