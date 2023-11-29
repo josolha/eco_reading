@@ -137,6 +137,12 @@
 | ![카카오소셜로그인](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/069e5e1a-c59e-4dc5-825a-1bfb1a35a08d)|![아이디패스워드찾기](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/3c583ae8-edcf-4d87-aaaa-1a307c63603a)|
 |**나눔글 등록 기능**|**나눔글 수정/삭제 기능**|
 | ![나눔글등록](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/8c51af07-9f44-42b3-8acc-9ce85bf4d9d5)|![나눔글수정삭제](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/3add529f-de1b-499d-8be7-2de0dd15d35f)|
+|**나눔받기 기능**|**나눔글 검색 기능**|
+| ![나눔받기](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/a9e162d6-df5c-42a6-bda3-738549945583)|![검색](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/1c96f8b6-5553-49a1-b709-8ef4b4481fa3)|
+|**마이페이지 기능**|**(관리자) 도서 수거/검수/알림 기능**|
+| ![마이페이지](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/983389d0-6888-45c5-90c0-14b38c3ed795)|![수거검수알림](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/0bcd3c39-55ff-418d-b260-f717d690bd7d)|
+|**(관리자) 전체 유저관리 기능**|**(관리자) 전체 나눔글관리 기능**|
+| ![유저관리](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/81063717-f6d5-4a44-b07b-0df4652cc9e7)|![나눔글관리](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/a036ad3f-db55-4ae0-99ab-a803e17ab880)|
 
 </div>
 </details>
