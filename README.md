@@ -79,6 +79,69 @@
 </details>
 
 #  📍 주요 기능
+<details>
+  <summary><strong>로그인 & 회원가입</strong></summary>
+  <div markdown="1">
+    
+    Spring Security와 JWT API, Redis를 활용하였습니다.
+    사용자가 로그인시에 Access, Refresh 토큰을 발급하고, Access 토큰을 Redis에 저장하여 사용자가 로그인 했음을 알 수 있습니다.
+  </div>
+</details>
+
+
+<details>
+  <summary><strong>이미지 업로드(S3)</strong></summary>
+  <div markdown="1">
+    
+    이미지 업로드를 위해서 AWS의 S3를 활용하였습니다.
+    사용자가 이미지를 업로드 하면 이미지를 아마존 S3에 저장하고, 그 URL을 받아서 저희 데이터 베이스에 저장하였습니다.
+  </div>
+</details>
+<details>
+  <summary><strong>이메일 인증&비밀번호 변경)</strong></summary>
+  <div markdown="1">
+    이메일 인증과 비밀번호 변경을 위해 Redis와 Gmail smtp를 활용하였습니다.
+    
+  </div>
+</details>
+
+<details>
+  <summary><strong>실시간 알림 서비스</strong></summary>
+  <div markdown="1">
+    
+    실시간 알림 서비스를 위해서 Spring SSE 통신을 활용하였습니다.
+  </div>
+</details>
+
+<details>
+  <summary><strong>휴먼계정 프로세스</strong></summary>
+  <div markdown="1">
+    
+    휴면계정 프로세스를 위해서 Spring Scheduler를 사용하였습니다.
+    일주일에 한 번씩 로그인 히스토리 데이터 베이스에 들어가 1년 동안 로그인 기록이 없는 유저를 
+  </div>
+</details>
+
+<details>
+  <summary><strong>도서 API</strong></summary>
+  <div markdown="1">
+    <!-- 로그인 폼 또는 회원가입 폼 등의 내용을 여기에 추가 -->
+  </div>
+</details>
+
+<details>
+  <summary><strong>주소 API</strong></summary>
+  <div markdown="1">
+    <!-- 로그인 폼 또는 회원가입 폼 등의 내용을 여기에 추가 -->
+  </div>
+</details>
+
+<details>
+  <summary><strong>CI / CD</strong></summary>
+  <div markdown="1">
+    <!-- 로그인 폼 또는 회원가입 폼 등의 내용을 여기에 추가 -->
+  </div>
+</details>
 
 #  🚀 참여자 : 솔라파워즈 (23.11.01 ~ 23.11.27)
 
