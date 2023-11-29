@@ -68,7 +68,7 @@
 </details>
 
 <details>
-<summary>API</summary>
+<summary><strong>API</strong></summary>
 <div markdown="1">       
 
 - **JWT(Jason Web Token)**: 회원 로그인 기능 활용 <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white">
@@ -92,7 +92,7 @@
 </details>
 
 <details>
-<summary>Architecture</summary>
+<summary><strong>Architecture</strong></summary>
 <div markdown="1">       
 
 ![image](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/a73a80ec-aee2-46c9-bae8-f4e972b5f969)
@@ -115,7 +115,7 @@
 
 
 <details>
-<summary>WIRE FRAME</summary>
+<summary><strong>WIRE FRAME</strong></summary>
 <div markdown="1">  
   
 ![image](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/0fe1bab7-0319-4ceb-ad37-411c3f078ba0)
@@ -127,7 +127,7 @@
 </details>
 
 <details>
-<summary>기능 영상</summary>
+<summary><strong>기능 영상</strong></summary>
 <div markdown="1">       
 |**(유저) 회원가입 기능**|**(유저) 로그인 기능**|
 |![회원가입기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/dd00d3eb-c39d-4e47-b9fd-65b3a58442e8)|![로그인기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/7ab1671d-45df-49cf-a129-bc1032655712)|
