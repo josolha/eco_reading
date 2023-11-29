@@ -207,3 +207,6 @@
 
 ## 5.활성화, 비활성화 프로세스
 [[1년 이상 로그인 하지 않은 유저 비활성화로 전환]](https://www.notion.so/rakyun/44d6245c8db24fb0bf1b22ee2268fe86)
+
+## 6.CI/CD
+[[CI/CD 구축 중 에러]](https://unleashed-fire-109.notion.site/CI-CD-c41ffbccb5794007abbb4431cb7530f3?pvs=4)
