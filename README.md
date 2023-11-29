@@ -103,7 +103,7 @@
 </details>
 
 <details>
-<summary>ERD</summary>
+<summary><strong>ERD</strong></summary>
 <div markdown="1">       
 
 ![image](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/ab3c3bae-eb1c-4f6f-a341-46d8a70489bf)
