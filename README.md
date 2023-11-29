@@ -75,9 +75,8 @@
 <details>
 <summary>기능 영상</summary>
 <div markdown="1">       
-| (유저) 로그인 기능 | (유저) 회원가입 기능|
-| :--------: | :--------: |
-| ![로그인기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/83c2f7f1-026e-4890-8241-9b38dcabac30)|![회원가입기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/dd00d3eb-c39d-4e47-b9fd-65b3a58442e8)|
+|**(유저) 회원가입 기능**|**(유저) 로그인 기능**|
+|![회원가입기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/dd00d3eb-c39d-4e47-b9fd-65b3a58442e8)|![로그인기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/7ab1671d-45df-49cf-a129-bc1032655712)|
 
 
 </div>
