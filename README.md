@@ -76,6 +76,16 @@
 - **Gmail SMTP**: 회원 가입 확인, 비밀번호 찾기 등 이메일 서비스를 위해 사용 <img align="center" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
 - **Naver Books API**: 책 정보 검색과 관련 데이터를 활용 
   <img src="https://img.shields.io/badge/Naver-03C75A?style=for-the-badge&logo=naver&logoColor=white">
+  
+- **OAuth 2.0 카카오 소셜 로그인**: 사용자 인증 및 로그인 기능을 위해 사용
+  <img src="https://img.shields.io/badge/OAuth%202.0%20Kakao-FFCD00?style=for-the-badge&logo=kakao&logoColor=black">
+
+- **AWS S3**: 데이터 저장 및 관리를 위해 사용 <img src="https://img.shields.io/badge/AWS%20S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white">
+
+- **SSE Emitter**: 실시간 데이터 스트리밍 및 알림 기능을 위해 사용 <img src="https://img.shields.io/badge/SSE%20Emitter-007396?style=for-the-badge&logo=streaming&logoColor=white">
+
+
+  
 
 
 </div>
