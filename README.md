@@ -19,6 +19,16 @@
 </details>
 
 <details>
+<summary>Architecture</summary>
+<div markdown="1">       
+
+![image](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/17d26cfa-07e0-4154-a460-651c52f77597)
+
+
+</div>
+</details>
+
+<details>
 <summary>ERD</summary>
 <div markdown="1">       
 
