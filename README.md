@@ -8,3 +8,43 @@
 
 
 #  🚩Project
+
+<details>
+<summary>SKILL</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+
+<details>
+<summary>ERD</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+
+
+<details>
+<summary>WIRE FRAME</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+
+<details>
+<summary>기능 영상</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+
+
+
