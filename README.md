@@ -85,3 +85,6 @@
 ## 1.실시간 알림 서비스
 [ [실시간 알림 서비스 적용기] ](https://josolha.tistory.com/36)
 
+## 2.S3 이미지 업로드
+[ [AWS S3 (이미지 다운로드 에러)] ](https://josolha.tistory.com/35)
+
