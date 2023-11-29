@@ -129,9 +129,14 @@
 <details>
 <summary>기능 영상</summary>
 <div markdown="1">       
-|**(유저) 회원가입 기능**|**(유저) 로그인 기능**|
-|![회원가입기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/dd00d3eb-c39d-4e47-b9fd-65b3a58442e8)|![로그인기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/7ab1671d-45df-49cf-a129-bc1032655712)|
 
+| 회원가입 기능 | 로그인 기능 |
+| :--------: | :--------: |
+| ![회원가입기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/dd00d3eb-c39d-4e47-b9fd-65b3a58442e8)|![로그인기능](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/7ab1671d-45df-49cf-a129-bc1032655712)|
+|**소셜로그인 기능**|**아이디/패스워드찾기 기능**|
+| ![카카오소셜로그인](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/069e5e1a-c59e-4dc5-825a-1bfb1a35a08d)|![아이디패스워드찾기](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/3c583ae8-edcf-4d87-aaaa-1a307c63603a)|
+|**나눔글 등록 기능**|**나눔글 수정/삭제 기능**|
+| ![나눔글등록](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/8c51af07-9f44-42b3-8acc-9ce85bf4d9d5)|![나눔글수정삭제](https://github.com/Team-Solar-Powers/eco_reading/assets/140530127/3add529f-de1b-499d-8be7-2de0dd15d35f)|
 
 </div>
 </details>
