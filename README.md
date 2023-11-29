@@ -22,7 +22,8 @@
 <summary>Architecture</summary>
 <div markdown="1">       
 
-![image](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/17d26cfa-07e0-4154-a460-651c52f77597)
+![image](https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/a73a80ec-aee2-46c9-bae8-f4e972b5f969)
+
 
 
 </div>
@@ -32,7 +33,8 @@
 <summary>ERD</summary>
 <div markdown="1">       
 
-😎숨겨진 내용😎
+
+
 
 </div>
 </details>
