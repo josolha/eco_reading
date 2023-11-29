@@ -97,3 +97,9 @@
 
 ## 3.JWT 로그인
 [ [JWT를 위해] ](https://josolha.tistory.com/28)
+
+## 4.나눔글 수정
+[ [나눔글 수정 중 올라간 이미지 삭제] ] (https://www.notion.so/rakyun/e6b65542efdf443cade7229cf397e7d6)
+
+## 5.활성화, 비활성화 프로세스
+[[1년 이상 로그인 하지 않은 유저 비활성화로 전환]] (https://www.notion.so/rakyun/44d6245c8db24fb0bf1b22ee2268fe86)
