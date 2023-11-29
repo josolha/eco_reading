@@ -178,6 +178,9 @@
    -   휴먼계정 프로세스 **(Spring Scheduler)**
  - 관리자가 수거를 시작하거나 검수가 끝난 책에 대해 사용자에게 알림이 간다.
    - 실시간 알림 서비스 **(Spring SSE 통신)**
+   -  [알림 서비스 다이어 그램]
+      <br> <img src="https://github.com/Team-Solar-Powers/eco_reading/assets/74632395/c931154a-b8c5-475b-84c1-e5db30a42528" width="450">
+
 
 
 
