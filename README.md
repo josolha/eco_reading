@@ -25,7 +25,7 @@
 #  🚩Project
 
 <details>
-<summary>SKILL</summary>
+<summary><strong>SKILL</strong></summary>
 <div markdown="1">       
 
 **[Front-end]**  
